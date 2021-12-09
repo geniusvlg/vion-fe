@@ -1,0 +1,10 @@
+.title{
+    position:relative;
+    text-align: center;
+    vertical-align: bottom;
+  
+}
+.main1{
+    border: 5px ridge;
+    border-radius: 20px;
+}

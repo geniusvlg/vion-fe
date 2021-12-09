@@ -1,11 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
-import { ThemeProvider } from "@material-ui/styles";
-import { CssBaseline } from "@material-ui/core";
-
 import Themes from "./themes";
-import App from "./components/App";
+import Layout from './components/Layout';
 import * as serviceWorker from "./serviceWorker";
 import { LayoutProvider } from "./context/LayoutContext";
 import { UserProvider } from "./context/UserContext";
@@ -13,18 +9,21 @@ import LoginContextComponent from "./context/LoginContext";
 import LoadingContextComponent from "./context/LoadingContext";
 
 ReactDOM.render(
-  <ThemeProvider theme={Themes.default}>
+  /*<ThemeProvider theme={Themes.default}>
     <LayoutProvider>
       <UserProvider>
         <LoginContextComponent>
           <LoadingContextComponent>
             <CssBaseline />
-            <App />
+            <Layout/>
           </LoadingContextComponent>
         </LoginContextComponent>
       </UserProvider>
     </LayoutProvider>
-  </ThemeProvider>,
+  </ThemeProvider>*,*/
+  <React.StrictMode>
+  <Layout/>
+</React.StrictMode>,
   document.getElementById("root")
 );
 

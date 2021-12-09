@@ -1,0 +1,24 @@
+*{
+  color: black;
+}
+.bg-myRed{
+  background-color: #ffffff ;
+  border-top: 1px solid rgba(57, 59, 57, 0.966);
+  border-bottom: 2px solid rgba(57, 59, 57, 0.966);
+}
+img,svg{
+  margin-left: 5mm;
+}
+.content{
+  padding:12px;
+  height: 3000px;
+}
+.input-group rounded {
+  border: 1px solid #979494;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-left: 100px;
+}

@@ -1,6 +1,6 @@
 import defaultTheme from "./default";
 
-import { createTheme } from "@material-ui/core";
+// import { createTheme } from "@material-ui/core";
 
 const overrides = {
   typography: {
@@ -26,5 +26,5 @@ const overrides = {
 };
 
 export default {
-  default: createTheme({ ...defaultTheme, ...overrides }),
+  default: { ...defaultTheme, ...overrides },
 };

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import api from 'services/api_cms';
+import api from '../services/api_cms';
 
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext()
