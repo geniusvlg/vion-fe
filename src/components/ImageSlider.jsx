@@ -7,29 +7,25 @@ import axios from 'axios';
 import * as Constants from '../constants'
 
 function Imagelider(){
-  const[data,setData]=useState({sliders:[]});
+  const[data,setData]=useState([]);
   useEffect(()=>{
-    const fetchData= async () => { 
+    const fetchData= async () => {
        //Call GraphQl API
-      const queryResult = await axios.get(
-        Constants.GRAPHQL_API ,{
-          query: Constants.GET_ALL_SLIDE
-        },   
-      );
-      //Update component state    
-      const result= queryResult.data.data;
-      setData({sliders:result.sliders})
+      const response = await axios.get('http://localhost:60000/api_public/list/slider');
+      //Update component state
+      const result= response.data?.data ?? [];
+      setData(result)
     };
     fetchData();
-  },[]);  
+  },[]);
   return(
     <Carousel>{
-      data.sliders.map((item) => (
-                <Carousel.Item interval={1000} key={item.id}>
-                <img item={item.url}/>
+      data?.map((item) => (
+                <Carousel.Item interval={1000} key={item.uid}>
+                <img src={item.img}/>
                 </Carousel.Item>
       ))}
-      </Carousel>    
+      </Carousel>
   )
 }
 export default Imagelider
