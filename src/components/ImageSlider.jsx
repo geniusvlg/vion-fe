@@ -1,11 +1,9 @@
 import React,{useState,useEffect} from 'react'
-import logo from "../assets/images/banner.png";
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Carousel } from 'react-bootstrap';
 import axios from 'axios';
-import * as Constants from '../constants'
-
+// import * as Icon from 'react-bootstrap-icons'
 function Imagelider(){
   const[data,setData]=useState([]);
   useEffect(()=>{
