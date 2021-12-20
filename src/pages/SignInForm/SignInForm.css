@@ -1,0 +1,82 @@
+.signin-form-container {
+    width: 480px;
+    background-color: white;
+    margin: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    padding: 10px;
+    border-radius: 10px;
+
+}
+
+.login {
+    text-align: center;
+    padding: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.forgot-password {
+    display: flex;
+    justify-content: right;
+}
+
+.no-account {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.btn-register {
+    color: rgb(3, 3, 88);
+}
+
+.pop-up {
+    position: absolute;
+    margin: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pop-up-inner {
+    position: relative;
+    padding: 32px;
+    width: 100%;
+    max-width: 640px;
+    background-color: rgb(183, 188, 192);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pop-up-inner .close-btn {
+    /* background: #274e13;
+    color: white;
+    cursor: pointer;
+    width: 70px;
+    height: 30px;
+    margin: auto;
+    display: block;
+    border-radius: 5px;
+    text-align: center; */
+}
+
+.form-field-otp {
+    margin: 10px 0 10px 0;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 7px;
+    font-family: 'Raleway', sans-serif;
+    justify-content: center;
+    text-align: center;
+    width: 95%;
+}

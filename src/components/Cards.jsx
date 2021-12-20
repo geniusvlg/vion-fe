@@ -1,39 +1,21 @@
-import React,{useState,useEffect} from 'react'
-import '../css/Card.css'
-import axios from 'axios';
-function Cards () {
-  const[data,setData]=useState([]);
-  useEffect(()=>{
-    const fetchData= async () => {
-       //Call GraphQl API
-      const response = await axios.get('http://localhost:60000/api_public/list/panigate');
-      //Update component state
-      const result= response.data?.data ?? [];
-      setData(result)
-    };
-    fetchData();
-  },[]);
-  return (
-    <>{
-      data?.map((product) => (     
-      
-      <div className="card">
-        <a href={`/catalog/${product.uid}`}>
-          <div className="card-header">
-              <div className="card-title-group">
-                    <h5 className="card-title">{product.product_name}</h5>
-              </div>
-          </div>
-          <img className="card-image" src={product.image_cover} alt="Logo" width="100%"/>
-          <div className="card-price">{product.sell_price} </div>
-          <div className="card-btnr"></div> 
-         </a>
-         <button class="button button2">Chọn mua</button>
-      </div>
-      ))}
-    </>
-  )
-}
+import React from 'react'
+import {useCart} from 'react-use-cart'
+
+
+const Cards = ({data}) => {
+    const {addItem} = useCart();
+    return (
+            <div className="box">
+                <span className="discount">-33%</span>
+                <div className="corner-box"><span /></div>
+                <a href= {`/product_details/${data.uid}`}><img src={data.image_cover ?? ''}/></a>
+                <h3>{data.product_name}</h3>
+                <p>instock - <span>1</span>kg</p>
+                <div className="price"><span>{data.main_price ?? 0}</span>{data.sub_price ?? 0}</div>
+                <button type="button" className="btn" onClick={()=>addItem(data.uid)}>Add to cart</button>
+            </div>
+    )
+    }
 
 export default Cards
 
@@ -70,6 +52,3 @@ export default class ImageSlider extends React.Component {
       )
   }
 }*/
-
-
-

@@ -1,53 +1,60 @@
-// eslint-disable-next-line
-import React from 'react'
-import { Container,Row,Col,Tabs,Tab, } from 'react-bootstrap-v5'
-import ImageSlider from '../components/ImageSlider'
+import React, { useState, useEffect } from 'react'
+import Footer from '../components/Footer'
+import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
-import '../css/Home.css'
-import Cards from '../components/Cards'
-const Home = () => {
-  return (
-    
-<Container>
-  <Row>
-    <Col sm={4}>
-      <Sidebar/>
-    </Col>
-    <Col sm={8} >
-      <ImageSlider/>
-      <Row className='main1'>
-          <Col sm={4}>
-            <h5 className='title'>DANH MỤC</h5>
-          </Col>
-          
-          <Col sm={8} > 
-              <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
-                      <Tab eventKey="home" title="Home">
-                      {/* <Sonnet /> */}
-                      </Tab>
-                      <Tab eventKey="profile" title="Profile">
-                      {/* <Sonnet /> */}
-                      </Tab>
-                      <Tab eventKey="contact" title="Contact" >
-                      {/* <Sonnet /> */}
-                      </Tab>      
-                      <Tab eventKey="contact" title="Contact" >
-                      {/* <Sonnet /> */}
-                      </Tab>          
-                </Tabs>
-          </Col>
+import Banner from '../components/Banner'
+import Card from '../components/Cards'
+import '../css/App.css';
+import {Product}from '../assets/fake-data/data'
+import styled from 'styled-components'
+import axios from 'axios';
 
-          <Cards/>
+const Container = styled.div`
+background: #eff7fa;
+color: #888;
+`
 
-      </Row>
+const Home = (query) => {
+  const [dataProduct, setDataProduct] = useState([])
 
-    </Col>
-  </Row>
-</Container>
-  )
+  useEffect(() => {
+    axios.post('http://localhost:60000/api_public/list/product', {
+      number: query.pageSize || 10,
+      page: query.page || 0,
+      // ...{filter: (strFilter ? strFilter : '')}
+    }).then(res => {
+      setDataProduct(res.data.result)
+    })
+  }, []);
+    return (
+        <Container>
+        <div>
+        <section className="home" id="home">
+          <div className="box-container">
+            <Sidebar/>
+            <Banner/>
+          </div>
+        </section>
+        {/*product section start*/}
+        <section className="product">
+          <div className="heading">
+            <h2>Top savers to day <span>20% off</span></h2>
+            <a href="#">view all</a>
+          </div>
+          <div className='box-container'>
+          {dataProduct.map((item,index)=>(
+            <Card data={item} key={index}/>))}
+          </div>
+        </section>
+        {/* last product section ends   */}
+        </div>
+        <Footer/>
+        </Container>
+    )
 }
 
 export default Home
+
 /*<div class="row row-cols-1 row-cols-md-2 g-4">
   <div class="col">
     <div class="card">
@@ -86,4 +93,3 @@ export default Home
     </div>
   </div>
 </div>*/
-
