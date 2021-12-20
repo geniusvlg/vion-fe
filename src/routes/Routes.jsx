@@ -10,13 +10,13 @@ import SignUpForm from '../pages/SignUpForm/SignUpForm'
 import ForgotPassword from '../pages/SignInForm/ForgotPassword'
 const Routes = () => {
     return (
-       
+
         <Switch>
             <Route path='/' exact component={Home}/>
             <Route path='/product' exact component={Product_List}/>
             <Route path='/catalog' exact component={Catalog}/>
             <Route path='/cart' exact component={Cart}/>
-            <Route path='/product_details' exact component={Product_Details}/>
+            <Route path='/product_details/:uid' exact component={Product_Details}/>
             <Route path='/signIn' exact component={SignInForm}/>
             <Route path='/signUp' exact component={SignUpForm}/>
             <Route path='/forgot' exact component={ForgotPassword}/>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
@@ -7,14 +7,25 @@ import Card from '../components/Cards'
 import '../css/App.css';
 import {Product}from '../assets/fake-data/data'
 import styled from 'styled-components'
-
+import axios from 'axios';
 
 const Container = styled.div`
 background: #eff7fa;
 color: #888;
 `
 
-const Home = () => {
+const Home = (query) => {
+  const [dataProduct, setDataProduct] = useState([])
+
+  useEffect(() => {
+    axios.post('http://localhost:60000/api_public/list/product', {
+      number: query.pageSize || 10,
+      page: query.page || 0,
+      // ...{filter: (strFilter ? strFilter : '')}
+    }).then(res => {
+      setDataProduct(res.data.result)
+    })
+  }, []);
     return (
         <Container>
         <div>
@@ -31,8 +42,8 @@ const Home = () => {
             <a href="#">view all</a>
           </div>
           <div className='box-container'>
-          {Product.map((item,index)=>(
-            <Card id={item.id} image={item.image} title={item.title} main_price={item.main_price} sub_price={item.sub_price} key={index}/>))}
+          {dataProduct.map((item,index)=>(
+            <Card data={item} key={index}/>))}
           </div>
         </section>
         {/* last product section ends   */}
@@ -82,4 +93,3 @@ export default Home
     </div>
   </div>
 </div>*/
-

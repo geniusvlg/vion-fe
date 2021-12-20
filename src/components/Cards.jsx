@@ -2,18 +2,17 @@ import React from 'react'
 import {useCart} from 'react-use-cart'
 
 
-
-const Cards = (props) => {
+const Cards = ({data}) => {
     const {addItem} = useCart();
     return (
             <div className="box">
                 <span className="discount">-33%</span>
                 <div className="corner-box"><span /></div>
-                <a href= {`/product_details/${props.id}`}><img src={props.image}/></a>
-                <h3>{props.title}</h3>
+                <a href= {`/product_details/${data.uid}`}><img src={data.image_cover ?? ''}/></a>
+                <h3>{data.product_name}</h3>
                 <p>instock - <span>1</span>kg</p>
-                <div className="price"><span>{props.main_price}</span>{props.sub_price}</div>
-                <button type="button" className="btn" onClick={()=>addItem(props.item)}>Add to cart</button>
+                <div className="price"><span>{data.main_price ?? 0}</span>{data.sub_price ?? 0}</div>
+                <button type="button" className="btn" onClick={()=>addItem(data.uid)}>Add to cart</button>
             </div>
     )
 }
@@ -53,6 +52,3 @@ export default class ImageSlider extends React.Component {
       )
   }
 }*/
-
-
-

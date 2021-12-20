@@ -128,7 +128,7 @@ whitespace: nowrap;
 margin: 0 0.1rem;
 `;
 
-const Description = () => {
+const Description = ({product}) => {
     const [count,setCount] = useState(1);
 
     const handleClick = (action) =>{
@@ -142,16 +142,12 @@ const Description = () => {
     return (
         <Wrapper>
         <ImgContainer>
-          <Image src={logo} />
+          <Image src={product.image_cover || logo} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Khoai tây</Title>
+          <Title>{product.product_name}</Title>
           <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-            iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-            tristique tortor pretium ut. Curabitur elit justo, consequat id
-            condimentum ac, volutpat ornare.
+            {product.description}
           </Desc>
           <Price>$18 <span>--$14</span></Price>
           <AddContainer>
