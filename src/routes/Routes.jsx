@@ -8,6 +8,7 @@ import Product_Details from '../pages/Product_Details'
 import SignInForm from '../pages/SignInForm/SignInForm'
 import SignUpForm from '../pages/SignUpForm/SignUpForm'
 import ForgotPassword from '../pages/SignInForm/ForgotPassword'
+
 const Routes = () => {
     return (
 

@@ -180,12 +180,12 @@ const Description = ({product}) => {
     return (
         <Wrapper>
         <ImgContainer>
-          <Image src={logo} />
+          <Image src={product.image_cover || logo} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Khoai tây</Title>
+          <Title>{product.product_name}</Title>
           <Desc>
-            Khoai tây tươi từ nông trại nhà a Long
+            {product.description}
           </Desc>
           <BoxPrice>
             <Price>$18</Price>
