@@ -6,10 +6,14 @@ import styled from "styled-components";
 
 
 const schema = yup.object().shape({
-  phone: yup
+  password: yup
     .string()
-    .required("Vui lòng nhập số điện thoại")
-    .min(10, "Số điện thoại tối thiểu 10 ký tự"),
+    .required("Vui lòng nhập mật khẩu mới")
+    .min(10, "Mật khẩu phải có tối thiểu 10 ký tự"),
+  Newpassword: yup
+    .string()
+    .required("Vui lòng nhập lại mật khẩu")
+    .min(10, "Mật khẩu phải có tối thiểu 10 ký tự"),
 });
 
 const CardWrapper = styled.div`
@@ -138,7 +142,7 @@ color: #ffa4a4
 `
 
 
-export default function OTPForm() {
+export default function PasswordForm() {
   const {
     register,
     handleSubmit,
@@ -153,17 +157,22 @@ export default function OTPForm() {
   return (
       <CardWrapper>
         <CardHeader>
-          <CardHeading>Nhập số điện thoại tại đây để nhận mã OTP</CardHeading>
+          <CardHeading>Nhập mã OTP ở đây để xác thực</CardHeading>
         </CardHeader>
         <CardLoginForm onSubmit={handleSubmit(onSubmit)}>
           <CardBody>
           <CardFieldset>
-            <CardInput id="phone" placeholder="Số điện thoại" type="text" name="phone"{...register("phone")} required />
-            {errors.phone && <Error>{errors.phone?.message}</Error>}
+            <CardInput id="password" placeholder="Mật khẩu mới" type="password" name="password"{...register("password")} required />
+            {errors.password && <Error>{errors.password?.message}</Error>}
           </CardFieldset>
 
           <CardFieldset>
-            <CardButton type="submit">Nhận mã OTP </CardButton>
+            <CardInput id="Newpassword" placeholder="Nhập lại mật khẩu" type="password" name="Newpassword"{...register("Newpassword")} required />
+            {errors.Newpassword && <Error>{errors.Newpassword?.message}</Error>}
+          </CardFieldset>
+
+          <CardFieldset>
+            <CardButton type="submit">Đổi mật khẩu </CardButton>
           </CardFieldset>
 
           <CardFieldset>

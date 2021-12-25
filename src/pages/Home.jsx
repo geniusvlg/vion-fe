@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import Banner from '../components/Banner'
 import Card from '../components/Cards'
+import HistoryOrder from './UserInform/HistoryOrder'
 import '../css/App.css';
 import {Product}from '../assets/fake-data/data'
 import styled from 'styled-components'
@@ -33,6 +34,7 @@ const Home = (query) => {
           <div className="box-container">
             <Sidebar/>
             <Banner/>
+            
           </div>
         </section>
         {/*product section start*/}
@@ -48,7 +50,7 @@ const Home = (query) => {
         </section>
         {/* last product section ends   */}
         </div>
-        <Footer/>
+        
         </Container>
     )
 }

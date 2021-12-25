@@ -33,17 +33,7 @@ const schema = yup.object().shape({
         .string()
         .required("Vui lòng nhập địa chỉ"),
             
-    city: yup
-        .string()
-        .required("Vui lòng nhập thành phố"),
-        
-    ward: yup
-        .string()
-        .required("Vui lòng nhập phường"),
-        
-    district: yup
-        .string()
-        .required("Vui lòng nhập quận, huyện"),
+
 });
 
 
@@ -217,6 +207,11 @@ export default function SignUpForm() {
             <CardFieldset>
                 <CardRadio id="sex" placeholder="Anh" type="radio" name="gender"{...register("gender")}/>Anh
                 <CardRadio id="sex" placeholder="Chị" type="radio" name="gender"{...register("gender")}/>Chị
+            </CardFieldset>
+
+            <CardFieldset>
+              <CardInput id="name" placeholder="Họ và tên" type="text" name="name"{...register("name")} required />
+              {errors.username && <Error>{errors.username?.message}</Error>}
             </CardFieldset>
 
             <CardFieldset>
