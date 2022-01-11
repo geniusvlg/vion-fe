@@ -6,10 +6,10 @@ import styled from "styled-components";
 
 
 const schema = yup.object().shape({
-  phone: yup
+  otp: yup
     .string()
-    .required("Vui lòng nhập số điện thoại")
-    .min(10, "Số điện thoại tối thiểu 10 ký tự"),
+    .required("Vui lòng nhập mã OTP")
+    .min(6, "Mã OTP tối thiểu 6 ký tự"),
 });
 
 const CardWrapper = styled.div`
@@ -153,17 +153,17 @@ export default function OTPForm() {
   return (
       <CardWrapper>
         <CardHeader>
-          <CardHeading>Nhập số điện thoại tại đây để nhận mã OTP</CardHeading>
+          <CardHeading>Nhập mã OTP ở đây để xác thực</CardHeading>
         </CardHeader>
         <CardLoginForm onSubmit={handleSubmit(onSubmit)}>
           <CardBody>
           <CardFieldset>
-            <CardInput id="phone" placeholder="Số điện thoại" type="text" name="phone"{...register("phone")} required />
-            {errors.phone && <Error>{errors.phone?.message}</Error>}
+            <CardInput id="otp" placeholder="Mã OTP" type="text" name="otp"{...register("otp")} required />
+            {errors.otp && <Error>{errors.otp?.message}</Error>}
           </CardFieldset>
 
           <CardFieldset>
-            <CardButton type="submit">Nhận mã OTP </CardButton>
+            <CardButton type="submit">Xác thực </CardButton>
           </CardFieldset>
 
           <CardFieldset>

@@ -164,6 +164,12 @@ export default function LoginForm() {
   </CardHeader>
   <CardLoginForm onSubmit={handleSubmit(onLoginSubmit)}>
     <CardBody>
+
+    <CardFieldset>
+        <CardInput id="name" placeholder="" type="text" name="name"{...register("name")} required />
+        {errors.username && <Error>{errors.username?.message}</Error>}
+      </CardFieldset>
+
       <CardFieldset>
         <CardInput id="username" placeholder="Tài khoản" type="text" name="username"{...register("username")} required />
         {errors.username && <Error>{errors.username?.message}</Error>}

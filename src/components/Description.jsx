@@ -9,6 +9,12 @@ import RemoveIcon from '@mui/icons-material/Remove';
 const Wrapper = styled.div`
   padding: 50px;
   display: flex;
+  overflow: hidden;
+  margin: 48px auto 0;
+  width: 500px;
+  font-family: Quicksand, arial, sans-serif;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05), 0 0px 40px rgba(0, 0, 0, 0.08);
+  background-color: white;
 `;
 
 const ImgContainer = styled.div`
@@ -26,16 +32,48 @@ const InfoContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-weight: 200;
+  display: block;
+  overflow: hidden;
+  line-height: 1.3em;
+  color: #4a4a4a;
+  margin-bottom: 10px;
 `;
 
 const Desc = styled.p`
   margin: 20px 0px;
+  color: #999;
 `;
 
 const Price = styled.span`
   font-weight: 100;
   font-size: 40px;
+  display: inline-block;
+  color: #c10017;
+  vertical-align: middle;
+`;
+
+const Strike = styled.span`
+  font-size: 28px;
+  display: inline-block;
+  color: #999;
+  vertical-align: middle;
+  text-decoration: line-through;
+  margin-left: 5px;
+`;
+
+const Discount = styled.label`
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 12px;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 3px;
+  background: #de2000;
+  width: 32px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  margin-left: 5px;
 `;
 
 const FilterContainer = styled.div`
@@ -85,8 +123,8 @@ const AmountContainer = styled.div`
 `;
 
 const Amount = styled.span`
-  width: 30px;
-  height: 30px;
+  width: 70px;
+  height: 70px;
   border-radius: 10px;
   border: 1px solid teal;
   display: flex;
@@ -149,7 +187,12 @@ const Description = ({product}) => {
           <Desc>
             {product.description}
           </Desc>
-          <Price>$18 <span>--$14</span></Price>
+          <BoxPrice>
+            <Price>$18</Price>
+            <Strike>$14</Strike>
+            <Discount>25%</Discount>
+          </BoxPrice>
+          
           <AddContainer>
             <AmountContainer>
               <ButtonRemove action="remove" onClick={()=>handleClick("remove")}><RemoveIcon/></ButtonRemove>

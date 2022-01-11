@@ -245,3 +245,50 @@ export const Sale_Product = [
     
 
 ]
+
+
+export const OrderHistory = [
+
+    {
+        id:1,
+        date: new Date().toString().split("GMT+7")[0],
+        status:"Hoàn thành",
+        total_price:"$18",
+        inform: "/",
+    },
+
+    {
+        id:2,
+        date: new Date().toString().split("GMT+7")[0],
+        status:"Hoàn thành",
+        total_price:"$18",
+        inform: "/",
+    },
+
+    {
+        id:3,
+        date: new Date().toString().split("GMT+7")[0],
+        status:"Hoàn thành",
+        total_price:"$18",
+        inform: "/",
+    },
+
+    {
+        id:4,
+        date: new Date().toString().split("GMT+7")[0],
+        status:"Hoàn thành",
+        total_price:"$18",
+        inform: "/",
+    },
+
+    {
+        id:5,
+        date: new Date().toString().split("GMT+7")[0],
+        status:"Hoàn thành",
+        total_price:"$18",
+        inform: "/",
+    },
+
+    
+
+]
