@@ -15,7 +15,7 @@ const Cards = ({data}) => {
                 <button type="button" className="btn" onClick={()=>addItem(data.uid)}>Add to cart</button>
             </div>
     )
-}
+    }
 
 export default Cards
 
@@ -41,12 +41,12 @@ export default class ImageSlider extends React.Component {
             <div className="card">
           <div className="card-header">
             <div className="card-title-group">
-              <h5 className="card-title">{item.header}</h5>
-            </div>
+          <h5 className="card-title">{item.header}</h5>
+          </div>
           </div><img className="card-image" src={item.url} alt="Logo" /><div className="card-price">{item.para}</div><div className="card-btnr">
-            </div>
-            <button class="button button2">Chọn mua</button>
-            </div>
+          </div>
+          <button class="button button2">Chọn mua</button>
+          </div>
           ))}
         </>
       )
