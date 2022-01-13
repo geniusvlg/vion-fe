@@ -227,7 +227,6 @@ export default function SignUpForm() {
             <CardFieldset>
                 <CardInput id="address" placeholder="Địa chỉ" type="text" name="address"{...register("address")}/>
                 {errors.address && <Error>{errors.address?.message}</Error>}
-
             </CardFieldset>
 
             <CardFieldset>

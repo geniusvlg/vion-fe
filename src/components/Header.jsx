@@ -6,6 +6,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { styled } from '@mui/styles';
+import UserIcon from '../pages/UserInform/UserIcon'
 
 const Search = styled(SearchIcon)({
   width: '8rem',
@@ -62,8 +63,9 @@ const Header = () => {
         </nav>
         <div className="icons">
           <a href="/cart"><Carts/>Giỏ hàng</a>
-          <a href="/signin"><SignUp/>Đăng nhập</a>
-          <a href="/signup"><AccountCircle/>Đăng kí</a>
+        </div>
+        <div className="icons">
+          <UserIcon/>
         </div>
       </div>
     </header>

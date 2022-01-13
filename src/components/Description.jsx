@@ -44,6 +44,11 @@ const Desc = styled.p`
   color: #999;
 `;
 
+
+const BoxPrice = styled.div`
+font-family: Helvetica, sans-serif;
+`;
+
 const Price = styled.span`
   font-weight: 100;
   font-size: 40px;

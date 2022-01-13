@@ -27,7 +27,7 @@ const Product_Details = (props) => {
         {/*product section start*/}
 
         {/* last product section ends   */}
-        </div>
+      </div>
 
       <Footer />
     </Container>

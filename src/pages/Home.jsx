@@ -20,7 +20,7 @@ const Home = (query) => {
 
   useEffect(() => {
     axios.post('http://localhost:60000/api_public/list/product', {
-      number: query.pageSize || 10,
+      number: query.pageSize || 20,
       page: query.page || 0,
       // ...{filter: (strFilter ? strFilter : '')}
     }).then(res => {
