@@ -28,6 +28,10 @@
     "bootstrap": "^5.1.3",
     "classnames": "^2.3.1",
     "date-fns": "^2.24.0",
+    "dayjs": "^1.10.7",
+    "framer-motion": "^4.1.17",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "lodash-es": "^4.17.21",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
@@ -45,13 +49,10 @@
     "reactcss": "^1.2.3",
     "styled-components": "^5.3.3",
     "tinycolor2": "^1.4.2",
+    "validator": "^13.7.0",
     "xlsx": "^0.17.2",
-<<<<<<< HEAD
-    "yarn": "^1.22.17"
-=======
     "yarn": "^1.22.17",
     "yup": "^0.32.11"
->>>>>>> a9de0e89a8413490db07066b4b745e36a27e371a
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.1",

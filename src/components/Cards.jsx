@@ -1,21 +1,98 @@
-import React from 'react'
+import React,{useState,useEffect,useContext}  from 'react'
+import { AuthContext } from '../context/AuthContext';
+import {Link} from 'react-router-dom';
+import styled from 'styled-components';
 import {useCart} from 'react-use-cart'
 
 
 const Cards = ({data}) => {
-    const {addItem} = useCart();
-    return (
-            <div className="box">
-                <span className="discount">-33%</span>
-                <div className="corner-box"><span /></div>
-                <a href= {`/product_details/${data.uid}`}><img src={data.image_cover ?? ''}/></a>
-                <h3>{data.product_name}</h3>
-                <p>instock - <span>1</span>kg</p>
-                <div className="price"><span>{data.main_price ?? 0}</span>{data.sub_price ?? 0}</div>
-                <button type="button" className="btn" onClick={()=>addItem(data.uid)}>Add to cart</button>
-            </div>
-    )
-    }
+  const [modalShow, setModalShow]=useState(false);
+  const [customer_id, setCustomerid]=useState()
+  const context=useContext(AuthContext)
+  const [dataProduct1, setDataProduct1] = useState()
+ /* useEffect(()=>{
+    changeClick()
+  },[])*/
+
+  /*useEffect(()=>{
+  handleClick()
+  },[])*/
+
+  // Xử lý số lượng sản phẩm 
+  const [quantity,setCount] = useState(0);
+  const [state, setState] = useState('start')
+  const [uid ,  setUid ]= useState();
+  const [error,  setError]= useState();
+  const [loading,setLoading]=useState(false) 
+  
+
+  const changeClick =async(e) =>{
+    e.preventDefault();
+    setCount(1);
+    setState('count');
+    setUid(e.currentTarget.id);
+  }
+
+  const handleClick = debounce(async (action) =>{
+        if(action === "remove"){
+          setCount(quantity - 1 );
+        }
+        else{
+            setCount(quantity + 1);
+        }
+        let customer_id=context.user.Infouser[0]?.uid
+        let acsess=context.authTokens.acsessToken
+        let items={uid,quantity}
+          let config ={
+            headers:{
+                "Content-type":"application/json",
+                "authorization": "Bearer "+ acsess
+            }
+          }
+          let {data1}=  await axios.post('http://localhost:60000/api_public/submitCart',{
+          customer_id,items
+         },
+         config)
+         setDataProduct1(data1)
+    },1000);
+  /*const handleId = (e) => {
+    e.preventDefault();
+     console.log(e.currentTarget.id);
+     console.log(arr.data[0].uid)
+  }*/
+  return (
+          <div className="box">
+              <span className="discount">-{data.pricing.discount}%</span>
+              <div className="corner-box"><span /></div>
+              <StyledLink to= {`/product_details/${data.uid}`}><img src={data.image_cover ?? ''} style={styles}/></StyledLink>
+              <h3>{data.product_name}</h3>
+              <p>Trọng lượng- <span>1</span>kg</p>
+              <p>Giá- <span>{data.pricing.price_with_vat}</span>đồng</p>
+              <AddContainer>
+              {context.user? (
+                <>
+                    {state === 'start' && (
+                    <Button id={data.uid} onClick={(event)=>changeClick(event)} >Thêm</Button>
+                 )}
+                  {state === 'count' && 
+                  (<AmountContainer>
+              <ButtonRemove id={data.uid} action="remove" onClick={()=>handleClick("remove")}><RemoveIcon/></ButtonRemove>
+              <Amount>
+              {quantity<1 ?(setState('start')):(quantity)}
+              </Amount>
+              <ButtonAdd id={data.uid} action="add" onClick={()=>handleClick("add")}><AddIcon/></ButtonAdd>
+            </AmountContainer>)}
+                </>
+              ) : (
+                <>
+                <Button onClick={() => setModalShow(true)}>Thêm</Button>
+                <MyVerticallyCenteredModal show={modalShow} onHide={()=>setModalShow(false)}/>
+                </>
+              ) }
+               </AddContainer>
+          </div>
+  )
+}
 
 export default Cards
 

@@ -41,6 +41,20 @@ const AccountCircle = styled(AccountCircleIcon)({
 
 
 const Header = () => {
+  const context=useContext(AuthContext)
+  
+  /*console.log(context.user.Infouser[0].customer_name)
+ /* useEffect(()=>{
+    var arr = JSON.parse(localStorage.getItem('userInfo'));
+        if(arr!== null)
+        {
+           setUserinfo(true)
+          setUserName(arr.data[0].customer_name)
+        }
+        else {
+          setUserinfo(false)
+        }
+  })*/
     return (
       <header className="header">
       <div className="header-1">

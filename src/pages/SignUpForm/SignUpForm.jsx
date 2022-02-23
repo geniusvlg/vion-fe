@@ -6,6 +6,7 @@ import styled, { css } from "styled-components";
 import "./SignUpForm.css";
 
 const schema = yup.object().shape({
+<<<<<<< HEAD
     username: yup
         .string()
         .required("Vui lòng nhập tên đăng nhập")
@@ -34,6 +35,50 @@ const schema = yup.object().shape({
         .required("Vui lòng nhập địa chỉ"),
             
 
+=======
+  username: yup
+      .string()
+      .required("Vui lòng nhập tên đăng nhập")
+      .max(20, "Username tối đa 20 ký tự"),
+  password: yup
+      .string()
+      .required("Vui lòng nhập mật khẩu")
+      .min(6, "Mật khẩu tối thiểu 6 ký tự"),
+  confirm_password:yup
+      .string()
+      .required("Vui lòng nhập mật khẩu")
+      .min(6, "Mật khẩu tối thiểu 6 ký tự"),
+  /*email: yup
+      .string()
+      .required("Vui lòng nhập email"),*/
+  lastname: yup
+      .string()
+      .required("Vui lòng nhập họ"),      
+  firstname: yup
+      .string()
+      .required("Vui lòng nhập tên"),    
+  phone: yup
+      .string()
+      .required("Vui lòng nhập số điện thoại")
+      .matches(
+          /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+          "Số điện thoại không hợp lệ"),
+  /*address: yup
+      .string()
+      .required("Vui lòng nhập địa chỉ"),*/
+          
+  city: yup
+      .string()
+      .required("Vui lòng nhập thành phố"),
+      
+  ward: yup
+      .string()
+      .required("Vui lòng nhập phường"),
+      
+  district: yup
+      .string()
+      .required("Vui lòng nhập quận, huyện"),
+>>>>>>> fac72a5 (update)
 });
 
 
