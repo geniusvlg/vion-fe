@@ -10,6 +10,10 @@ const schema = yup.object().shape({
     .string()
     .required("Vui lòng nhập số điện thoại")
     .min(10, "Số điện thoại tối thiểu 10 ký tự"),
+  otp: yup
+    .string()
+    .required("Vui lòng nhập OTP")
+    .min(6, "Mã OTP tối thiểu 6 ký tự")
 });
 
 const CardWrapper = styled.div`
@@ -138,14 +142,14 @@ color: #ffa4a4
 `
 
 
-export default function OTPForm() {
+export default function LoginForm() {
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = (data) => {
+  const onLoginSubmit = (data) => {
     console.log(data);
   };
 
@@ -155,19 +159,28 @@ export default function OTPForm() {
         <CardHeader>
           <CardHeading>Nhập số điện thoại tại đây để nhận mã OTP</CardHeading>
         </CardHeader>
-        <CardLoginForm onSubmit={handleSubmit(onSubmit)}>
+        <CardLoginForm onSubmit={handleSubmit(onLoginSubmit)}>
           <CardBody>
           <CardFieldset>
             <CardInput id="phone" placeholder="Số điện thoại" type="text" name="phone"{...register("phone")} required />
             {errors.phone && <Error>{errors.phone?.message}</Error>}
           </CardFieldset>
+          
 
           <CardFieldset>
-            <CardButton type="submit">Nhận mã OTP </CardButton>
+            <CardInput id="otp" placeholder="Mã OTP" type="text" name="otp"{...register("otp")} required/>
+            {errors.otp && <Error>{errors.otp?.message}</Error>}
+          </CardFieldset>
+
+          <CardFieldset>
+            <CardButton type="submit">Xác thực </CardButton>
           </CardFieldset>
 
           <CardFieldset>
             <CardMenu>
+              <li>
+                <a href="/"><CardLink>Gửi lại mã OTP</CardLink></a>
+              </li>
               <li><CardDoc> hoặc </CardDoc></li>
               <li>
                 <a href="/signup"><CardLink> Đăng kí tại đây</CardLink></a>

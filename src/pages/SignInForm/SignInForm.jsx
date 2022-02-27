@@ -1,15 +1,23 @@
-import { useForm } from "react-hook-form";
+import { SyntheticEvent, useState,useContext } from "react";
+import { set, useForm } from "react-hook-form";
+import { AuthContext } from "../../context/AuthContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import React from "react";
 import styled from "styled-components";
-
+import {useNavigate} from 'react-router-dom';
+import axios from 'axios'
+import Loading from "../../components/Loading";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const schema = yup.object().shape({
-  username: yup
+  user_name: yup
     .string()
     .required("Vui lòng nhập username")
-    .max(20, "Username tối đa 20 ký tự"),
+    .max(20, "Username tối đa 20 ký tự")
+    .min(6, "Username tối thiểu 6 ký tự"),
   password: yup
     .string()
     .required("Vui lòng nhập mật khẩu")
@@ -149,54 +157,72 @@ export default function LoginForm() {
     formState: { errors }
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onLoginSubmit = (data) => {
-    console.log(data);
-  };
+  const context=useContext(AuthContext)
+  let navigate=useNavigate()
+  /*const Login_submit = async (e: SyntheticEvent) =>{
+    e.preventDefault();
+    const response = await fetch('http://localhost:3000/signin',{
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      credentials:'include',
+      body: JSON.stringify({
+        usename,
+        password
+      })
+    });
+    setRedirect(true);
+  }
 
-
+  if(redirect){
+    return <Navigate to="/"/>
+  }*/
 
   return (
-
-
-<CardWrapper>
-  <CardHeader>
-    <CardHeading>Đăng nhập</CardHeading>
-  </CardHeader>
-  <CardLoginForm onSubmit={handleSubmit(onLoginSubmit)}>
-    <CardBody>
-
-    <CardFieldset>
-        <CardInput id="name" placeholder="" type="text" name="name"{...register("name")} required />
-        {errors.username && <Error>{errors.username?.message}</Error>}
-      </CardFieldset>
-
-      <CardFieldset>
-        <CardInput id="username" placeholder="Tài khoản" type="text" name="username"{...register("username")} required />
-        {errors.username && <Error>{errors.username?.message}</Error>}
-      </CardFieldset>
-
-      <CardFieldset>
-        <CardInput id="password" placeholder="Mật khẩu" type="password" name = "password"{...register("password")} required />
-        {errors.password && <Error>{errors.password?.message}</Error>}
-      </CardFieldset>
-
-      <CardFieldset>
-        <CardButton type="submit">Đăng nhập </CardButton>
-      </CardFieldset>
-
-      <CardFieldset>
-        <CardMenu>
-          <li>
-            <a href="/forgot"><CardLink>Quên mật khẩu</CardLink></a>
-          </li>
-          <li><CardDoc> hoặc </CardDoc></li>
-          <li>
-            <a href="/signup"><CardLink> Đăng kí tại đây</CardLink></a>
-          </li>
-        </CardMenu>
-      </CardFieldset>
-    </CardBody>
-  </CardLoginForm> 
-</CardWrapper>
+  <>
+    	{context.redirect ? ( 
+        navigate("/")
+      ):(
+        <>
+      <CardWrapper>
+        <CardHeader>
+          <CardHeading>Đăng nhập</CardHeading>
+        </CardHeader>
+        <div>
+          {context.error && <ErrorMessage variant='danger'>{context.error}</ErrorMessage>}
+          {context.loading && <Loading/>}
+        </div>
+        <CardLoginForm onSubmit={context.submitHandler}>
+          <CardBody>
+            <CardFieldset>
+              <CardInput id="username" placeholder="Tài khoản hoặc Số điện thoại" type="text" name="username"{...register("user_name")} required onChange={e => context.setUsername(e.target.value)}/>
+              {errors.username && <Error>{errors.username?.message}</Error>}
+            </CardFieldset>
+      
+            <CardFieldset>
+              <CardInput id="password" placeholder="Mật khẩu" type="password" name = "password"{...register("password")} required  onChange={e => context.setPassword(e.target.value)}/>
+              {errors.password && <Error>{errors.password?.message}</Error>}
+            </CardFieldset>
+      
+            <CardFieldset>
+              <CardButton type="submit" >Đăng nhập</CardButton>
+            </CardFieldset>
+      
+            <CardFieldset>
+              <CardMenu>
+                <li>
+                  <a href="/forgot"><CardLink>Quên mật khẩu</CardLink></a>
+                </li>
+                <li><CardDoc> hoặc </CardDoc></li>
+                <li>
+                  <a href="/signup"><CardLink> Đăng kí tại đây</CardLink></a>
+                </li>
+              </CardMenu>
+            </CardFieldset>
+          </CardBody>
+        </CardLoginForm> 
+      </CardWrapper>
+      </>  
+      )}
+</>
   );
 }

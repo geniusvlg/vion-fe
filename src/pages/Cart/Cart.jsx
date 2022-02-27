@@ -6,8 +6,8 @@ import Header from '../../components/Header'
 import axios from 'axios'
 import './Cart.css'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
-
 import Show from '../../components/Show'
+import { m } from 'framer-motion'
 const Container = styled.div`
 `
 const Wrapper = styled.div`
@@ -165,15 +165,15 @@ border-radius: 35px;
 `;
 
 const Cart = () => {
-
   const [dataProduct, setDataProduct] = useState([])
+  const [total,setTotal]=useState(0)
   const context=useContext(AuthContext)
   let acsess=context.authTokens.acsessToken
   let user_name=context.user.Infouser[0]?.customer_name
-
+  let shipping=5000
   useEffect(() => {
       getCart()
-  },[]);
+  },[context.refresh]);
  
   let getCart= async()=>{
     let config ={
@@ -186,10 +186,16 @@ const Cart = () => {
       user_name
     },  
     config)
+    console.log("so luong:",data.Check[0]?.cart_items.length)
+    var x=0
+    for(var i=0;i<data.Check[0]?.cart_items.length;i++)
+    {
+    x=x+data.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data.Check[0]?.cart_items[i].quantity
+    }
     setDataProduct(data.Check[0]?.cart_items)
+    setTotal(x)
+    context.setRefresh(false)
   }
-  console.log(dataProduct)
-
 
     return (
       <>
@@ -232,16 +238,16 @@ const Cart = () => {
                 <h5>Cart Total</h5>
                 <div className="d-flex justify-content-between">
                   <h6>Sub-total</h6>
-                  <p>$215</p>
+                  <p>{total} </p>
                 </div>
                 <div className="d-flex justify-content-between">
                   <h6>Shipping</h6>
-                  <p>$215</p>
+                  <p>{shipping}</p>
                 </div>
                 <hr className="second-hr" />
                 <div className="d-flex justify-content-between">
                   <h6>Total</h6>
-                  <p>$215</p>
+                  <p>{total*shipping}VND</p>
                 </div>
                 <button className="ml-auto" >Check out</button>
               </div>

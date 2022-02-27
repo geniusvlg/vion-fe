@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React,{useState, useEffect} from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import Banner from '../components/Banner'
 import Card from '../components/Cards'
-import HistoryOrder from './UserInform/HistoryOrder'
-import '../css/App.css';
+//import '../css/App.css';
 import {Product}from '../assets/fake-data/data'
 import styled from 'styled-components'
-import axios from 'axios';
+import axios from 'axios'
+
 
 const Container = styled.div`
 background: #eff7fa;
@@ -17,10 +17,9 @@ color: #888;
 
 const Home = (query) => {
   const [dataProduct, setDataProduct] = useState([])
-
   useEffect(() => {
     axios.post('http://localhost:60000/api_public/list/product', {
-      number: query.pageSize || 20,
+      number: query.pageSize || 9,
       page: query.page || 0,
       // ...{filter: (strFilter ? strFilter : '')}
     }).then(res => {
@@ -28,30 +27,28 @@ const Home = (query) => {
     })
   }, []);
     return (
-        <Container>
-        <div>
-        <section className="home" id="home">
-          <div className="box-container">
-            <Sidebar/>
-            <Banner/>
-            
-          </div>
-        </section>
-        {/*product section start*/}
-        <section className="product">
-          <div className="heading">
-            <h2>Top savers to day <span>20% off</span></h2>
-            <a href="#">view all</a>
-          </div>
-          <div className='box-container'>
-          {dataProduct.map((item,index)=>(
-            <Card data={item} key={index}/>))}
-          </div>
-        </section>
-        {/* last product section ends   */}
+      <Container>
+      <div style={{paddingTop:'1.25rem'}}>
+      <section className="home" id="home">
+        <div className="box-container">
+          <Sidebar/>
+          <Banner/>
         </div>
-        
-        </Container>
+      </section>
+      {/*product section start*/}
+      <section className="product">
+          <div className="heading">
+              <h2>Top savers to day <span>20% off</span></h2>
+              <a href="#">view all</a>
+        </div>
+        <div className='box-container'>
+        {dataProduct.map((item,index)=>(
+          <Card data={item} key={index}/>))}
+        </div>
+      </section>
+      {/* last product section ends   */}
+      </div>
+      </Container>
     )
 }
 
@@ -95,3 +92,4 @@ export default Home
     </div>
   </div>
 </div>*/
+

@@ -1,36 +1,39 @@
 import React, { useState, useMemo } from 'react'
 import styled from "styled-components"
 import Footer from '../components/Footer'
+import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import Description from '../components/Description'
-import axios from 'axios';
+import "bootstrap/dist/css/bootstrap.css";
+import axios from 'axios'
+import { useParams } from 'react-router-dom';
 const Container = styled.div``;
 
 const Product_Details = (props) => {
-  const [data, setProduct] = useState([])
-
+  const params = useParams();
+  const [data2, setProduct2] = useState([])
   useMemo(async () => {
-   await axios.get('http://localhost:60000/api_public/getProductByUid/'+ props.match.params.uid).then(res => {
-      setProduct(res.data.result[0])
-    })
-  }, []);
+    await axios.get('http://localhost:60000/api_public/getProductByUid/'+ params.uid).then(res => {
+       setProduct2(res.data.result)
+     })
+   }, []);
   return (
     <Container>
-      <div>
-      <section className="home" id="home">
-          <div className="box-container">
-            <Sidebar/>
-            <Description product={data}/>
-          </div>
-        </section>
+    <div>
+    <section className="home" id="home">
+        <div className="box-container">
+          <Sidebar/>
+          {data2.map((item,index)=>(
+           <Description product={item} key={index}/>))}
+        </div>
+      </section>
 
-        {/*product section start*/}
+      {/*product section start*/}
 
-        {/* last product section ends   */}
+      {/* last product section ends   */}
       </div>
 
-      <Footer />
-    </Container>
+  </Container>
   );
 };
 

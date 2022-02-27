@@ -1,23 +1,26 @@
 import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
-import { BrowserRouter, Route } from 'react-router-dom'
-import Routes from '../routes/Routes'
+import {
+    BrowserRouter,
+    Routes,
+    Route
+  } from 'react-router-dom';
+import Path from '../routes/Path'
+
 const Layout = () => {
     return (
         <BrowserRouter>
-            <Route render={props=>(
-                <div>
-                    <div className="container">
-                        <Header {...props}/>
-                        <div className="main">
+            <Header/>
+                <Path render={props=>(
+                    <div>
+                        <div className="container">
                             <Routes/>
                         </div>
-                        <Footer/>
                     </div>
-                </div>
-            )}
-            />
+                )}
+                />
+            <Footer/>
         </BrowserRouter>
     )
 }

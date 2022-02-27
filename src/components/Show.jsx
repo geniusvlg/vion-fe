@@ -11,34 +11,9 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 
 const Show = ({data}) => {
   const context=useContext(AuthContext)
-  const [uid ,  setUid ]= useState();
-  const [dataProduct1, setDataProduct1] = useState()
-  const [redirect,setRedirect]=useState(false)
-
- 
-  const deleteClick =async(e) =>{
-    let customer_id=context.user.Infouser[0]?.uid
-    let items={uid}
-    setUid(e.currentTarget.id);
-      let config ={
-        headers:{
-            "Content-type":"application/json"
-        }
-      }
-      let {data1}=  await axios.post('http://localhost:60000/api_public/deleteitem/',{
-      customer_id,items
-     },
-     config)
-     setDataProduct1(data1)
-     setRedirect(true)
-};
-if (redirect){
-  return <Navigate to="/cart"/>
-}
-
   return(
                 <tr>
-                <td><button id={data.iproduct.uid}  onClick={(event)=>deleteClick(event)}><DeleteForeverOutlinedIcon/></button></td>
+                <td><button id={data.iproduct.uid}  onClick={(event)=>context.deleteClick(event)}><DeleteForeverOutlinedIcon/></button></td>
                 <td><img src={data.iproduct.image_cover} alt="" /></td>
                 <td><h5>{data.iproduct.product_name}</h5></td>
                 <td>{data.iproduct.pricing.price_with_vat}</td>

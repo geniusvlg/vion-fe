@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Themes from "./themes";
+import { AuthProvider } from "./context/AuthContext";
 import Layout from './components/Layout';
 import * as serviceWorker from "./serviceWorker";
 import { LayoutProvider } from "./context/LayoutContext";
@@ -22,7 +23,9 @@ ReactDOM.render(
     </LayoutProvider>
   </ThemeProvider>*,*/
   <React.StrictMode>
-  <Layout/>
+    <AuthProvider>
+      <Layout/>
+    </AuthProvider>
 </React.StrictMode>,
   document.getElementById("root")
 );

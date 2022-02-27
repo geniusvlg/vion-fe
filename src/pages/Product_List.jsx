@@ -1,11 +1,11 @@
 import React from 'react'
-
+import Footer from '../components/Footer'
+import Header from '../components/Header'
 import {Product, Sale_Product } from '../assets/fake-data/data'
 
 const Product_List = () => {
     return (
-        <div className='box-container'>
-        {/* <Header/> */}
+        <div className='big-container'>
         <section className="shop-product home">
         <div className="box-container">
           <div className="left-col">

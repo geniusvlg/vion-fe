@@ -2,7 +2,8 @@ import{createContext,useState,useEffect} from 'react'
 import { decodeToken } from "react-jwt";
 import jwt_decode from "jwt-decode";
 import axios from 'axios'
-import {Navigate} from 'react-router-dom';
+import {Navigate, useLocation} from 'react-router-dom';
+import { Nav } from 'react-bootstrap';
 const AuthContext = createContext()
 
 
@@ -18,6 +19,7 @@ function AuthProvider ({children}){
   const [loading,setLoading]=useState(false)
   const [loading1,setloading1]=useState(true)
   const [test,settest]=useState([]);
+  const [refresh,setRefresh]=useState(false)
 //login 
   const submitHandler = async(e) =>{
     e.preventDefault();
@@ -50,6 +52,7 @@ function AuthProvider ({children}){
   }
 // logout 
   let logoutUser =()=>{
+
     setAuthTokens(null)
     setUser(null)
     localStorage.removeItem('authTokens')
@@ -77,6 +80,23 @@ let updateToken = async()=>{
             logoutUser()
           }
 }
+//delete click 
+const deleteClick =async(e) =>{
+  let customer_id=user.Infouser[0]?.uid
+  let uid=e.currentTarget.id;
+  let items={uid}
+    let config ={
+      headers:{
+          "Content-type":"application/json"
+      }
+    }
+    let {data1}=  await axios.post('http://localhost:60000/api_public/deleteitem/',{
+    customer_id,items
+   },
+   config)
+   setRefresh(true)
+};
+
   const value={
     user_name,
     password,
@@ -85,11 +105,14 @@ let updateToken = async()=>{
     loading,
     user,
     authTokens,
-    submitHandler, setUsername, setPassword,setError,logoutUser
+    refresh,
+    submitHandler, setUsername, setPassword,setError,logoutUser, deleteClick,setRefresh
   }
 //hanlde refresh 
 useEffect(()=>{
-    let fourMinutes=10000*60*4
+  // so sánh giờ hệ thống -- Time out 
+  //
+    let fourMinutes=10000*30
     let interval= setInterval(()=>{
       if(authTokens)
       {
