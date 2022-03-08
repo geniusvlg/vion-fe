@@ -20,6 +20,9 @@ function AuthProvider ({children}){
   const [loading1,setloading1]=useState(true)
   const [test,settest]=useState([]);
   const [refresh,setRefresh]=useState(false)
+//------------------------------------------//
+const [dataProduct, setDataProduct] = useState([])
+const [total,setTotal]=useState(0)
 //login 
   const submitHandler = async(e) =>{
     e.preventDefault();
@@ -96,8 +99,53 @@ const deleteClick =async(e) =>{
    config)
    setRefresh(true)
 };
+//handle get cart 
+const getCart= async()=>{
+  let acsess=authTokens.acsessToken
+  let user_name=user.Infouser[0]?.customer_name
 
-  const value={
+  let config ={
+    headers:{
+        "Content-type":"application/json",
+        "authorization": "Bearer "+ acsess
+    }
+  }
+  let {data}= await axios.post('http://localhost:60000/api_public/getCart/',{
+    user_name
+  },  
+  config)
+  //console.log("so luong:",data.Check[0]?.cart_items.length)
+  var x=0
+  for(var i=0;i<data.Check[0]?.cart_items.length;i++)
+  {
+  x=x+data.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data.Check[0]?.cart_items[i].quantity
+  }
+  setDataProduct(data.Check[0]?.cart_items)
+  setTotal(x)
+  setRefresh(false)
+}
+//handle submit 
+const submitcart =async() =>{
+  let customer_id=user.Infouser[0]?.uid
+  let customer_name=user.Infouser[0]?.customer_name
+  let phone_number=user.Infouser[0]?.phone_number
+  let address_des = user.Infouser[0]?.address.address_des
+  let district =user.Infouser[0]?.address.district.uid
+  let [items]=dataProduct
+  let config ={
+    headers:{
+        "Content-type":"application/json"
+    }
+  }
+  let {data}= await axios.post('http://localhost:60000/api_public/submitOrder',{
+    customer_id,customer_name,phone_number,address_des,address_type,district,
+    items
+  },  
+  config)
+  console.log("Submit roi ne :",data)
+}
+
+const value={
     user_name,
     password,
     redirect,
@@ -105,9 +153,11 @@ const deleteClick =async(e) =>{
     loading,
     user,
     authTokens,
-    refresh,
-    submitHandler, setUsername, setPassword,setError,logoutUser, deleteClick,setRefresh
+    refresh,dataProduct,total,
+    submitHandler, setUsername, setPassword,setError,logoutUser, deleteClick,setRefresh,
+    getCart
   }
+
 //hanlde refresh 
 useEffect(()=>{
   // so sánh giờ hệ thống -- Time out 
@@ -122,6 +172,8 @@ useEffect(()=>{
     return ()=>clearInterval(interval)
 
 },[authTokens,loading1])
+
+
     return(
         <AuthContext.Provider value={value}>
             { children }

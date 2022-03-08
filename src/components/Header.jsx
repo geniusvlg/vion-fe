@@ -6,6 +6,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
 
@@ -168,6 +169,12 @@ const AccountCircle = styled(AccountCircleIcon)({
   marginRight: '.5rem',
   marginLeft: '1rem'
 });
+
+const AccountCircle1 = styled(AccountBoxIcon)({
+  color: '#fd7e14',
+  marginRight: '.5rem',
+  marginLeft: '1rem'
+});
 const Nav = styled.div`
   padding: 0 2rem;
   display: flex;
@@ -269,6 +276,7 @@ const Header = () => {
                   <button onClick={context.logoutUser}
                   >Đăng xuất</button>
              <MenuLink href="/cart"><ShoppingCartIcon/>Giỏ Hàng</MenuLink>
+             <MenuLink href="/userprofile"><AccountBoxIcon/>Thông tin tài khoản</MenuLink>
                   </>
             ) : (
               <>

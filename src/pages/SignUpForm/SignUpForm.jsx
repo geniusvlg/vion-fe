@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -55,8 +55,6 @@ const schema = yup.object().shape({
       .string()
       .required("Vui lòng nhập quận, huyện"),
 });
-
-
 const CardWrapper = styled.div`
 overflow: hidden;
 padding: 0 0 32px;
@@ -66,7 +64,6 @@ font-family: Quicksand, arial, sans-serif;
 box-shadow: 0 0 20px rgba(0, 0, 0, 0.05), 0 0px 40px rgba(0, 0, 0, 0.08);
 border-radius: 5px;
 `;
-
 const CardHeader = styled.header`
 padding-top: 32px;
 padding-bottom: 32px;
@@ -76,14 +73,12 @@ font-size: 20px;
 font-weight: bold;
 text-align: center;
 `;
-
 const CardLogUpForm = styled.form`
 display: flex;
 flex-direction: column;
 justify-content: space-evenly;
 padding: 10px;
 `
-
 const SuccessMessage = styled.div`
 font-family: 'Raleway', sans-serif;
 background-color: #3f89f8;
@@ -94,12 +89,10 @@ margin: 0 0 10px 0;
 color: white;
 display: block;
 `
-
 const CardBody = styled.div`
 padding-right: 32px;
 padding-left: 32px;
 `;
-
 const CardFieldset = styled.fieldset`
 position: relative;
 padding: 0;
@@ -118,14 +111,12 @@ border: 0;
   text-align: center;
 }
 `;
-
 const CardRadio = styled.input`
 flex-direction: column;
 margin: 10px;
 flex: 3px;
 justify-content: space-evenly;
 `
-
 const CardInput = styled.input`
 padding: 7px 0;
 width: 100%;
@@ -145,11 +136,6 @@ border-radius: 35px;
   outline: 0;
 }
 `;
-
-
-
-
-
 const CardButton = styled.button`
 display: block;
 width: 100%;
@@ -170,7 +156,6 @@ transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
   transform: translate(0, -5px);
 }
 `;
-
 const CardLink = styled.a`
 display: inline-block;
 font-size: 12px;
@@ -184,33 +169,48 @@ transition: color 0.25s ease-in;
   color: #777;
 }
 `;
-
 const CardMenu = styled.ul`
 list-style: none;
 `
-
 const CardDoc = styled.h1`
 display: inline-block;
 font-size: 10px;
 text-decoration: none;
 color: #aaa;
 `
-
 const Error = styled.span`
 color: #ffa4a4
 `
+const Select = styled.select`
+  width: 100%;
+  height: 35px;
+  background: white;
+  color: gray;
+  padding-left: 10px;
+  font-size: 14px;
+  border: none;
+  border: .1rem gray solid;
+  border-radius: 35px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.08);
 
-
+  option {
+    color: black;
+    background: white;
+    display: flex;
+    white-space: pre;
+    min-height: 20px;
+    padding: 0px 2px 1px;
+  }
+`;
 
 export default function SignUpForm() {
+ 
 const {
   register,
   handleSubmit,
   formState: { errors }
 } = useForm({ resolver: yupResolver(schema) });
-
 const [submitted, setSubmitted] = useState(false);
-
 const registerSubmit = (data) => {
   setSubmitted(true);
   console.log(data);
@@ -219,8 +219,9 @@ const registerSubmit = (data) => {
 const [gender, setGender] = useState();
 const [user_name, setName] = useState();
 const [phone_number, setPhone] = useState();
-const [address, setAddress] = useState();
+const [address_des, setAddress] = useState();
 const [email, setEmail] = useState();
+
 const [message,setMessage]=useState(null);
 const [error,setError]=useState(false);
 const [loading,setLoading]=useState(false) 
@@ -228,6 +229,82 @@ const [password, setPassword] = useState();
 const [confirm_password, setConfirm_password] = useState();
 const [redirect,setRedirect] = useState();
 
+const [data1,setData]=useState([])
+const [data2,setData2]=useState([])
+const [data3,setData3]=useState([])
+const [city,setCity]=useState()
+const [district,setDistrict]=useState()
+const [province,setProvince]=useState()
+
+
+
+const handleChange = (event) => {
+  const index = event.target.selectedIndex;
+  const optionElement = event.target.childNodes[index];
+  const optionElementId = optionElement.getAttribute('id');
+  setCity(optionElementId )
+}
+const handleChange1 = (event) => {
+  const index = event.target.selectedIndex;
+  const optionElement = event.target.childNodes[index];
+  const optionElementId = optionElement.getAttribute('id');
+  setDistrict(optionElementId )
+}
+const handleChange2 = (event) => {
+  const index = event.target.selectedIndex;
+  const optionElement = event.target.childNodes[index];
+  const optionElementId = optionElement.getAttribute('id');
+  setProvince(optionElementId )
+}
+
+//chon thanh pho and show thanh pho
+useEffect(() => {
+  getcity()
+}, []);
+let getcity=async ()=>{
+  let {data}= await axios.get('http://localhost:60000/api_public/list/city')
+  setData(data.data)
+}
+
+//chon quan huyen and show huyen quan
+useEffect(() => {
+  getdistrict()
+}, [city]);
+let getdistrict=async()=>{
+  let quan=city
+  let config ={
+    headers:{
+        "Content-type":"application/json"
+    }
+  }
+  let {data}= await axios.post('http://localhost:60000/api_public/list/province',{
+    quan
+  },  
+  config)
+  setData2(data.result[0].areas)
+}
+
+//chon phuong and show phuong
+useEffect(() => {
+  getprovince()
+}, [district]);
+let getprovince=async()=>{
+  let quan=district
+  let config ={
+    headers:{
+        "Content-type":"application/json"
+    }
+  }
+  let {data}= await axios.post('http://localhost:60000/api_public/list/province',{
+    quan
+  },  
+  config)
+  setData3(data.result[0].areas)
+}
+
+console.log("district:",district)
+console.log("province",province)
+// button dang ky 
 const Submit = async (e) => {
   e.preventDefault();
   if(password!==confirm_password)
@@ -243,7 +320,7 @@ const Submit = async (e) => {
       }
       setLoading(true)
       const {data}= await axios.post('http://localhost:60000/api_public/list/register',{
-        user_name,password,phone_number
+        user_name,password,phone_number,address_des,province,district
       },
       config)
       setLoading(false)
@@ -300,6 +377,56 @@ return (
           </CardFieldset>
 
           <CardFieldset>
+          <Select onChange={handleChange}>
+                {data1?.map((item,index)=>(
+                  <>
+                  <option value=" " hidden>
+                  Thành phố
+                  </option>
+                  <option  id={item.uid}>{item.name} </option>
+                    </>
+                ))}      
+            </Select>
+          </CardFieldset>
+
+          <CardFieldset>
+          {city? (
+                <Select onChange={handleChange1}>
+                {data2?.map((item,index)=>(
+                  <>
+                  <option value=" " hidden>
+                   Quận
+                  </option>
+                  <option  id={item.uid}>{item.name} </option>
+                    </>
+                ))}      
+            </Select>
+            ) : (
+              <>
+              </>
+            ) }
+         </CardFieldset>
+
+         <CardFieldset>
+          {district? (
+                <Select onChange={handleChange2}>
+                {data3?.map((item,index)=>(
+                  <>
+                  <option value=" " hidden>
+                Phường 
+                  </option>
+                  <option  id={item.uid}>{item.name} </option>
+                    </>
+                ))}      
+            </Select>
+            ) : (
+              <>
+              </>
+            ) }
+         </CardFieldset>
+
+
+          <CardFieldset>
               <CardInput id="password" placeholder="Mật khẩu" type="password" name="password"{...register("password")} onChange={(e) => setPassword(e.target.value)}/>
               {errors.password && <Error>{errors.password?.message}</Error>}
           </CardFieldset>
@@ -308,10 +435,11 @@ return (
               <CardInput id="password" placeholder="Nhập lại mật khẩu" type="password" name="confirm_password"{...register("confirm_password")} onChange={(e) => setConfirm_password(e.target.value)}/>
               {errors.password && <Error>{errors.password?.message}</Error>}
           </CardFieldset>
-
+          
           <CardFieldset>
               <CardButton type="submit" >Đăng kí </CardButton>
           </CardFieldset>
+
 
           <CardFieldset>
               <CardMenu>

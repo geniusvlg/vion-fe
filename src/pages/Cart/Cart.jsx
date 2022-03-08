@@ -165,17 +165,22 @@ border-radius: 35px;
 `;
 
 const Cart = () => {
-  const [dataProduct, setDataProduct] = useState([])
-  const [total,setTotal]=useState(0)
   const context=useContext(AuthContext)
+  /*const [dataProduct, setDataProduct] = useState([])
+  const [total,setTotal]=useState(0)
   let acsess=context.authTokens.acsessToken
   let user_name=context.user.Infouser[0]?.customer_name
-  let shipping=5000
-  useEffect(() => {
-      getCart()
+    useEffect(() => {
+      context.getCart()
   },[context.refresh]);
  
-  let getCart= async()=>{
+  */
+  let shipping=5000
+  useEffect(() => {
+    context.getCart()
+  },[context.refresh]);
+  
+  /*let getCart= async()=>{
     let config ={
       headers:{
           "Content-type":"application/json",
@@ -195,7 +200,8 @@ const Cart = () => {
     setDataProduct(data.Check[0]?.cart_items)
     setTotal(x)
     context.setRefresh(false)
-  }
+  }*/
+   
 
     return (
       <>
@@ -217,7 +223,7 @@ const Cart = () => {
               </tr>
             </thead>
             <tbody>
-              {dataProduct?.map((item,index)=>(
+              {context.dataProduct?.map((item,index)=>(
                   <Show data={item} key={index}/>
                 ))}             
             </tbody>
@@ -238,7 +244,7 @@ const Cart = () => {
                 <h5>Cart Total</h5>
                 <div className="d-flex justify-content-between">
                   <h6>Sub-total</h6>
-                  <p>{total} </p>
+                  <p>{context.total} </p>
                 </div>
                 <div className="d-flex justify-content-between">
                   <h6>Shipping</h6>
@@ -247,7 +253,7 @@ const Cart = () => {
                 <hr className="second-hr" />
                 <div className="d-flex justify-content-between">
                   <h6>Total</h6>
-                  <p>{total*shipping}VND</p>
+                  <p>{context.total*shipping}VND</p>
                 </div>
                 <button className="ml-auto" >Check out</button>
               </div>
