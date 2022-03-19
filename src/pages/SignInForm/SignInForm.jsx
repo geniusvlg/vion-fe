@@ -159,24 +159,10 @@ export default function LoginForm() {
 
   const context=useContext(AuthContext)
   let navigate=useNavigate()
-  /*const Login_submit = async (e: SyntheticEvent) =>{
-    e.preventDefault();
-    const response = await fetch('http://localhost:3000/signin',{
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
-      credentials:'include',
-      body: JSON.stringify({
-        usename,
-        password
-      })
-    });
-    setRedirect(true);
-  }
-
+  /*
   if(redirect){
     return <Navigate to="/"/>
   }*/
-
   return (
   <>
     	{context.redirect ? ( 

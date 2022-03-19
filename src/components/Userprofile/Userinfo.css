@@ -1,0 +1,195 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
+body {
+  background: #ffffff;
+  /* margin-top: 10%; */
+  font-family: "Raleway", sans-serif;
+}
+
+/* User profile */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 0 solid transparent;
+  border-radius: 0.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px 0 #dadafda6,
+    0 2px 6px 0 #ceceee8a;
+}
+
+
+/* update info */
+.form-container {
+  max-width: 500px;
+  background-color: white;
+  margin: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.update-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.form-field {
+  margin: 10px 0 10px 0;
+  padding: 7px;
+  font-size: 14px;
+  border-radius: 35px;
+  font-family: "Raleway", sans-serif;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  transition: border-bottom-color 0.25s ease-in;
+}
+
+.form-field:focus{
+  border-bottom-color: #FFDE59;
+  outline: 0;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-container button {
+  /* padding-left: 2rem;
+  padding-right: 2rem;
+  width: auto;
+  border-radius: 2rem;
+  background: #274e13;
+  color: white; */
+  font-family: "Raleway", sans-serif;
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: black;
+  background-color: #FFDE59;
+  border: .1rem gray solid;
+  border-radius: 35px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+}
+
+.btn-container button:hover{
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.16);
+  transform: translate(0, -5px);
+}
+
+span {
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  color: red;
+  margin-bottom: 25x;
+  margin: auto;
+}
+
+input {
+  background: #f2f2f2;
+}
+
+.form-group-item {
+  position: relative;
+  width: 100%;
+}
+
+.form-group-item label,
+.form-group-item input {
+  display: block;
+  width: 100%;
+}
+
+.form-group-item .edit-btn-icon {
+  background-color: transparent;
+  border: none;
+  color: #585858;
+  position: absolute;
+  right: 10px;
+  top: 17px;
+  width: auto;
+}
+
+.form-group-item .edit-btn-icon-pw {
+  background-color: transparent;
+  border: none;
+  color: #080808;
+  position: absolute;
+  right: 15px;
+  top: 40px;
+  width: auto;
+}
+
+.form-group-row {
+  display: flex;
+}
+
+.form-group-row .form-group-item:first-child {
+  margin-right: 10px;
+}
+
+@media (max-width: 500px) {
+  .form-group-row {
+    flex-direction: column;
+  }
+}
+
+/* change pasword */
+
+.form-title .title-text {
+  position: relative;
+  bottom: -3px;
+  left: 5px;
+}
+
+/* user info menu */
+.user-info-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-info-menu button {
+  background: none;
+  border: none;
+  color: #9c9a9a;
+  width: auto;
+}
+
+.user-info-menu button:hover {
+  color:#9c9a9a
+}
+
+.user-info-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-info-nav li a {
+  color: #9c9a9a;
+  text-decoration: none;
+  transition: all 0.4s ease-in-out;
+  font-weight: 600;
+}
+
+.user-info-nav li.active a,
+.user-info-nav li a:hover {
+  color:#3a3939;
+}

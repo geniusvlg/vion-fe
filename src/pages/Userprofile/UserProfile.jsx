@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext,useEffect,useState} from "react";
 import styled from "styled-components";
 import History from "../../components/History";
 import Order from "../../components/Order";
 import './UserProfile.css'
+import Userinfo from "../../components/Userprofile/Userinfo";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { IoLogOutOutline } from "react-icons/io5";
 
 const CardWrapper = styled.div`
   overflow: hidden;
@@ -72,25 +76,6 @@ border-bottom: 0.1rem #bababa solid;
  margin-top: 32px;
  }
 `
-
-const CardButtonset = styled.fieldset`
-  position: relative;
-  padding: 20px;
-  margin: 0;
-  border: 0;
-  & + & {
-    margin-top: 24px;
-  }
-
-  &:nth-last-of-type(2) {
-    margin-top: 32px;
-  }
-
-  &:last-of-type {
-    text-align: center;
-  }
-`;
-
 const CardH1 = styled.h1`
   padding: 7px 0;
   width: 100%;
@@ -246,6 +231,12 @@ color: #ffa4a4
 
 export default function Userprofile() {
   const [toggleState, setToggleState] = useState(1);
+  const context=useContext(AuthContext)
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `/resetpassword`; 
+    navigate(path);
+  }
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -255,8 +246,10 @@ export default function Userprofile() {
   <CardLoginForm>
     <CardBody>
       <CardFieldset>
-        <CardH1>Anh Ngô Phạm Hoàng Long</CardH1>
-        <CardQuit href="/">Thoát</CardQuit>
+        <CardH1>{context.user.Infouser[0]?.full_name}</CardH1>
+        <CardQuit onClick={routeChange}>Đổi mật khẩu</CardQuit>
+        <CardQuit onClick={context.logoutUser}>Thoát<IoLogOutOutline size={20}/></CardQuit>
+    
       </CardFieldset>
       <CardFieldset>
         <CardH2 className={toggleState === 1 ? "active-tabs" : ""}
@@ -272,11 +265,10 @@ export default function Userprofile() {
       <div className={toggleState === 2 ? "content  active-content" : "content"}>
         <Order/>
       </div>
-	<div className={toggleState === 3 ? "content  active-content" : "content"}>
+      <div className={toggleState === 3 ? "content  active-content" : "content"}>
+        <Userinfo/>
       </div>
-    <CardButtonset>
-        <CardButton>Mua lại đơn hàng</CardButton>
-    </CardButtonset>
+  
     </CardBody>
   </CardLoginForm> 
 </CardWrapper>

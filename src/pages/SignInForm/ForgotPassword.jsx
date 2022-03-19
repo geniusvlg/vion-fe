@@ -167,10 +167,7 @@ export default function LoginForm() {
           </CardFieldset>
           
 
-          <CardFieldset>
-            <CardInput id="otp" placeholder="Mã OTP" type="text" name="otp"{...register("otp")} required/>
-            {errors.otp && <Error>{errors.otp?.message}</Error>}
-          </CardFieldset>
+         {/*otp*/}
 
           <CardFieldset>
             <CardButton type="submit">Xác thực </CardButton>
@@ -194,3 +191,7 @@ export default function LoginForm() {
 
   );
 }
+/*<CardFieldset>
+<CardInput id="otp" placeholder="Mã OTP" type="text" name="otp"{...register("otp")} required/>
+{errors.otp && <Error>{errors.otp?.message}</Error>}
+</CardFieldset>*/

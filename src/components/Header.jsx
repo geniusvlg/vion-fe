@@ -8,6 +8,7 @@ import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import styled from 'styled-components';
+import { IoLogOutOutline } from "react-icons/io5";
 import {useNavigate} from 'react-router-dom';
 
 /*const Nav = styled.div`
@@ -272,11 +273,11 @@ const Header = () => {
             <MenuLink href="">Về Chúng Tôi</MenuLink>
             {context.user? (
                  <>
-                  <a style={{margin:'1.25rem'}}>{context.user.Infouser[0]?.customer_name}</a>
-                  <button onClick={context.logoutUser}
-                  >Đăng xuất</button>
-             <MenuLink href="/cart"><ShoppingCartIcon/>Giỏ Hàng</MenuLink>
-             <MenuLink href="/userprofile"><AccountBoxIcon/>Thông tin tài khoản</MenuLink>
+                  <MenuLink href="/cart"><ShoppingCartIcon/>Giỏ hàng </MenuLink>
+                  <MenuLink href="/userprofile"><AccountBoxIcon/>Thông tin tài khoản</MenuLink>
+                  <a >{context.user.Infouser[0]?.customer_name}</a>
+                  <MenuLink onClick={context.logoutUser}
+                  >Đăng xuất<IoLogOutOutline size={20}/></MenuLink>
                   </>
             ) : (
               <>

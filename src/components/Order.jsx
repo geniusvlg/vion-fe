@@ -1,5 +1,8 @@
-import React from "react";
+import React,{useContext,useEffect,useState} from "react";
 import styled from "styled-components";
+import { AuthContext } from "../context/AuthContext";
+import {useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const CardWrapper = styled.div`
   overflow: hidden;
@@ -165,8 +168,6 @@ const CardH5 = styled.h1`
 const ImgContainer = styled.div`
   max-width: 18%;
   border-bottom: 0.1rem #bababa solid;
-
-
 `;
 
 const Image = styled.img`
@@ -240,42 +241,62 @@ color: #ffa4a4
 `
 
 const Order = () => {
+  const context=useContext(AuthContext)
+  const [data1,setData1]=useState([])
+  const [data2,setData2]=useState([])
+  const shipping = 5000
+  useEffect(() => {
+    getdistrict()
+  }, []);
+  let getdistrict=async()=>{
+    let phone_number=context.user.Infouser[0].phone_number
+    let config ={
+      headers:{
+          "Content-type":"application/json"
+      }
+    }
+    let {data}= await axios.post('http://localhost:60000/api_public/getHistoryOrderListByPhonenumber/',{
+      phone_number
+    },  
+    config)
+    console.log("độ dài:",data.result.length)
+    setData1(data.result)
+    setData2(data.result[0].sub_orders[0])
+  }
+  console.log("thông tin order:",data1)
+  console.log("thông tin order 1:",data2)
+  
   return (
-    <div>
-    <CardInform>
-            <CardH3>ID ĐƠN HÀNG: #50950723</CardH3>
-            <CardH3>nGƯỜI NHẬN: nGÔ HOÀNG LONG</CardH3>
-            <CardH3>ĐỊA CHỊ NHẬN HÀNG: 69 THÀNH THÁI QUẬN 10</CardH3>
-            <CardH3>gIAO HÀNG LÚC: 16.00 - 8/11</CardH3>
+    <>
+       {data1.map((it,index)=>(
+     <div>
+        <CardInform>
+            <CardH3>{it.order_id}</CardH3>
+             <CardH3>Người nhận: {context.user.Infouser[0]?.full_name}</CardH3>
+             <CardH3>Địa chỉ nhận hàng:{it.address_des}</CardH3>
         </CardInform>
-    
-        <CardFieldset>
+        
+         {it.sub_orders[0].order_items?.map((item,index)=>(
+            <CardFieldset>
             <ImgContainer>
+            <Image src={item.product.image_cover} />
             </ImgContainer>
-            <CardInform>
-                <CardH3>Khoai tây</CardH3>
-                <CardH3>Khoai nhà làm ngon như nhà làm.</CardH3>
-    
+                 <CardInform>
+                <CardH3>{item.product.product_name}</CardH3>
+                <CardH3>Chất lượng loại 1</CardH3>
                 </CardInform>
-            <CardH4>$14 x 1</CardH4>
-        </CardFieldset>
-    
-        <CardFieldset>
-            <ImgContainer>
-            </ImgContainer>
-            <CardInform>
-                <CardH3>Khoai tây</CardH3>
-                <CardH3>Khoai nhà làm ngon như nhà làm.</CardH3>
-            </CardInform>
-            <CardH4>$14 x 1</CardH4>
-        </CardFieldset>
-    
-        <CardH5>Tiền hàng: $28</CardH5>
-        <CardH5>Phí giao hàng: $0</CardH5>
-        <CardH5>Tổng: $28</CardH5>
-    
-    </div>
+              <CardH5>{item.cost_price} VNĐ * {item.quantity}</CardH5>
+            </CardFieldset>
+          ))}      
+
+        <CardH5>Tiền hàng: {it.total_pay} VNĐ</CardH5>
+        <CardH5>Phí giao hàng: {shipping} VNĐ</CardH5>
+        <CardH5>Tổng: {it.total_pay+shipping} VNĐ</CardH5>  
+     </div>  
+     ))}
+    </>
       )
 };
 
 export default Order;
+/*<CardH3>gIAO HÀNG LÚC: 16.00 - 8/11</CardH3>*/

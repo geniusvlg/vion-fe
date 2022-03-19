@@ -10,6 +10,7 @@ import ErrorMessage from "../../components/ErrorMessage";
 import {Navigate} from 'react-router-dom';
 import "./SignUpForm.css";
 import axios from 'axios';
+import { first } from 'lodash-es';
 
 const schema = yup.object().shape({
   username: yup
@@ -215,7 +216,8 @@ const registerSubmit = (data) => {
   setSubmitted(true);
   console.log(data);
 }
-
+const [firstname, setFirst] = useState();
+const [lastname, setLast] = useState();
 const [gender, setGender] = useState();
 const [user_name, setName] = useState();
 const [phone_number, setPhone] = useState();
@@ -256,7 +258,17 @@ const handleChange2 = (event) => {
   const optionElementId = optionElement.getAttribute('id');
   setProvince(optionElementId )
 }
-
+let name=firstname +" "+ lastname
+let fullname=name.split(' ')
+let fi=fullname[0]
+let la = fullname[fullname.length-1]
+console.log("gender:",gender)
+console.log("name:",name)
+console.log("fi:",fi)
+console.log("la:",la)
+console.log("phone:",phone_number)
+console.log("email:",email)
+console.log("address:",address_des)
 //chon thanh pho and show thanh pho
 useEffect(() => {
   getcity()
@@ -304,6 +316,7 @@ let getprovince=async()=>{
 
 console.log("district:",district)
 console.log("province",province)
+
 // button dang ky 
 const Submit = async (e) => {
   e.preventDefault();
@@ -320,7 +333,7 @@ const Submit = async (e) => {
       }
       setLoading(true)
       const {data}= await axios.post('http://localhost:60000/api_public/list/register',{
-        user_name,password,phone_number,address_des,province,district
+        user_name,password,phone_number,address_des,email,district,province,gender
       },
       config)
       setLoading(false)
@@ -351,8 +364,14 @@ return (
       <CardLogUpForm onSubmit={Submit}>
       <CardBody>
           <CardFieldset>
-              <CardRadio id="sex" placeholder="Anh" type="radio" name="gender"{...register("gender")} onChange={(e) => setGender(e.target.value)}/>Anh
-              <CardRadio id="sex" placeholder="Chị" type="radio" name="gender"{...register("gender")} onChange={(e) => setGender(e.target.value)}/>Chị
+              <CardRadio id="sex" placeholder="Anh" type="radio" name="gender"{...register("gender")} onChange={(e) => setGender(true)}/>Anh
+              <CardRadio id="sex" placeholder="Chị" type="radio" name="gender"{...register("gender")} onChange={(e) => setGender(false)}/>Chị
+          </CardFieldset>
+          <CardFieldset>
+              <CardInput id="họ" placeholder="Họ" type="text"  onChange={(e) => setFirst(e.target.value)}/>
+          </CardFieldset>
+          <CardFieldset>
+              <CardInput id="tên" placeholder="Tên" type="text" onChange={(e) => setLast(e.target.value)}/>
           </CardFieldset>
 
           <CardFieldset>

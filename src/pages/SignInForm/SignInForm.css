@@ -59,7 +59,7 @@
 }
 
 .pop-up-inner .close-btn {
-    /* background: #274e13;
+     background: #274e13;
     color: white;
     cursor: pointer;
     width: 70px;
@@ -67,7 +67,7 @@
     margin: auto;
     display: block;
     border-radius: 5px;
-    text-align: center; */
+    text-align: center; 
 }
 
 .form-field-otp {

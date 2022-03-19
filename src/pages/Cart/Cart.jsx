@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import axios from 'axios'
-import './Cart.css'
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
+import './Cart.css' 
 import Show from '../../components/Show'
+import {Navigate} from 'react-router-dom';
 import { m } from 'framer-motion'
 const Container = styled.div`
 `
@@ -166,102 +166,88 @@ border-radius: 35px;
 
 const Cart = () => {
   const context=useContext(AuthContext)
-  /*const [dataProduct, setDataProduct] = useState([])
-  const [total,setTotal]=useState(0)
-  let acsess=context.authTokens.acsessToken
-  let user_name=context.user.Infouser[0]?.customer_name
-    useEffect(() => {
-      context.getCart()
-  },[context.refresh]);
- 
-  */
   let shipping=5000
   useEffect(() => {
     context.getCart()
   },[context.refresh]);
   
-  /*let getCart= async()=>{
-    let config ={
-      headers:{
-          "Content-type":"application/json",
-          "authorization": "Bearer "+ acsess
-      }
-    }
-    let {data}= await axios.post('http://localhost:60000/api_public/getCart/',{
-      user_name
-    },  
-    config)
-    console.log("so luong:",data.Check[0]?.cart_items.length)
-    var x=0
-    for(var i=0;i<data.Check[0]?.cart_items.length;i++)
-    {
-    x=x+data.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data.Check[0]?.cart_items[i].quantity
-    }
-    setDataProduct(data.Check[0]?.cart_items)
-    setTotal(x)
-    context.setRefresh(false)
-  }*/
-   
-
+  if(context.flag)
+  {
+    return <Navigate to="/Checkout"/>
+  }
     return (
+      <> 
+    {context.soluongSP > 0? (
       <>
-      <div>
-        <section id="blog-home" className="pt-5 mt-5 container">
-          <h2 className="font-weight-bold pt-5">Shopping Cart</h2>
-          <hr />
-        </section>
-        <section id="cart-container" className="container my-5">
-          <table width="100%">
-            <thead>
-              <tr>
-                <td>Remove</td>
-                <td>Image</td>
-                <td>Product</td>
-                <td>Price</td>
-                <td>Quantity</td>
-                <td>Total</td>
-              </tr>
-            </thead>
-            <tbody>
-              {context.dataProduct?.map((item,index)=>(
-                  <Show data={item} key={index}/>
-                ))}             
-            </tbody>
-          </table>
-        </section>
-        <section id="cart-bottom" className="container">
-          <div className="row">
-            <div className="coupon col-lg-6 col-md-6 col-12 mb-4">
-              <div>
-                <h5>Coupon</h5>
-                <p>Enter the coupon if available</p>
-                <input type="text" placeholder="Coupon-code" />
-                <button>Apply Coupon</button>
-              </div>
+    <section id="blog-home" className="pt-5 mt-5 container">
+        <h2 className="font-weight-bold pt-5">Shopping Cart</h2>
+        <hr />
+     </section>
+    <div className="container-fluid pt-5">
+        <div className="row px-xl-5">
+            <div className="col-lg-8 table-responsive mb-5">
+                <table className="table table-bordered text-center mb-0">
+                    <thead className="bg-secondary text-dark">
+                        <tr>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody className="align-middle">
+                          {context.dataProduct?.map((item,index)=>(
+                          <Show data={item} key={index}/>
+                            ))}            
+                    </tbody>
+                </table>
             </div>
-            <div className="total col-lg-6 col-md-6 col-12">
-              <div>
-                <h5>Cart Total</h5>
-                <div className="d-flex justify-content-between">
-                  <h6>Sub-total</h6>
-                  <p>{context.total} </p>
+            <div className="col-lg-4">
+                <form className="mb-5" action="">
+                    <div className="input-group">
+                        <input type="text" className="form-control p-4" placeholder="Coupon Code"/>
+                        <div className="input-group-append">
+                            <button className="btn btn-primary">Apply Coupon</button>
+                        </div>
+                    </div>
+                </form>
+                <div className="card border-secondary mb-5">
+                    <div className="card-header bg-secondary border-0">
+                        <h4 className="font-weight-semi-bold m-0">Cart Summary</h4>
+                    </div>
+                    <div className="card-body">
+                        <div className="d-flex justify-content-between mb-3 pt-1">
+                            <h6 className="font-weight-medium">Subtotal</h6>
+                            <h6 className="font-weight-medium">{context.total}</h6>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <h6 className="font-weight-medium">Shipping</h6>
+                            <h6 className="font-weight-medium">{shipping}</h6>
+                        </div>
+                    </div>
+                    <div className="card-footer border-secondary bg-transparent">
+                        <div className="d-flex justify-content-between mt-2">
+                            <h5 className="font-weight-bold">Total</h5>
+                            <h5 className="font-weight-bold">{context.total+shipping}</h5>
+                        </div>
+                        <button className="btn btn-block btn-primary my-3 py-3" onClick={context.billAdd}>Proceed To Checkout</button>
+                    </div>
                 </div>
-                <div className="d-flex justify-content-between">
-                  <h6>Shipping</h6>
-                  <p>{shipping}</p>
-                </div>
-                <hr className="second-hr" />
-                <div className="d-flex justify-content-between">
-                  <h6>Total</h6>
-                  <p>{context.total*shipping}VND</p>
-                </div>
-                <button className="ml-auto" >Check out</button>
-              </div>
             </div>
-          </div>
-        </section>
-      </div>
-</>
+        </div>
+    </div>
+   </>                      
+    ):(
+    <div>
+    <section id="blog-home" className="pt-5 mt-5 container">
+      <h2 className="font-weight-bold pt-5">Shopping Cart</h2>
+      <hr />
+      <h3 className="font-weight-light pt-5">Rất tiếc, bạn chưa có sản phẩm nào cả</h3>
+    </section>
+     </div>
+  )}
+      </>
     );
 }
 
