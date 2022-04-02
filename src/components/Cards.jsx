@@ -2,13 +2,16 @@ import React,{useState,useEffect,useContext}  from 'react'
 import { AuthContext } from '../context/AuthContext';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-import {useCart} from 'react-use-cart'
 import {Modal} from 'react-bootstrap'
 import {Navigate} from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
 import axios from 'axios';
+// Importing toastify module
+import {toast} from 'react-toastify';
+// Import toastify css file
+import 'react-toastify/dist/ReactToastify.css';
 import {debounce} from "lodash"
+toast.configure()
+
 const StyledLink = styled(Link)`
     text-decoration: none;
     font-weight: bold;
@@ -131,60 +134,46 @@ function MyVerticallyCenteredModal(props) {
 
 const Cards = ({data}) => {
   const [modalShow, setModalShow]=useState(false);
-  const [customer_id, setCustomerid]=useState()
   const context=useContext(AuthContext)
-  const [dataProduct1, setDataProduct1] = useState()
- /* useEffect(()=>{
-    changeClick()
-  },[])*/
-
-  /*useEffect(()=>{
-  handleClick()
-  },[])*/
-
   // Xử lý số lượng sản phẩm 
-  const [quantity,setCount] = useState(0);
-  const [state, setState] = useState('start')
-  const [uid ,  setUid ]= useState();
-  const [error,  setError]= useState();
-  const [loading,setLoading]=useState(false) 
-  
+  const [quantity,setCount] = useState(1);
+  const [dataProduct1, setDataProduct1] = useState()
 
-  const changeClick =async(e) =>{
-    e.preventDefault();
-    setCount(1);
-    setState('count');
-    setUid(e.currentTarget.id);
+  const changeClick = async(e) =>{
+    let customer_id=context.user.Infouser[0]?.uid
+    let acsess=context.authTokens?.acsessToken
+    setCount(quantity + 1);
+    let uid =e.currentTarget.id;
+    let items={uid,quantity}
+   
+    let config ={
+      headers:{
+          "Content-type":"application/json",
+          "authorization": "Bearer "+ acsess
+      }
+    }
+    let data1=  await axios.post('http://localhost:60000/api_public/submitCart',{
+    customer_id,items
+   },
+   config)
+   console.log("data:",data1)
+   if(data1.data.info.statuscode==200)
+   {
+    setDataProduct1(data1.data.info)
+    toast.success(data1.data.info.message, {
+      position: toast.POSITION.BOTTOM_LEFT, autoClose:3000})
+   }
+   else 
+   {
+    toast.error(data1.data.info.message, {
+      // Set to 15sec
+      position: toast.POSITION.BOTTOM_LEFT, autoClose:3000})
+   }
+   
   }
-
-  const handleClick = debounce(async (action) =>{
-        if(action === "remove"){
-          setCount(quantity - 1 );
-        }
-        else{
-            setCount(quantity + 1);
-        }
-        let customer_id=context.user.Infouser[0]?.uid
-        let acsess=context.authTokens.acsessToken
-        let items={uid,quantity}
-          let config ={
-            headers:{
-                "Content-type":"application/json",
-                "authorization": "Bearer "+ acsess
-            }
-          }
-          let {data1}=  await axios.post('http://localhost:60000/api_public/submitCart',{
-          customer_id,items
-         },
-         config)
-         setDataProduct1(data1)
-    },1000);
-  /*const handleId = (e) => {
-    e.preventDefault();
-     console.log(e.currentTarget.id);
-     console.log(arr.data[0].uid)
-  }*/
+  
   return (
+    <> 
           <div className="box">
               <span className="discount">-{data.pricing.discount}%</span>
               <div className="corner-box"><span /></div>
@@ -195,17 +184,7 @@ const Cards = ({data}) => {
               <AddContainer>
               {context.user? (
                 <>
-                    {state === 'start' && (
                     <Button id={data.uid} onClick={(event)=>changeClick(event)} >Thêm</Button>
-                 )}
-                  {state === 'count' && 
-                  (<AmountContainer>
-              <ButtonRemove id={data.uid} action="remove" onClick={()=>handleClick("remove")}><RemoveIcon/></ButtonRemove>
-              <Amount>
-              {quantity<1 ?(setState('start')):(quantity)}
-              </Amount>
-              <ButtonAdd id={data.uid} action="add" onClick={()=>handleClick("add")}><AddIcon/></ButtonAdd>
-            </AmountContainer>)}
                 </>
               ) : (
                 <>
@@ -215,6 +194,7 @@ const Cards = ({data}) => {
               ) }
                </AddContainer>
           </div>
+    </>
   )
 }
 
@@ -223,3 +203,4 @@ export default Cards
 
 
 
+/**/

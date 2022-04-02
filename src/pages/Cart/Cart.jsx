@@ -162,10 +162,10 @@ border-radius: 35px;
   border-bottom-color: #FFDE59;
   outline: 0;
 }
-`;
+`;  
 
 const Cart = () => {
-  const context=useContext(AuthContext)
+  let context=useContext(AuthContext)
   let shipping=5000
   useEffect(() => {
     context.getCart()

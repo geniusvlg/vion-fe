@@ -58,7 +58,7 @@ const Userinfo = () => {
                       <h6 className="mb-0">{context.user.Infouser[0]?.full_name}</h6>
                       </div>
                     </div>
-                    <div className="row mb-3">
+                   {/* <div className="row mb-3">
                       <div className="col-sm-3">
                         <h6 className="mb-0">Email</h6>
                       </div>
@@ -66,6 +66,14 @@ const Userinfo = () => {
                       <h6 className="mb-0">Email</h6>
                       </div>
                     </div>
+                    <div className="row mb-3">
+                      <div className="col-sm-3">
+                        <h6 className="mb-0">Giới tính</h6>
+                      </div>
+                      <div className="col-sm-9 text-secondary">
+                      <h6 className="mb-0">{context.user.Infouser[0]?.gender? "nam" : "nữ"}</h6>
+                      </div>
+                    </div>*/}
                     <div className="row mb-3">
                       <div className="col-sm-3">
                         <h6 className="mb-0">Số điện thoại</h6>

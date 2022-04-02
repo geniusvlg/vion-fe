@@ -98,6 +98,7 @@ const deleteClick =async(e) =>{
     customer_id,items
    },
    config)
+   
    setRefresh(true)
 };
 //handle get cart 
@@ -115,7 +116,6 @@ const getCart= async()=>{
     user_name
   },  
   config)
-  //console.log("so luong:",data.Check[0]?.cart_items.length)
   var x=0
   for(var i=0;i<data.Check[0]?.cart_items.length;i++)
   {

@@ -258,12 +258,12 @@ const handleChange2 = (event) => {
   const optionElementId = optionElement.getAttribute('id');
   setProvince(optionElementId )
 }
-let name=firstname +" "+ lastname
-let fullname=name.split(' ')
+let full_name=firstname +" "+ lastname
+let fullname=full_name.split(' ')
 let fi=fullname[0]
 let la = fullname[fullname.length-1]
 console.log("gender:",gender)
-console.log("name:",name)
+console.log("name:",full_name)
 console.log("fi:",fi)
 console.log("la:",la)
 console.log("phone:",phone_number)
@@ -333,7 +333,7 @@ const Submit = async (e) => {
       }
       setLoading(true)
       const {data}= await axios.post('http://localhost:60000/api_public/list/register',{
-        user_name,password,phone_number,address_des,email,district,province,gender
+        user_name,password,phone_number,address_des,email,district,province,gender,full_name
       },
       config)
       setLoading(false)

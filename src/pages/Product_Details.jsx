@@ -21,12 +21,9 @@ const Product_Details = (props) => {
     <Container>
     <div>
     <section className="home" id="home">
-        <div className="box-container">
-          <Sidebar/>
           {data2.map((item,index)=>(
            <Description product={item} key={index}/>))}
-        </div>
-      </section>
+    </section>
 
       {/*product section start*/}
 

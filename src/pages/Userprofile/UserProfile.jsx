@@ -246,7 +246,7 @@ export default function Userprofile() {
   <CardLoginForm>
     <CardBody>
       <CardFieldset>
-        <CardH1>{context.user.Infouser[0]?.full_name}</CardH1>
+        <CardH1> Chào! {context.user.Infouser[0]?.gender? "Anh" : "Chị"} {context.user.Infouser[0]?.full_name}</CardH1>
         <CardQuit onClick={routeChange}>Đổi mật khẩu</CardQuit>
         <CardQuit onClick={context.logoutUser}>Thoát<IoLogOutOutline size={20}/></CardQuit>
     

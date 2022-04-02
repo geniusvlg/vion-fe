@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect,useContext} from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
@@ -8,7 +8,7 @@ import Card from '../components/Cards'
 import {Product}from '../assets/fake-data/data'
 import styled from 'styled-components'
 import axios from 'axios'
-
+import { AuthContext } from '../context/AuthContext';
 
 const Container = styled.div`
 background: #eff7fa;

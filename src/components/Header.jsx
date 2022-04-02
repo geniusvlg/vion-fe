@@ -255,9 +255,8 @@ const Hamburger = styled.div`
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const context=useContext(AuthContext)
+  let context=useContext(AuthContext)
     return (
-        
       <Nav>
           <Logo href="">
             Vion<span>Mart</span>

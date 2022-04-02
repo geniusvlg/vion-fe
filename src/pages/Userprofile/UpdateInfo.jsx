@@ -1,15 +1,12 @@
-import React, { useState,useEffect } from 'react';
+import React,{useState,useContext,useEffect}  from 'react';
 import { useForm } from "react-hook-form";
+import { AuthContext } from '../../context/AuthContext'
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { AiTwotoneEdit } from "react-icons/ai";
 import ResetPassword from "./ResetPassword";
 import axios from 'axios';
 const schema = yup.object().shape({
-  username: yup
-    .string()
-    .required("Vui lòng nhập tên đăng nhập")
-    .max(20, "Username tối đa 20 ký tự"),
   email: yup
     .string()
     .required("Vui lòng nhập email"),
@@ -38,7 +35,7 @@ const schema = yup.object().shape({
 });
 
 function UpdateInfo() {
-    const {
+ const {
       register,
       handleSubmit,
       formState: { errors },
@@ -47,22 +44,31 @@ function UpdateInfo() {
     const [firstname, setFirst] = useState();
     const [lastname, setLast] = useState();
     const [gender, setGender] = useState();
-    const [user_name, setName] = useState();
     const [phone_number, setPhone] = useState();
     const [address_des, setAddress] = useState();
 
+    const [dulieu,setData1]=useState([])
     const [data1,setData]=useState([])
     const [data2,setData2]=useState([])
     const [data3,setData3]=useState([])
     const [city,setCity]=useState()
     const [district,setDistrict]=useState()
     const [province,setProvince]=useState()
+    const [error,setError]=useState(false);
+    const [flag,setFlag]=useState(false)
 
     const handleChange = (event) => {
       const index = event.target.selectedIndex;
       const optionElement = event.target.childNodes[index];
       const optionElementId = optionElement.getAttribute('id');
-      setCity(optionElementId )
+      if(optionElementId)
+      {
+      setCity(optionElementId)
+      }
+      else
+      {
+
+      }
     }
     const handleChange1 = (event) => {
       const index = event.target.selectedIndex;
@@ -91,6 +97,8 @@ useEffect(() => {
   getdistrict()
 }, [city]);
 let getdistrict=async()=>{
+  if(city)
+  {
   let quan=city
   let config ={
     headers:{
@@ -102,14 +110,22 @@ let getdistrict=async()=>{
   },  
   config)
   setData2(data.result[0].areas)
+  }else
+  {
+    setData2(null)
+  }
 }
 
 //chon phuong and show phuong
 useEffect(() => {
   getprovince()
 }, [district]);
+
 let getprovince=async()=>{
-  let quan=district
+
+  if(district)
+  {
+    let quan=district
   let config ={
     headers:{
         "Content-type":"application/json"
@@ -120,63 +136,62 @@ let getprovince=async()=>{
   },  
   config)
   setData3(data.result[0].areas)
+  }
+  else
+  {
+    setData3(null)
+  }
 }
+    const context=useContext(AuthContext)
+    const customer_name=context.user.Infouser[0]?.customer_name
+    const customer_id=context.user.Infouser[0]?.uid
     const [email, setEmail] = useState();
-    let name=firstname +" "+ lastname
-    let fullname=name.split(' ')
-    let fi=fullname[0]
-    let la = fullname[fullname.length-1]
-    console.log("gender:",gender)
-    console.log("name:",name)
-    console.log("fi:",fi)
-    console.log("la:",la)
-    console.log("phone:",phone_number)
-    console.log("email:",email)
-    console.log("address:",address_des)
-    console.log("user_name:",user_name)
-    console.log("district:",district)
-    console.log("province",province)
+    let full_name=firstname +" "+ lastname
     const registerSubmit =async (e) => {  
-      let config ={
-        headers:{
-            "Content-type":"application/json"
+    }
+    const checknow = async (e)=>{
+      if(city &&  district && province)
+      {
+        setError(false)
+        let config ={
+          headers:{
+              "Content-type":"application/json"
+          }
+        }
+        let {data}= await axios.post('http://localhost:60000/api_public/list/fixadd',{
+          customer_id,full_name,address_des,district,province,gender
+        },  
+        config)
+        setData1(data)
+        if(data.statusCode==200)
+        {
+          context.logoutUser()
+        }
+        else
+        {
+          setFlag(true) 
         }
       }
-      let {data}= await axios.post('http://localhost:60000/api_public/list/fixadd',{
-        user_name,address_des,email,district,province },  
-      config)
-       console.log("d:",data)
-    };
-  
-    return (
+      
+      else
+      {
+        setError(true)
+      }
+    }
+console.log("dữ liệu:",dulieu)
+     return (
       <div className="update-info-container">
         <div className="form-container">
           <form className="update-form" onSubmit={handleSubmit(registerSubmit)}>
-              {/* <label>Tên đăng nhập </label> */}
+          {error && <span className="error">Vui lòng điền đầy đủ thông tin</span>}
+              {/* <label>Giới tính</label> */}
               <div className="form-group-row">
-                <input type="radio" id="html" name="fav_language" value="HTML"/>
+                <input type="radio" id="html" name="fav_language" value="HTML" onChange={(e) => setGender(true)}/>
               <label for="html">Nam</label>
-  
-              <input type="radio" id="html" name="fav_language" value="HTML"/>
+
+              <input type="radio" id="html" name="fav_language" value="HTML" onChange={(e) => setGender(false)}/>
               <label for="html">Nữ</label><br/>
               </div>
-            <div className="form-group-item">
-              {/* <label>Tên đăng nhập </label> */}
-              <input
-                className="form-field"
-                type="text"
-                name="username"
-                placeholder="Tên đăng nhập"
-                {...register("username")}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <div className="edit-btn-icon">
-                <AiTwotoneEdit size={24} />
-              </div>
-              {errors.username && (
-                <span className="error">{errors.username?.message}</span>
-              )}
-            </div>
             <div className="form-group-item">
               {/* <label>Email</label> */}
               <input
@@ -251,7 +266,7 @@ let getprovince=async()=>{
               </div>
               <div className="form-group-item">
                 {/* <label>Thành phố</label> */}
-                <select className="form-field" defaultValue="Default" onChange={handleChange}>
+                <select className="form-field" defaultValue="Default"{...register("city")} onChange={handleChange}>
                               <option value=" " hidden>
                                 Thành phố 
                              </option>
@@ -261,6 +276,9 @@ let getprovince=async()=>{
                                     </>
                                 ))}      
                               </select>
+                              {errors.address && (
+                  <span className="error">{errors.city?.message}</span>
+                )}
               </div>
             </div>
             
@@ -301,10 +319,11 @@ let getprovince=async()=>{
                 <>
                 </>
               ) }
+      
             </div>
   
             <div className="btn-container">
-              <button className="form-field" type="submit">
+              <button className="form-field" type="submit" onClick={checknow}>
                 Cập nhật
               </button>
             </div>

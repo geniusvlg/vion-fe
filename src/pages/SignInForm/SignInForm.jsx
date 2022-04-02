@@ -159,13 +159,10 @@ export default function LoginForm() {
 
   const context=useContext(AuthContext)
   let navigate=useNavigate()
-  /*
-  if(redirect){
-    return <Navigate to="/"/>
-  }*/
+
   return (
   <>
-    	{context.redirect ? ( 
+    	{context.user? ( 
         navigate("/")
       ):(
         <>
