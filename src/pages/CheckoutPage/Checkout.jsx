@@ -130,14 +130,6 @@ const Checkout = () => {
     }
     cart1.push({items:cart})
     var items=cart1[0].items
-    console.log("customer_id:",customer_id)
-    console.log("customer_name:",customer_name)
-    console.log("phone_number:",phone_number)
-    console.log("address_des:",address_des)
-    console.log("address_type:",address_type)
-    console.log("district:",district)
-    console.log("province:",province)
-    console.log("items:",items)
     let config ={
         headers:{
             "Content-type":"application/json"
@@ -148,11 +140,11 @@ const Checkout = () => {
       },  
       config)
       setData4(data)
-    console.log("d:",data)
   } 
   if(data4.statusCode == 200)
   {
-    return <Navigate to="/userprofile"/>
+      context.deleteAll()
+      return <Navigate to="/userprofile"/>
   }
   return (
     <>

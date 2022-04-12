@@ -61,14 +61,7 @@ function UpdateInfo() {
       const index = event.target.selectedIndex;
       const optionElement = event.target.childNodes[index];
       const optionElementId = optionElement.getAttribute('id');
-      if(optionElementId)
-      {
       setCity(optionElementId)
-      }
-      else
-      {
-
-      }
     }
     const handleChange1 = (event) => {
       const index = event.target.selectedIndex;

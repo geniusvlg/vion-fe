@@ -18,8 +18,21 @@ const Banner = () => {
     };
     fetchData();
   },[]);
+
+  const settings = {
+    interval:2000 ,
+    transitionTime:500 ,
+    swipeScrollTolerance:5 ,
+    infiniteLoop:true,
+    autoPlay:true,
+    autoFocus:true,
+    dots: true,
+    
+  };
+  
     return (   
-      <Carousel interval={2000} transitionTime={500}  swipeScrollTolerance={5} infiniteLoop={true} autoPlay={true} autoFocus={true} >
+      <div>
+      <Carousel {...settings}>
       {
      data?.map((item) => (
        <div  key={item.uid}>
@@ -27,6 +40,7 @@ const Banner = () => {
    </div>
      ))}
      </Carousel>
+     </div>
      
     )
 }

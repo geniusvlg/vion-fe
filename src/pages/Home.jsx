@@ -30,8 +30,7 @@ const Home = (query) => {
       <Container>
       <div style={{paddingTop:'1.25rem'}}>
       <section className="home" id="home">
-        <div className="box-container">
-          <Sidebar/>
+        <div>
           <Banner/>
         </div>
       </section>

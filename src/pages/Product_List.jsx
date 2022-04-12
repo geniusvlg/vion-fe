@@ -1,141 +1,120 @@
-import React from 'react'
+import React,{useState, useEffect,useContext} from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
-import {Product, Sale_Product } from '../assets/fake-data/data'
+import styled from "styled-components";
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import GridViewIcon from '@mui/icons-material/GridView';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Card from '../components/Cards'
+import axios from 'axios'
+const PProduct = styled.div`
+display: flex;
+max-width: inherit;
+`;
+const Product_List = (query) => {  
+  const [dataProduct, setDataProduct] = useState([])
+  const [sp1, setSp1] = useState(null)
+  const[data,setData]=useState([]);
+  useEffect(()=>{
+    fetchData()
+  },[]);
+  const fetchData= async () => {
+    //Call GraphQl API
+   const response = await axios.get('http://localhost:60000/api_public/list/categories');
+   //Update component state
+   const result= response.data?.data ?? [];
+   setData(result)
+ };
+ 
+  // xử lý  query 
+ const onClick= (event) => {
+  event.preventDefault();
+  setSp1(event.target.id )
+}
 
-const Product_List = () => {
+useEffect(() => {
+  if(sp1==null)
+  {
+  axios.post('http://localhost:60000/api_public/list/product', {
+    number: query.pageSize || 9,
+    page: query.page || 0,
+  }).then(res => {  
+    setDataProduct(res.data.result)
+  })
+  }
+  else
+  {
+    let uid=sp1
+    axios.post('http://localhost:60000/api_public/getProductByCate',{
+      uid
+    }).then(res => {  
+      console.log("data:",res.data.data)
+      setDataProduct(res.data.data)
+    })
+  }
+}, [sp1]);
+
+
+
     return (
-        <div className='big-container'>
-        <section className="shop-product home">
-        <div className="box-container">
-          <div className="left-col">
+      <div className='big-container'>
+      <Header/>
+      <br></br>
+      <section className="shop-product home">
+      <div className="box-container">
+        <div className="left-col">
+        <h2 className="title">Danh mục sản phẩm</h2>
+          {data?.map((item,index)=>(
             <div className="left-col-1">
-              <h2 className="title">Product Categories</h2>
-              <div className="box">
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Beverages</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Biscuits, Snacks &amp; Chocolates</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Breakfast &amp; Dairy</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Fruits &amp; Vegetables</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Furnishing &amp; Home Needs</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Grocery &amp; Staples</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Home &amp; Kitchen</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Household Needs</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Meats, Frozen &amp; Seafood</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Noodles, Sauces &amp; Instant Food</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Personal Care</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">Pet Care</a>
-                </div>
-              </div>
-            </div>
-            <div className="col-2 left-col-1">
-              <h2 className="title">Product Status</h2>
-              <div className="box">
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">In Stock</a>
-                </div>
-                <div className="check">
-                  <i className="fas fa-caret-right" />
-                  <a href="#">on sales</a>
-                </div>
-              </div>
-            </div>
-            <div className="col-3">
-              <h2 className="title">Products</h2>
-              <div className="box">
-                  {Sale_Product.map((item)=>(
-                      <div className="image">
-                      <img src={item.image} alt="" />
-                      <div className="content">
-                        <h3>{item.title}</h3>
-                        <p><span>{item.main_price}</span>{item.sub_price}</p>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div>
-          {/* ----------- right-col starts -----------  */}
-          <div className="right-col">
-            <div className="logo">
-              <a href="#"><img src="images/shop-1.webp" alt="" /></a>
-            </div>
-            <div className="right-col-1">
-              <div className="icons">
-                <i className="fas fa-th-large" />
-                <i className="fas fa-th-list" />
-              </div>
-              <div className="select">
-                <select>
-                  <option>sort by popularity</option>
-                  <option>sort by average rating</option>
-                  <option selected>sort by latest</option>
-                  <option>sort by price: low to high</option>
-                  <option>sort by price: hight to low</option>
-                </select>
-              </div>
-            </div>
-            <div className="right-col-3">
-              <section className="product">
-                <div className="box-container">
-                    {Product.map((item)=>(
-                        <div className="box">
-                        <span className="discount">-33%</span>
-                        <div className="corner-box"><span /></div>
-                        <img src={item.image} alt="" />
-                        <h3>{item.title}</h3>
-                        <p>in stock - <span>1</span>kg</p>
-                        <div className="price"><span>{item.main_price}</span>{item.sub_price}</div>
-                        <button type="button" className="btn">add to cart</button>
-                      </div>
-                    ))}
-                </div>
-              </section>
-            </div>
-            <div className="next-page">
-              <div className="page">1</div>
-              <div className="page">2</div>
-              <div className="page"><i className="far fa-arrow-right" /></div>
-            </div>
+            <div className="box">
+            <div className="check">
+           <ArrowRightIcon/>
+          <a key={index} id={item.uid} onClick={onClick}>{item.cate_name}</a>
           </div>
         </div>
-      </section>
+          </div>
+          ))}
+        </div>
+        {/* ----------- right-col starts -----------  */}
+        <div className="right-col">
+          <div className="logo">
+            <a href="#"><img src="images/shop-1.webp" alt="" /></a>
+          </div>
+          <div className="right-col-1">
+            <div className="icons">
+              <GridViewIcon></GridViewIcon>
+              <FormatListBulletedIcon></FormatListBulletedIcon>
+            </div>
+            <div className="select">
+              <select>
+                <option>Phổ biến nhất</option>
+                <option>Đánh giá cao nhất</option>
+                <option selected>Mới nhất</option>
+                <option>Đắt nhất</option>
+                <option>Rẻ nhất</option>
+              </select>
+            </div>
+          </div>
+          <div className="right-col-3">
+            <section className="product">
+              <div className="box-container">
+                  {dataProduct.map((item,index)=>(
+                    <Card data={item} key={index}/>
+                  ))}
+              </div>
+            </section>
+          </div>
+          <div className="next-page">
+            <div className="page">1</div>
+            <div className="page">2</div>
+            <div className="page"><ChevronRightIcon></ChevronRightIcon></div>
+          </div>
+        </div>
       </div>
+    </section>
+    <Footer/>
+    </div>
     )
 }
 

@@ -126,6 +126,19 @@ const getCart= async()=>{
   setTotal(x)
   setRefresh(false)
 }
+//delete all item
+const deleteAll=async(e) =>{
+  let customer_id=user.Infouser[0]?.uid
+    let config ={
+      headers:{
+          "Content-type":"application/json"
+      }
+    }
+    let {data1}=  await axios.post('http://localhost:60000/api_public/deleteallitem/',{
+    customer_id
+   },
+   config)
+};
 //handle checkout order
 let billAdd=()=>{
   setflag(true)
@@ -140,7 +153,7 @@ const value={
     authTokens,
     refresh,dataProduct,total,flag,soluongSP,
     submitHandler, setUsername, setPassword,setError,logoutUser, deleteClick,setRefresh,
-    getCart,billAdd
+    getCart,billAdd,deleteAll
   }
 
 //hanlde refresh 

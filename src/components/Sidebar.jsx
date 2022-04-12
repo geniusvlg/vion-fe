@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import '../css/App.css';
 import axios from 'axios';
-
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 
 const Sidebar = () => {
@@ -18,13 +18,18 @@ const Sidebar = () => {
    setData(result)
  };
     return (
-  <div className="left-col">
+  <div>
     <h2 className="title">Danh mục sản phẩm</h2>
-    <div className="box">
       {data?.map((item,index)=>(
-      <a href="#"key={index}><img src=''/><p>{item.cate_name}</p><span>{item.number_of_products}</span></a>
+            <div className="left-col-1">
+            <div className="box">
+            <div className="check">
+           <ArrowRightIcon/>
+          <a href="#"key={index}>{item.cate_name}</a>
+          </div>
+        </div>
+      </div>
       ))}
-    </div>
   </div>
     )
 }
