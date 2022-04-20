@@ -1,9 +1,12 @@
 import React,{useState,useEffect,useContext}  from 'react'
 import { AuthContext } from '../context/AuthContext';
 import {Link} from 'react-router-dom';
-import styled from 'styled-components';
 import {Modal} from 'react-bootstrap'
 import {Navigate} from 'react-router-dom';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { styled } from '@mui/styles';
+
 import axios from 'axios';
 // Importing toastify module
 import {toast} from 'react-toastify';
@@ -12,100 +15,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import {debounce} from "lodash"
 toast.configure()
 
-const StyledLink = styled(Link)`
-    text-decoration: none;
-    font-weight: bold;
-    
-    &:hover, &:active {
-        text-decoration:underline;
-    }
-`;
 
-const styles = {
-    width: "170px",
-    height: "185px",
-};
-const Button = styled.button`
-font-size: 1.3rem;
-padding: .5rem 1.5rem;
-background: linear-gradient(135deg, #ff934b 0%, #ff5e62 100%);
-color: #fff;
-font-weight: bold;
-border-radius: 5rem;
-outline:none;
-cursor: pointer;
-border: none;
-&:hover{
-  transform: scale(1.1);
-  transition: .2s linear;
-}
-`;
-const CardLogin = styled.form`
-display: flex;
-flex-direction: column;
-justify-content: space-evenly;
-padding: 10px;
-`;
-const Input = styled.input`
-padding: 7px 0;
-width: 100%;
-font-family: inherit;
-font-size: 14px;
-border-top: 0;
-border-right: 0;
-border-bottom: 1px solid #ddd;
-border-left: 0;
-transition: border-bottom-color 0.25s ease-in;
-background-color: #fff;
-max-height: 50px;
-padding-left: 10px;
-border-radius: 35px;
-&:focus {
-  border-bottom-color: #FFDE59;
-  outline: 0;
-}
-`;
-const AddContainer = styled.div`
-  width: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+const Cart = styled(ShoppingCartIcon)({
+  color:'#ffbb33'
+});
 
-const AmountContainer = styled.div`
-  display: flex;
-  align-items: center;
-  font-weight: 700;
-`;
-
-const Amount = styled.span`
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
-  border: 1px solid teal;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0px 5px;
-`;
-
-const ButtonRemove = styled.button`
-border: 1px solid teal;
-border-radius:5px;
-background-color: white;
-&:hover{
-    background-color:#f8f4f4;
-}
-`
-
-const ButtonAdd= styled.button`
-border: 1px solid teal;
-border-radius:5px;
-background-color: white;
-&:hover{
-    background-color:#f8f4f4;
-}
-`
+const Eye = styled(RemoveRedEyeIcon)({
+  color:'#ffbb33'
+})
 
 function MyVerticallyCenteredModal(props) {
   const [redirect,setRedirect] = useState();
@@ -125,7 +42,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Footer>
-        <Button type='submit' onClick={() => setRedirect(true)}>Tiếp tục</Button>
+        <button type='submit' className="btn btn-sm text-dark p-0" onClick={() => setRedirect(true)}>Tiếp tục</button>
       </Modal.Footer>
     </Modal>
   );
@@ -174,26 +91,36 @@ const Cards = ({data}) => {
   
   return (
     <> 
-          <div className="box">
-              <span className="discount">-{data.pricing.discount}%</span>
-              <div className="corner-box"><span /></div>
-              <StyledLink to= {`/product_details/${data.uid}`}><img src={data.image_cover ?? ''} style={styles}/></StyledLink>
-              <h3>{data.product_name}</h3>
-              <p>Trọng lượng- <span>1</span>kg</p>
-              <p>Giá- <span>{data.pricing.price_with_vat}</span>đồng</p>
-              <AddContainer>
+        <div className='col-lg-3 col-md-6 col-sm-12 pb-1'>
+          <div className='card product-item border-0 mb-4'>
+            {/* Card Header */}
+            <div className='card-header product-img position-relative overflow-hidden bg-transparent border p-0'>
+              <img className='img-fluid w-100 ' src={data.image_cover ?? ''} alt="" />
+            </div>
+            {/* Card Body */}
+            <div className='card-body border-left border-right text-center p-0 pt-2 pb-2'>
+              <h6 className='text-truncate mb-3'>{data.product_name}</h6>
+              <div className='d-flex justify-content-center'>
+                <h6>{data.pricing.price_with_vat} đồng</h6><h6 className="text-muted ml-2"><del>-{data.pricing.discount}%</del></h6>
+              </div>
+            </div>
+            {/* Card Footer */}
+            <div className="card-footer d-flex justify-content-between bg-light border">
+              <a href={`/product_details/${data.uid}`} className="btn btn-sm text-dark p-0"><i className="text-primary mr-1"><Eye/></i>View Detail</a>
               {context.user? (
                 <>
-                    <Button id={data.uid} onClick={(event)=>changeClick(event)} >Thêm</Button>
+                    <button id={data.uid} onClick={(event)=>changeClick(event)} className="btn btn-sm text-dark p-0"><i className="text-primary mr-1"><Cart/></i>Thêm</button>
                 </>
               ) : (
                 <>
-                <Button onClick={() => setModalShow(true)}>Thêm</Button>
+                <button onClick={() => setModalShow(true)} className="btn btn-sm text-dark p-0"><i className="text-primary mr-1"><Cart/></i>Thêm</button>
                 <MyVerticallyCenteredModal show={modalShow} onHide={()=>setModalShow(false)}/>
                 </>
               ) }
-               </AddContainer>
+            </div>
           </div>
+        </div>
+        
     </>
   )
 }
@@ -202,5 +129,3 @@ export default Cards
 
 
 
-
-/**/

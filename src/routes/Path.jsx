@@ -20,7 +20,7 @@ function Path() {
     return (
         <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path='/product' element={<Product_List/>}/>
+            <Route path='/product/:uid' element={<Product_List/>}/>
             <Route path='/product_details/:uid' element={<Product_Details/>}/>
             <Route path='/Checkout' element={
                  <PrivateRoutes>
