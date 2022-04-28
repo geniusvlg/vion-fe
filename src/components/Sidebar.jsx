@@ -26,7 +26,7 @@ const Sidebar = () => {
   <>
      <div className='container-fluid mb-5'>
       <div className='row border-top px-xl-5'>
-        <div className='col-lg-3 d-none d-lg-block'>
+        <div className='col-lg-3'>
           <a className="btn shadow-none d-flex align-items-center justify-content-between bg-warning text-white w-100" data-toggle="collapse" href="#navbar-vertical" style={{height:"65px",marginTop:"-1px",padding:"0 30px"}}>
               <h6 className='m-0'>Danh mục sản phẩm</h6>
               <ArrowDropDownIcon></ArrowDropDownIcon>

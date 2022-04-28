@@ -9,21 +9,41 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ClearIcon from '@mui/icons-material/Clear';
 import axios from 'axios';
 
-const Show = ({data}) => {
+const Show = ({data,setTam,setTotal}) => {
   const context=useContext(AuthContext)
-  const [quantity,setCount] = useState(0);
-  const [uid ,  setUid ]= useState();
-  let textInput = React.useRef(null); 
+  const [quantity,setCount] = useState(data.quantity);
 
   let addClick=async(e)=>{
-      setCount(textInput.current.value %10 +1)
-      setUid(e.currentTarget.id)
+      setCount(quantity+1)
+      let uid=e.currentTarget.id
+      let user_name=context.user.Infouser[0]?.customer_name
+      let customer_id=context.user.Infouser[0]?.uid
+      let acsess=context.authTokens?.acsessToken
+      let items={uid,quantity}
+        let config ={
+          headers:{
+              "Content-type":"application/json",
+              "authorization": "Bearer "+ acsess
+          }
+        }
+        let data1=  await axios.post('http://localhost:60000/api_public/submitCart',{
+        customer_id,items,user_name
+       },
+       config)
+       var x=0
+       for(var i=0;i<data1.data.currentcart.Check[0]?.cart_items.length;i++)
+      {
+      x=x+data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data1.data.currentcart.Check[0]?.cart_items[i].quantity
+      }
+      setTotal(x)
+      setTam(data1.data.currentcart.Check[0]?.cart_items)
+      context.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
+  
   }
   let removeClick=async(e)=>{
-    setCount(textInput.current.value %10 +1)
-    setUid(e.currentTarget.id)
-}
-  let submitcard=async()=>{
+    setCount(quantity-1)
+    let uid=e.currentTarget.id
+    let user_name=context.user.Infouser[0]?.customer_name
     let customer_id=context.user.Infouser[0]?.uid
     let acsess=context.authTokens?.acsessToken
     let items={uid,quantity}
@@ -34,15 +54,54 @@ const Show = ({data}) => {
         }
       }
       let data1=  await axios.post('http://localhost:60000/api_public/submitCart',{
-      customer_id,items
+      customer_id,items,user_name
      },
      config)
-     console.log("data:",data1)
-     context.setRefresh(true)
+     var x=0
+     for(var i=0;i<data1.data.currentcart.Check[0]?.cart_items.length;i++)
+    {
+    x=x+data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data1.data.currentcart.Check[0]?.cart_items[i].quantity
+    }
+    setTotal(x)
+    setTam(data1.data.currentcart.Check[0]?.cart_items)
+    console.log(data1.data.currentcart.Check[0]?.cart_items.length)
+    context.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
+    
+}
+const deleteClick =async(e) =>{
+  let acsess=context.authTokens?.acsessToken
+  let user_name=context.user.Infouser[0]?.customer_name
+  let customer_id=context.user.Infouser[0]?.uid
+  let uid=e.currentTarget.id;
+  let items={uid}
+  let config ={
+    headers:{
+        "Content-type":"application/json",
+        "authorization": "Bearer "+ acsess
+    }
   }
-  useEffect(() => {
-    submitcard()
-  }, [quantity]);
+  let data1=  await axios.post('http://localhost:60000/api_public/deleteitem/',{
+    customer_id,items,user_name
+   },
+   config)
+   var x=0
+   for(var i=0;i<data1.data.currentcart.Check[0]?.cart_items.length;i++)
+  {
+  x=x+data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data1.data.currentcart.Check[0]?.cart_items[i].quantity
+  }
+  setTotal(x)
+  setTam(data1.data.currentcart.Check[0]?.cart_items)
+  if(!data1.data.currentcart.Check[0]?.cart_items.length)
+  {
+    context.setSoluong(0)
+  }
+  else
+  {
+    context.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
+  }
+   
+};
+
   return(
     <tr>
     <td className="align-middle"> <img src={data.iproduct.image_cover} alt=""  style={{width: '50px'}}/>{data.iproduct.product_name}</td>
@@ -54,7 +113,7 @@ const Show = ({data}) => {
                   <RemoveIcon></RemoveIcon>
                 </button>
             </div>
-            <input type="text" className="form-control form-control-sm bg-secondary text-center"  ref={textInput}  value={data.quantity}/>
+            <input type="text" className="form-control form-control-sm bg-secondary text-center" value={data.quantity}/>
             <div className="input-group-btn">
                 <button className="btn btn-sm btn-primary btn-plus" id={data.iproduct.uid} value={data.quantity} onClick={(event)=>addClick(event)} >
                 <AddIcon></AddIcon>
@@ -64,7 +123,7 @@ const Show = ({data}) => {
     </td>
     <td className="align-middle">{data.iproduct.pricing.price_with_vat*data.quantity}</td>
     <td className="align-middle">
-      <button className="btn btn-sm btn-primary" id={data.uid} onClick={(event)=>context.deleteClick(event)} >
+      <button className="btn btn-sm btn-primary" id={data.uid} onClick={(event)=>deleteClick(event)} >
             <ClearIcon/>
       </button></td>
 </tr>

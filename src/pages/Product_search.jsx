@@ -1,37 +1,41 @@
 import React,{useState, useEffect,useContext, useMemo} from 'react'
 import { useParams } from 'react-router-dom';
-import styled from "styled-components";
+
 import Card from '../components/Cards'
 import axios from 'axios'
-const PProduct = styled.div`
-display: flex;
-max-width: inherit;
-`;
-const Product_List = (query) => {  
-  const params = useParams();
-  const [dataProduct, setDataProduct] = useState([])
-  const [sp1, setSp1] = useState(null)
-  const[data,setData]=useState([]);
-  useEffect(()=>{
-    fetchData()
-  },[]);
-  const fetchData= async () => {
-    //Call GraphQl API
-   const response = await axios.get('http://localhost:60000/api_public/list/categories');
-   //Update component state
-   const result= response.data?.data ?? [];
-   setData(result)
- };
- 
 
- useMemo(async () => {
-  axios.get('http://localhost:60000/api_public/getcatproduct/'+ params.uid).then(res => {
-    console.log("data:",res.data.data)
-   setDataProduct(res.data.data)
- })
- }, []);
-    return (
-      <div className='container-fluid pt-5'>
+const Product_search = () => {
+    const params = useParams();
+    const [dataProduct, setDataProduct] = useState([])
+    const[data,setData]=useState([]);
+
+     useEffect(()=>{
+      fetchData()
+    },[]);
+  const fetchData= async () => {
+      //Call GraphQl API
+     const response = await axios.get('http://localhost:60000/api_public/list/categories');
+     //Update component state
+     const result= response.data?.data ?? [];
+     setData(result)
+   };
+   useMemo(async () => {
+    let title=params.uid
+    let config ={
+      headers:{
+          "Content-type":"application/json"
+      }
+    }
+    let data1=  await axios.post('http://localhost:60000/api_public/searchproduct/',{
+      title
+   },
+   config)
+   console.log("data1:",data1)
+   setDataProduct(data1.data)
+  },[]);
+
+  return (
+    <div className='container-fluid pt-5'>
       <div className='row px-xl-5'>
         {/* Shop Sidebar start */}
         <div className='col-lg-3 col-md-12'>
@@ -51,6 +55,8 @@ const Product_List = (query) => {
         {/* Shop Product Start */}
         <div className='col-lg-9 col-md-12'>
           <div className='row pb-3'>
+          {dataProduct.statusCode == 200 ? (
+                 <>
             <div className='col-12 pb-1'>
               <div className='d-flex align-items-center justify-content-between mb-4'>
                 <form action="">
@@ -67,48 +73,23 @@ const Product_List = (query) => {
                 </div>
               </div>
             </div>
-                 {dataProduct.map((item,index)=>(
+          
+                  {dataProduct.result?.map((item,index)=>(
                     <Card data={item} key={index}/>
                   ))}
+                  </>
+            ) : (
+              <>
+                  <h1>{dataProduct.message}</h1>
+              </>
+            ) }
+             
 
           </div>
         </div>
       </div>
     </div>
-    )
+  )
 }
 
-export default Product_List
-/*
-  <div className='container-fluid pt-5'>
-      <br></br>
-      <section className="shop-product home">
-      <div className="box-container">
-
-        <div className="left-col">
-          <h2 className="title">Danh mục sản phẩm</h2>
-            {data?.map((item,index)=>(
-              <div className="left-col-1">
-              <div className="box">
-              <div className="check">
-            <ArrowRightIcon/>
-            <a key={index} href={`/product/${item.uid}`} >{item.cate_name}</a>
-            </div>
-          </div>
-            </div>
-            ))}
-        </div>
-        
-
-        <div className="right-col">
-              <div className='row'>
-                  {dataProduct.map((item,index)=>(
-                    <Card data={item} key={index}/>
-                  ))}
-              </div>
-        </div>
-      </div>
-    </section>
-    </div>
-
-*/
+export default Product_search

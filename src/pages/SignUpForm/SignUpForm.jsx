@@ -4,57 +4,52 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styled, { css } from "styled-components";
 import Loading from "../../components/Loading";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
 import ErrorMessage from "../../components/ErrorMessage";
 import {Navigate} from 'react-router-dom';
 import "./SignUpForm.css";
 import axios from 'axios';
-import { first } from 'lodash-es';
 
 const schema = yup.object().shape({
   username: yup
       .string()
       .required("Vui lòng nhập tên đăng nhập")
+      .trim()
       .max(20, "Username tối đa 20 ký tự"),
   password: yup
       .string()
+      .trim()
       .required("Vui lòng nhập mật khẩu")
       .min(6, "Mật khẩu tối thiểu 6 ký tự"),
   confirm_password:yup
       .string()
+      .trim()
       .required("Vui lòng nhập mật khẩu")
-      .min(6, "Mật khẩu tối thiểu 6 ký tự"),
-  /*email: yup
+      .min(6, "Mật khẩu tối thiểu 6 ký tự")
+      .oneOf([yup.ref("password")],"Mật khẩu không trùng khớp "),
+  email: yup
       .string()
-      .required("Vui lòng nhập email"),*/
-  lastname: yup
-      .string()
-      .required("Vui lòng nhập họ"),      
-  firstname: yup
-      .string()
-      .required("Vui lòng nhập tên"),    
+      .trim()
+      .email('Email không hợp lệ')
+      .max(255, "Username tối đa 20 ký tự")
+      .required("Vui lòng nhập email"),
   phone: yup
       .string()
+      .trim()
       .required("Vui lòng nhập số điện thoại")
       .matches(
           /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
           "Số điện thoại không hợp lệ"),
-  /*address: yup
+  address: yup
       .string()
-      .required("Vui lòng nhập địa chỉ"),*/
-          
-  city: yup
+      .required("Vui lòng nhập địa chỉ"),
+  first:yup
       .string()
-      .required("Vui lòng nhập thành phố"),
-      
-  ward: yup
+      .trim()
+      .required("Vui lòng nhập họ "),
+  last:yup
       .string()
-      .required("Vui lòng nhập phường"),
-      
-  district: yup
-      .string()
-      .required("Vui lòng nhập quận, huyện"),
+      .trim()
+      .required("Vui lòng nhập tên"),    
 });
 const CardWrapper = styled.div`
 overflow: hidden;
@@ -79,16 +74,6 @@ display: flex;
 flex-direction: column;
 justify-content: space-evenly;
 padding: 10px;
-`
-const SuccessMessage = styled.div`
-font-family: 'Raleway', sans-serif;
-background-color: #3f89f8;
-font-size: 17px;
-text-align: center;
-padding: 25px;
-margin: 0 0 10px 0;
-color: white;
-display: block;
 `
 const CardBody = styled.div`
 padding-right: 32px;
@@ -206,29 +191,11 @@ const Select = styled.select`
 
 export default function SignUpForm() {
  
-const {
-  register,
-  handleSubmit,
-  formState: { errors }
-} = useForm({ resolver: yupResolver(schema) });
-const [submitted, setSubmitted] = useState(false);
-const registerSubmit = (data) => {
-  setSubmitted(true);
-  console.log(data);
-}
-const [firstname, setFirst] = useState();
-const [lastname, setLast] = useState();
 const [gender, setGender] = useState();
-const [user_name, setName] = useState();
-const [phone_number, setPhone] = useState();
-const [address_des, setAddress] = useState();
-const [email, setEmail] = useState();
-
 const [message,setMessage]=useState(null);
+const [message1,setMessage1]=useState(null);
 const [error,setError]=useState(false);
 const [loading,setLoading]=useState(false) 
-const [password, setPassword] = useState();
-const [confirm_password, setConfirm_password] = useState();
 const [redirect,setRedirect] = useState();
 
 const [data1,setData]=useState([])
@@ -238,7 +205,60 @@ const [city,setCity]=useState()
 const [district,setDistrict]=useState()
 const [province,setProvince]=useState()
 
+const {
+  register,
+  handleSubmit,
+  formState: { errors }
+} = useForm({ resolver: yupResolver(schema) });
 
+
+//const [submitted, setSubmitted] = useState(false);
+const registerSubmit = async(data) => {
+  //setSubmitted(true);
+  if(gender== null)
+  {
+    setMessage("Vui lòng chọn giới Tính")
+  }
+  else if(gender== null && (district== null  || city == null || province== null))
+  {
+    setMessage("Vui lòng chọn giới Tính")
+    setMessage1("Vui lòng chọn thông tin địa chỉ của bạn")
+  }
+  else if(district== null  || city == null || province== null)
+  {
+    setMessage1("Vui lòng chọn thông tin địa chỉ của bạn")
+  }
+  else{
+    console.log("trim:",data)
+    setMessage(null)
+    setMessage1(null)
+    let  user_name=data.username.replace(/\s/g, '')
+    let password=data.password.replace(/\s/g, '')
+    let  phone_number=data.phone
+    let  address_des=data.address
+    let  email=data.email
+    let full_name=data.first+" "+data.last
+ 
+    try { 
+      const config ={
+        headers:{
+            "Content-type":"application/json"
+        }
+      }
+      setLoading(true)
+      const {data2}= await axios.post('http://localhost:60000/api_public/list/register',{
+       user_name,password,phone_number,address_des,email,district,province,gender,full_name
+      },
+      config)
+      setLoading(false)
+      setRedirect(true);
+    } catch (error) {
+      setError(error.response.data.message)
+      setLoading(false)
+      setRedirect(false);
+    }
+  }
+}
 
 const handleChange = (event) => {
   const index = event.target.selectedIndex;
@@ -258,17 +278,10 @@ const handleChange2 = (event) => {
   const optionElementId = optionElement.getAttribute('id');
   setProvince(optionElementId )
 }
-let full_name=firstname +" "+ lastname
-let fullname=full_name.split(' ')
-let fi=fullname[0]
-let la = fullname[fullname.length-1]
-console.log("gender:",gender)
-console.log("name:",full_name)
-console.log("fi:",fi)
-console.log("la:",la)
-console.log("phone:",phone_number)
-console.log("email:",email)
-console.log("address:",address_des)
+
+
+
+
 //chon thanh pho and show thanh pho
 useEffect(() => {
   getcity()
@@ -277,7 +290,6 @@ let getcity=async ()=>{
   let {data}= await axios.get('http://localhost:60000/api_public/list/city')
   setData(data.data)
 }
-
 //chon quan huyen and show huyen quan
 useEffect(() => {
   getdistrict()
@@ -295,7 +307,6 @@ let getdistrict=async()=>{
   config)
   setData2(data.result[0].areas)
 }
-
 //chon phuong and show phuong
 useEffect(() => {
   getprovince()
@@ -314,38 +325,6 @@ let getprovince=async()=>{
   setData3(data.result[0].areas)
 }
 
-console.log("district:",district)
-console.log("province",province)
-
-// button dang ky 
-const Submit = async (e) => {
-  e.preventDefault();
-  if(password!==confirm_password)
-  {
-    setMessage("Mật khẩu không trùng khớp ")
-    
-  }else{
-    try { 
-      const config ={
-        headers:{
-            "Content-type":"application/json"
-        }
-      }
-      setLoading(true)
-      const {data}= await axios.post('http://localhost:60000/api_public/list/register',{
-        user_name,password,phone_number,address_des,email,district,province,gender,full_name
-      },
-      config)
-      setLoading(false)
-      setRedirect(true);
-    } catch (error) {
-      setError(error.response.data.message)
-      setLoading(false)
-      setRedirect(false);
-    }
-
-  }
-}
 
 if(redirect){
   return <Navigate to="/signin"/>
@@ -358,45 +337,48 @@ return (
       </CardHeader>
       <div>
     {error && <ErrorMessage variant='danger'>{error}</ErrorMessage>}
-    {message && <ErrorMessage variant='danger'>{message}</ErrorMessage>}
+    {/*message && <ErrorMessage variant='danger'>{message}</ErrorMessage>*/}
     {loading && <Loading/>}
       </div>
-      <CardLogUpForm onSubmit={Submit}>
+      <CardLogUpForm onSubmit={handleSubmit(registerSubmit)}>
       <CardBody>
           <CardFieldset>
-              <CardRadio id="sex" placeholder="Anh" type="radio" name="gender"{...register("gender")} onChange={(e) => setGender(true)}/>Anh
-              <CardRadio id="sex" placeholder="Chị" type="radio" name="gender"{...register("gender")} onChange={(e) => setGender(false)}/>Chị
+              <CardRadio  placeholder="Anh" type="radio" name="gender"onChange={(e) => setGender(true)}/>Anh
+              <CardRadio  placeholder="Chị" type="radio" name="gender"onChange={(e) => setGender(false)}/>Chị
           </CardFieldset>
+          {message && <Error>{message}</Error>}
           <CardFieldset>
-              <CardInput id="họ" placeholder="Họ" type="text"  onChange={(e) => setFirst(e.target.value)}/>
+              <CardInput id="họ" placeholder="Họ" type="text" name="first"{...register("first")} />
           </CardFieldset>
+          {errors.first && <Error>{errors.first?.message}</Error>}
           <CardFieldset>
-              <CardInput id="tên" placeholder="Tên" type="text" onChange={(e) => setLast(e.target.value)}/>
+              <CardInput id="tên" placeholder="Tên" type="text" name="last"{...register("last")}/>
           </CardFieldset>
-
+          {errors.last && <Error>{errors.last?.message}</Error>}
           <CardFieldset>
-              <CardInput id="username" placeholder="Tên đăng nhập" type="text" name="username"{...register("username")} onChange={(e) => setName(e.target.value)}/>
+              <CardInput id="username" placeholder="Tên đăng nhập" type="text" name="username"{...register("username")} />
               {errors.username && <Error>{errors.username?.message}</Error>}
           </CardFieldset>
 
           <CardFieldset>
-              <CardInput id="phone" placeholder="Số điện thoại" type="text" name="phone"{...register("phone")} onChange={(e) => setPhone(e.target.value)}/>
+              <CardInput id="phone" placeholder="Số điện thoại" type="text" name="phone"{...register("phone")}/>
               {errors.phone && <Error>{errors.phone?.message}</Error>}
           </CardFieldset>
 
           <CardFieldset>
-              <CardInput id="address" placeholder="Địa chỉ" type="text" name="address"{...register("address")} onChange={(e) => setAddress(e.target.value)}/>
+              <CardInput id="address" placeholder="Địa chỉ" type="text" name="address"{...register("address")}/>
               {errors.address && <Error>{errors.address?.message}</Error>}
 
           </CardFieldset>
 
           <CardFieldset>
-              <CardInput id="email" placeholder="Email" type="text" name="email"{...register("email")} onChange={(e) => setEmail(e.target.value)}/>
+              <CardInput id="email" placeholder="Email" type="text" name="email"{...register("email")} />
               {errors.email && <Error>{errors.email?.message}</Error>}
           </CardFieldset>
 
+          {message1 && <Error>{message1}</Error>}  
           <CardFieldset>
-          <Select onChange={handleChange}>
+          <Select onChange={handleChange} >
                 {data1?.map((item,index)=>(
                   <>
                   <option value=" " hidden>
@@ -445,15 +427,16 @@ return (
          </CardFieldset>
 
 
-          <CardFieldset>
-              <CardInput id="password" placeholder="Mật khẩu" type="password" name="password"{...register("password")} onChange={(e) => setPassword(e.target.value)}/>
-              {errors.password && <Error>{errors.password?.message}</Error>}
-          </CardFieldset>
+            <CardFieldset>
+                <CardInput id="password" placeholder="Mật khẩu" type="password" name="password"{...register("password")} />
+                {errors.password && <Error>{errors.password?.message}</Error>}
+            </CardFieldset>
 
-          <CardFieldset>
-              <CardInput id="password" placeholder="Nhập lại mật khẩu" type="password" name="confirm_password"{...register("confirm_password")} onChange={(e) => setConfirm_password(e.target.value)}/>
-              {errors.password && <Error>{errors.password?.message}</Error>}
-          </CardFieldset>
+            <CardFieldset>
+                <CardInput id="confirm_password" placeholder="Nhập lại mật khẩu" type="password" name="confirm_password"{...register("confirm_password")}/>
+                {errors.confirm_password && <Error>{errors.confirm_password?.message}</Error>}
+            </CardFieldset>
+
           
           <CardFieldset>
               <CardButton type="submit" >Đăng kí </CardButton>

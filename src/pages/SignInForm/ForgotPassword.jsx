@@ -1,19 +1,29 @@
+import React, { useState,useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import React from "react";
 import styled from "styled-components";
-
+import Loading from "../../components/Loading";
+import ErrorMessage from "../../components/ErrorMessage";
+import axios from 'axios';
 
 const schema = yup.object().shape({
   phone: yup
     .string()
     .required("Vui lòng nhập số điện thoại")
+    .matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Số điện thoại không phù hợp')
     .min(10, "Số điện thoại tối thiểu 10 ký tự"),
-  otp: yup
+  password: yup
     .string()
-    .required("Vui lòng nhập OTP")
-    .min(6, "Mã OTP tối thiểu 6 ký tự")
+    .trim()
+    .required("Vui lòng nhập mật khẩu")
+    .min(6, "Mật khẩu tối thiểu 6 ký tự"),
+  confirm_password:yup
+    .string()
+    .trim()
+    .required("Vui lòng nhập mật khẩu")
+    .min(6, "Mật khẩu tối thiểu 6 ký tự")
+    .oneOf([yup.ref("password")],"Mật khẩu không trùng khớp "),
 });
 
 const CardWrapper = styled.div`
@@ -149,23 +159,66 @@ export default function LoginForm() {
     formState: { errors }
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onLoginSubmit = (data) => {
-    console.log(data);
+  const [message,setMessage]=useState(null);
+  const [loading,setLoading]=useState(false) 
+  const [error,setError]=useState(false);
+  const onLoginSubmit = async(data) => {
+    let password=data.password.replace(/\s/g, '')
+    let  phone_number=data.phone
+
+      const config ={
+        headers:{
+            "Content-type":"application/json"
+        }
+      }
+      setLoading(true)
+      const data2= await axios.post('http://localhost:60000/api_public/list/forgotpassword',{
+       phone_number,password
+      },
+      config)
+      setLoading(false)
+      if(data2.data.statuscode == 200)
+      {
+        setError(null)
+        setMessage(data2.data.message)
+      }
+      else
+      {
+        setMessage(null)
+        setError(data2.data.message)
+      }
+ 
   };
 
 
   return (
       <CardWrapper>
         <CardHeader>
-          <CardHeading>Nhập số điện thoại tại đây để nhận mã OTP</CardHeading>
+          <CardHeading>Nhập số điện thoại tại đây </CardHeading>
         </CardHeader>
+              <div>
+          {error && <ErrorMessage variant='danger'>{error}</ErrorMessage>}
+          {message && <ErrorMessage variant='success'>{message}</ErrorMessage>}
+          {loading && <Loading/>}
+            </div>
         <CardLoginForm onSubmit={handleSubmit(onLoginSubmit)}>
           <CardBody>
+
           <CardFieldset>
             <CardInput id="phone" placeholder="Số điện thoại" type="text" name="phone"{...register("phone")} required />
             {errors.phone && <Error>{errors.phone?.message}</Error>}
           </CardFieldset>
           
+          <CardFieldset>
+            <CardInput id="password" placeholder="Mật khẩu" type="password" name="password"{...register("password")} />
+            {errors.password && <Error>{errors.password?.message}</Error>}
+          </CardFieldset>
+
+          <CardFieldset>
+            <CardInput id="confirm_password" placeholder="Nhập lại mật khẩu" type="password" name="confirm_password"{...register("confirm_password")}/>
+            {errors.confirm_password && <Error>{errors.confirm_password?.message}</Error>}
+          </CardFieldset>
+       
 
          {/*otp*/}
 

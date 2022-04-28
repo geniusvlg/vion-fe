@@ -167,10 +167,31 @@ border-radius: 35px;
 const Cart = () => {
   let context=useContext(AuthContext)
   let shipping=5000
-  useEffect(() => {
-    context.getCart()
-  },[context.refresh]);
-  
+  const [tam,setTam] = useState([]);
+  const [total,setTotal]=useState(0)
+  useMemo(async () => {
+      let acsess=context.authTokens.acsessToken
+      let user_name=context.user.Infouser[0]?.customer_name
+      let config ={
+        headers:{
+            "Content-type":"application/json",
+            "authorization": "Bearer "+ acsess
+        }
+      }
+      let {data}= await axios.post('http://localhost:60000/api_public/getCart/',{
+        user_name
+      },  
+      config)
+     context.setSoluong(data.Check[0]?.cart_items.length)
+      setTam(data.Check[0]?.cart_items)
+      var x=0
+      for(var i=0;i<data.Check[0]?.cart_items.length;i++)
+      {
+      x=x+data.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data.Check[0]?.cart_items[i].quantity
+      }
+      setTotal(x)
+   }, []);
+   
   if(context.flag)
   {
     return <Navigate to="/Checkout"/>
@@ -197,8 +218,8 @@ const Cart = () => {
                         </tr>
                     </thead>
                     <tbody className="align-middle">
-                          {context.dataProduct?.map((item,index)=>(
-                          <Show data={item} key={index}/>
+                          {tam?.map((item,index)=>(
+                          <Show data={item} key={index} setTam={setTam}  setTotal={setTotal}/>
                             ))}            
                     </tbody>
                 </table>
@@ -219,7 +240,7 @@ const Cart = () => {
                     <div className="card-body">
                         <div className="d-flex justify-content-between mb-3 pt-1">
                             <h6 className="font-weight-medium">Subtotal</h6>
-                            <h6 className="font-weight-medium">{context.total}</h6>
+                            <h6 className="font-weight-medium">{total}</h6>
                         </div>
                         <div className="d-flex justify-content-between">
                             <h6 className="font-weight-medium">Shipping</h6>
@@ -229,7 +250,7 @@ const Cart = () => {
                     <div className="card-footer border-secondary bg-transparent">
                         <div className="d-flex justify-content-between mt-2">
                             <h5 className="font-weight-bold">Total</h5>
-                            <h5 className="font-weight-bold">{context.total+shipping}</h5>
+                            <h5 className="font-weight-bold">{total+shipping}</h5>
                         </div>
                         <button className="btn btn-block btn-primary my-3 py-3" onClick={context.billAdd}>Proceed To Checkout</button>
                     </div>

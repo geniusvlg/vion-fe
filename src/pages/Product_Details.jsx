@@ -1,8 +1,5 @@
 import React, { useState, useMemo } from 'react'
 import styled from "styled-components"
-import Footer from '../components/Footer'
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
 import Description from '../components/Description'
 import "bootstrap/dist/css/bootstrap.css";
 import axios from 'axios'

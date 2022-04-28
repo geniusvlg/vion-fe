@@ -33,15 +33,14 @@ const AccountBox= styled(AccountBoxIcon)({
 
 const Header = () => {
  /* const [isOpen, setIsOpen] = useState(false);*/
+ let navigate = useNavigate();
   let context=useContext(AuthContext)
-  if(context.user)
-  {
-  useEffect(() => {
-    context.getCart()
-  },[context.refresh]);
-}
+  const [title, setTitle] = useState('')
+  const onFormSubmit = e => {
+    navigate(`/product_search/${title}`);
+  }
     return (
-      <div className="container-fluid">
+      <div className="contgainer-fluid">
         <Topbar/>
         <div className='row align-items-center py-3 px-xl-5'>
             <div className='col-lg-3 d-none d-lg-block'>
@@ -51,12 +50,12 @@ const Header = () => {
             </div>
 
             <div className='col-lg-6 col-6 text-left'>
-              <form action="">
+              <form action="" onSubmit={onFormSubmit}>
                 <div className='input-group'>
-                  <input type="text" className="form-control" placeholder="Tìm kiếm sản phẩm"/>
-                  <div className="input-group-append">
+                  <input type="text" className="form-control" placeholder="Tìm kiếm sản phẩm" onChange={event => setTitle(event.target.value)}/>
+                  <div className="input-group-append" >
                     <span className="input-group-text bg-transparent text-warning">
-                      <SearchIcon/>
+                      <SearchIcon onClick={onFormSubmit}/>
                     </span>
                   </div>
                 </div>

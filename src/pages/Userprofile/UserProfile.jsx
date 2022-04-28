@@ -237,6 +237,20 @@ export default function Userprofile() {
     let path = `/resetpassword`; 
     navigate(path);
   }
+  let checkgender = (data) =>{
+    if(data == null)
+    {
+      return " "
+    }
+    else if(data.gender)
+    {
+      return "Anh"
+    }
+    else
+    {
+      return "Chị"
+    }
+  }
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -246,7 +260,7 @@ export default function Userprofile() {
   <CardLoginForm>
     <CardBody>
       <CardFieldset>
-        <CardH1> Chào! {context.user.Infouser[0]?.gender? "Anh" : "Chị"} {context.user.Infouser[0]?.full_name}</CardH1>
+        <CardH1> Chào! {checkgender(context.user.Infouser[0]?.gender)} {context.user.Infouser[0]?.full_name}</CardH1>
         <CardQuit onClick={routeChange}>Đổi mật khẩu</CardQuit>
         <CardQuit onClick={context.logoutUser}>Thoát<IoLogOutOutline size={20}/></CardQuit>
     
@@ -263,7 +277,7 @@ export default function Userprofile() {
         <History/>
       </div>
       <div className={toggleState === 2 ? "content  active-content" : "content"}>
-        <Order/>
+      <Order/>
       </div>
       <div className={toggleState === 3 ? "content  active-content" : "content"}>
         <Userinfo/>

@@ -10,17 +10,14 @@ import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 
 const schema = yup.object().shape({
-  user_name: yup
+    phone: yup
     .string()
     .trim()
-    .required("Vui lòng nhập username")
-    .max(20, "Username tối đa 20 ký tự")
-    .min(6, "Username tối thiểu 6 ký tự"),
+    .required("Vui lòng nhập số điện thoại")
+    .matches(
+        /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+        "Số điện thoại không hợp lệ"),
     
-  password: yup
-    .string()
-    .required("Vui lòng nhập mật khẩu")
-    .min(6, "Mật khẩu tối thiểu 6 ký tự")
 });
 
 const CardWrapper = styled.div`
@@ -149,7 +146,7 @@ color: #ffa4a4
 `
 
 
-export default function LoginForm() {
+export default function Numbersign() {
   const {
     register,
     handleSubmit,
@@ -173,17 +170,13 @@ export default function LoginForm() {
           {context.error && <ErrorMessage variant='danger'>{context.error}</ErrorMessage>}
           {context.loading && <Loading/>}
         </div>
-        <CardLoginForm onSubmit={handleSubmit(context.submitHandler)}>
+        <CardLoginForm onSubmit={handleSubmit(context.onLoginSubmit)}>
           <CardBody>
-            <CardFieldset>
-              <CardInput id="username" placeholder="Tài khoản hoặc Số điện thoại" type="text" name="username"{...register("user_name")} required />
-              {errors.username && <Error>{errors.username?.message}</Error>}
-            </CardFieldset>
-      
-            <CardFieldset>
-              <CardInput id="password" placeholder="Mật khẩu" type="password" name = "password"{...register("password")} required  />
-              {errors.password && <Error>{errors.password?.message}</Error>}
-            </CardFieldset>
+         
+          <CardFieldset>
+              <CardInput id="phone" placeholder="Số điện thoại" type="text" name="phone"{...register("phone")}/>
+              {errors.phone && <Error>{errors.phone?.message}</Error>}
+          </CardFieldset>
       
             <CardFieldset>
               <CardButton type="submit" >Đăng nhập</CardButton>
