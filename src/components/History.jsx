@@ -262,13 +262,17 @@ const History = () => {
   let hrs = data.getHours()
   let mins = data.getMinutes()
   var date =data.getDate();
-  var month = data.getMonth(); //Be careful! January is 0 not 1
+  var month = data.getMonth()
   var year = data.getFullYear();
   if(hrs<=9)
+  {
      hrs = '0' + hrs
+  }
   if(mins<10)
+  {
     mins = '0' + mins
-  const postTime= hrs + ':' + mins + '-' + date + '/' + month + '/' + year
+  }
+  var postTime= hrs + ':' + mins + '-' + date + '/' + (month+1) + '/' + year
   return postTime
 }
  // Tình trạng đơn hàng
@@ -352,7 +356,7 @@ let conver2=(data2)=>{
               <div className='d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary'>
                 <div class="w-100 text-center py-1 px-2"><span class="text-medium">Khu vực giao:</span> Nội địa</div>
                 <div class="w-100 text-center py-1 px-2"><span class="text-medium">Tình trạng:</span>{conver2(it.order_status)}</div>
-                <div class="w-100 text-center py-1 px-2"><span class="text-medium">Thời gian :</span>{conver(it.created_at)}</div>
+                <div class="w-100 text-center py-1 px-2"><span class="text-medium">Thời gian :</span>{Date(it.created_at * 100)}</div>
               </div>
               <div className='card-body'>
                 <div className='steps d-flex flex-wrap flex-sm-nowrap justify-content-between pt-2 pb-1'>

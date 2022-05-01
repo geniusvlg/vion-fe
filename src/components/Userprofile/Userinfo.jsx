@@ -87,7 +87,7 @@ const Userinfo = () => {
                         <h6 className="mb-0">Địa chỉ</h6>
                       </div>
                       <div className="col-sm-9 text-secondary">
-                      <h6 className="mb-0">{context.user.Infouser[0]?.address?.address_des}</h6>
+                      <h6 className="mb-0">{context.user?.Infouser[0]?.address?.address_des}</h6>
                       </div>
                     </div>
                     <div className="row mb-3">
@@ -95,7 +95,7 @@ const Userinfo = () => {
                         <h6 className="mb-0">Thành phố</h6>
                       </div>
                       <div className="col-sm-9 text-secondary">
-                      <h6 className="mb-0">{context.user.Infouser[0].address?.district.city[0].name}</h6>
+                      <h6 className="mb-0">{context.user.Infouser[0]?.address?.district.city[0].name}</h6>
                       </div>
                     </div>
                     <div className="row mb-3">
@@ -103,7 +103,7 @@ const Userinfo = () => {
                         <h6 className="mb-0">Quận</h6>
                       </div>
                       <div className="col-sm-9 text-secondary">
-                      <h6 className="mb-0">{context.user.Infouser[0].address?.district.name}</h6>
+                      <h6 className="mb-0">{context.user.Infouser[0]?.address?.district.name}</h6>
                       </div>
                     </div>
                     <div className="row mb-3">
@@ -111,7 +111,7 @@ const Userinfo = () => {
                         <h6 className="mb-0">Phường</h6>
                       </div>
                       <div className="col-sm-9 text-secondary">
-                      <h6 className="mb-0">{context.user.Infouser[0].address?.province.name}</h6>
+                      <h6 className="mb-0">{context.user.Infouser[0]?.address?.province.name}</h6>
                       </div>
                     </div>
                   <div className="btn-container">

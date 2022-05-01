@@ -9,6 +9,9 @@ import axios from 'axios';
 const schema = yup.object().shape({
   email: yup
     .string()
+    .trim()
+    .email('Email không hợp lệ')
+    .max(255, "Username tối đa 20 ký tự")
     .required("Vui lòng nhập email"),
   lastname: yup
     .string()
@@ -16,46 +19,36 @@ const schema = yup.object().shape({
   firstname: yup
     .string()
     .required("Vui lòng nhập tên"),
-  phone: yup
-      .string()
-      .required("Vui lòng nhập số điện thoại")
-      .min(10, "Số điện thoại không hợp lệ"),
   address: yup
     .string()
     .required("Vui lòng nhập địa chỉ"),
-  city: yup
-    .string()
-    .required("Vui lòng nhập thành phố"),
-  ward: yup
-    .string()
-    .required("Vui lòng nhập phường"),
-  district: yup
-    .string()
-    .required("Vui lòng nhập quận, huyện"),
 });
 
 function UpdateInfo() {
- const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm({ resolver: yupResolver(schema) });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({ resolver: yupResolver(schema) });
 
     const [firstname, setFirst] = useState();
     const [lastname, setLast] = useState();
     const [gender, setGender] = useState();
     const [phone_number, setPhone] = useState();
     const [address_des, setAddress] = useState();
+    const context=useContext(AuthContext)
+    const customer_id=context.user.Infouser[0]?.uid
+    const [email, setEmail] = useState();
+    let full_name=firstname +" "+ lastname
 
-    const [dulieu,setData1]=useState([])
     const [data1,setData]=useState([])
     const [data2,setData2]=useState([])
     const [data3,setData3]=useState([])
     const [city,setCity]=useState()
     const [district,setDistrict]=useState()
     const [province,setProvince]=useState()
-    const [error,setError]=useState(false);
-    const [flag,setFlag]=useState(false)
+    const [message,setMessage]=useState(null);
+    const [message1,setMessage1]=useState(null);
 
     const handleChange = (event) => {
       const index = event.target.selectedIndex;
@@ -135,56 +128,60 @@ let getprovince=async()=>{
     setData3(null)
   }
 }
-    const context=useContext(AuthContext)
-    const customer_name=context.user.Infouser[0]?.customer_name
-    const customer_id=context.user.Infouser[0]?.uid
-    const [email, setEmail] = useState();
-    let full_name=firstname +" "+ lastname
+   
     const registerSubmit =async (e) => {  
-    }
-    const checknow = async (e)=>{
-      if(city &&  district && province)
-      {
-        setError(false)
+      console.log("gioi tinh:",gender)
+      if(gender== null)
+  {
+    setMessage("Vui lòng chọn giới Tính")
+  }
+  else if(gender== null && (district== null  || city == null || province== null))
+  {
+    setMessage("Vui lòng chọn giới Tính")
+    setMessage1("Vui lòng chọn thông tin địa chỉ của bạn")
+  }
+  else if(district== null  || city == null || province== null)
+  {
+    setMessage1("Vui lòng chọn thông tin địa chỉ của bạn")
+  }
+    else{
+      setMessage(null)
+      setMessage1(null)
         let config ={
           headers:{
               "Content-type":"application/json"
           }
         }
         let {data}= await axios.post('http://localhost:60000/api_public/list/fixadd',{
-          customer_id,full_name,address_des,district,province,gender
+          customer_id,full_name,address_des,district,province,gender,email
         },  
         config)
-        setData1(data)
+        console.log("update:",data)
         if(data.statusCode==200)
         {
           context.logoutUser()
         }
         else
         {
-          setFlag(true) 
+          setMessage(data.message)
         }
       }
-      
-      else
-      {
-        setError(true)
-      }
+    
     }
-console.log("dữ liệu:",dulieu)
      return (
       <div className="update-info-container">
         <div className="form-container">
           <form className="update-form" onSubmit={handleSubmit(registerSubmit)}>
-          {error && <span className="error">Vui lòng điền đầy đủ thông tin</span>}
               {/* <label>Giới tính</label> */}
+              {message && (<span className="error">{message}</span>)}
+              {message1 && (<span className="error" >{message1}</span>)}  
               <div className="form-group-row">
                 <input type="radio" id="html" name="fav_language" value="HTML" onChange={(e) => setGender(true)}/>
               <label for="html">Nam</label>
-
               <input type="radio" id="html" name="fav_language" value="HTML" onChange={(e) => setGender(false)}/>
               <label for="html">Nữ</label><br/>
               </div>
+
             <div className="form-group-item">
               {/* <label>Email</label> */}
               <input
@@ -257,9 +254,10 @@ console.log("dữ liệu:",dulieu)
                   <span className="error">{errors.address?.message}</span>
                 )}
               </div>
+    
               <div className="form-group-item">
                 {/* <label>Thành phố</label> */}
-                <select className="form-field" defaultValue="Default"{...register("city")} onChange={handleChange}>
+                <select className="form-field" defaultValue="Default" onChange={handleChange}>
                               <option value=" " hidden>
                                 Thành phố 
                              </option>
@@ -314,12 +312,13 @@ console.log("dữ liệu:",dulieu)
               ) }
       
             </div>
-  
+
             <div className="btn-container">
-              <button className="form-field" type="submit" onClick={checknow}>
+              <button className="form-field" type="submit" >
                 Cập nhật
               </button>
             </div>
+ 
           </form>
         </div>
       </div>

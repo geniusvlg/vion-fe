@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import {Navigate} from 'react-router-dom';
@@ -14,6 +14,7 @@ const schema = yup.object().shape({
       .string()
       .required("Vui lòng nhập tên đăng nhập")
       .trim()
+      .min(6, "Mật khẩu tối thiểu 6 ký tự")
       .max(20, "Username tối đa 20 ký tự"),
   password: yup
       .string()
@@ -196,7 +197,7 @@ const [message,setMessage]=useState(null);
 const [message1,setMessage1]=useState(null);
 const [error,setError]=useState(false);
 const [loading,setLoading]=useState(false) 
-const [redirect,setRedirect] = useState();
+const [redirect,setRedirect] = useState(false);
 
 const [data1,setData]=useState([])
 const [data2,setData2]=useState([])
@@ -239,24 +240,27 @@ const registerSubmit = async(data) => {
     let  email=data.email
     let full_name=data.first+" "+data.last
  
-    try { 
       const config ={
         headers:{
             "Content-type":"application/json"
         }
       }
       setLoading(true)
-      const {data2}= await axios.post('http://localhost:60000/api_public/list/register',{
+      const data2= await axios.post('http://localhost:60000/api_public/list/register',{
        user_name,password,phone_number,address_des,email,district,province,gender,full_name
       },
       config)
-      setLoading(false)
-      setRedirect(true);
-    } catch (error) {
-      setError(error.response.data.message)
-      setLoading(false)
-      setRedirect(false);
-    }
+      if(data2.data.statusCode == 200)
+      {
+        setRedirect(true)
+        setLoading(false)
+      }
+      else
+      {
+        setLoading(false)
+        setError(data2.data.message)
+      }
+  
   }
 }
 

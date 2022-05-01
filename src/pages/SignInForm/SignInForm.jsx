@@ -1,18 +1,16 @@
-import { SyntheticEvent, useState,useContext } from "react";
-import { set, useForm } from "react-hook-form";
+import React, { useState,useEffect,useContext  } from 'react';
+import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context/AuthContext";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import React from "react";
 import styled from "styled-components";
 import {useNavigate} from 'react-router-dom';
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
-
+import * as yup from "yup";
+import axios from 'axios';
 const schema = yup.object().shape({
   user_name: yup
     .string()
-    .trim()
     .required("Vui lòng nhập username")
     .max(20, "Username tối đa 20 ký tự")
     .min(6, "Username tối thiểu 6 ký tự"),
@@ -165,6 +163,8 @@ export default function LoginForm() {
         navigate("/")
       ):(
         <>
+        <br></br>
+        <br></br>
       <CardWrapper>
         <CardHeader>
           <CardHeading>Đăng nhập</CardHeading>
@@ -177,7 +177,7 @@ export default function LoginForm() {
           <CardBody>
             <CardFieldset>
               <CardInput id="username" placeholder="Tài khoản hoặc Số điện thoại" type="text" name="username"{...register("user_name")} required />
-              {errors.username && <Error>{errors.username?.message}</Error>}
+              {errors.user_name && <Error>{errors.user_name?.message}</Error>}
             </CardFieldset>
       
             <CardFieldset>

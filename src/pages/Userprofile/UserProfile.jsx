@@ -242,7 +242,7 @@ export default function Userprofile() {
     {
       return " "
     }
-    else if(data.gender)
+    else if(data)
     {
       return "Anh"
     }

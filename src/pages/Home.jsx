@@ -41,7 +41,6 @@ const Home = (query) => {
     {
     axios.get('http://localhost:60000/api_public/live/').then(res => {
       setLive(res.data.result)
-      console.log("live:",res.data.result)
     })
     }
     else
@@ -51,7 +50,6 @@ const Home = (query) => {
       history
     }).then(res => {
       setLive(res.data.result)
-      console.log("live:",res.data.result)
     })
     }
   }, [sp1]);
@@ -60,7 +58,6 @@ const Home = (query) => {
   useEffect(() => {
     axios.get('http://localhost:60000/api_public/history/').then(res => {
       setLis(res.data.result)
-
     })
   }, []);
   
@@ -78,7 +75,6 @@ const Home = (query) => {
         number,offset,layout
     }).then(res => {
       setDataProduct(res.data.result)
-      console.log("data:",res.data.result)
     })
   }, []);
 

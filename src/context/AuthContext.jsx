@@ -25,7 +25,6 @@ const [total,setTotal]=useState(0)
 
 //login 
   const submitHandler = async(data2) =>{
-      console.log("dữ liệu đn:",data2 )
       let user_name=data2.user_name.replace(/\s/g, '')
       let password=data2.password.replace(/\s/g, '')
       const config ={
@@ -38,6 +37,7 @@ const [total,setTotal]=useState(0)
         user_name,password,
       },  
       config)
+      console.log("đăng nhập:",data)
       if(data.statuscode==200)
       {
         setAuthTokens(data)
@@ -85,7 +85,22 @@ const [total,setTotal]=useState(0)
       setRedirect(false) 
       }
   };
-
+//get cart
+  let getcartlength = async()=>{
+    let acsess=authTokens?.acsessToken
+      let user_name=user?.Infouser[0]?.customer_name
+      let config ={
+        headers:{
+            "Content-type":"application/json",
+            "authorization": "Bearer "+ acsess
+        }
+      }
+      let {data}= await axios.post('http://localhost:60000/api_public/getCart/',{
+        user_name
+      },  
+      config)
+    setSoluong(data.Check[0]?.cart_items.length)
+  }
 // logout 
   let logoutUser =()=>{
     setAuthTokens(null)
@@ -140,7 +155,7 @@ const value={
     authTokens,
     refresh,dataProduct,total,flag,soluongSP,
     submitHandler,setError,logoutUser,setRefresh,onLoginSubmit,
-   billAdd,deleteAll,setDataProduct,setSoluong,setTotal
+   billAdd,deleteAll,setDataProduct,setSoluong,setTotal,getcartlength
   }
 
 //hanlde refresh 

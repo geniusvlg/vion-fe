@@ -23,7 +23,6 @@ const Banner = () => {
               data?.map((item) => (
                 <>
             <div className={item.title} style={{height:"410px"}}>
-         
                 <img src={item.img} alt="Image-1" className='img-fluid'/>
                 <div className='carousel-caption d-flex flex-column align-items-center justify-content-center'>
                     <div className='p-3' style={{maxWidth:"700px"}}>

@@ -40,6 +40,8 @@ const Product_search = () => {
         {/* Shop Sidebar start */}
         <div className='col-lg-3 col-md-12'>
           {/* Filter by Catergories start */}
+          <br></br>
+          <br></br>
           <div className='border-bottom mb-4 pb-4'>
             <h5 className='font-weight-semi-bold mb-4'>Lọc bởi danh mục</h5>
             <form>

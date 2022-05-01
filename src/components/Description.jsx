@@ -74,7 +74,7 @@ const Description = ({product}) => {
     setInputValue(e.target.value);
   };
 
-
+console.log("product:",product)
 const changeClick =async (e) =>{
   let quantity=1
   let customer_id=context.user.Infouser[0]?.uid
@@ -147,7 +147,7 @@ console.log("datane:",dataProduct2)
               <div className='col-lg-7 pb-5'>
                   <h3 className='font-weight-semi-bold'>{product.product_name}</h3>
                   <div className="d-flex mb-3">
-                      <small className="pt-1">(50 Reviews)</small>
+                      <small className="pt-1">({product.comments.length} Bình luận)</small>
                   </div>
                   <h3 className="font-weight-semi-bold mb-4">{product.pricing.price_with_vat} VNĐ</h3>
                   <p className="mb-4">Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit clita ea. Sanc invidunt ipsum et, labore clita lorem magna lorem ut. Erat lorem duo dolor no sea nonumy. Accus labore stet, est lorem sit diam sea et justo, amet at lorem et eirmod ipsum diam et rebum kasd rebum.</p>
@@ -183,9 +183,9 @@ console.log("datane:",dataProduct2)
           <div className='row px-xl-5'>
               <div className='col'>
                   <div className="nav nav-tabs justify-content-center border-secondary mb-4">
-                      <a className="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                      <a className="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Information</a>
-                      <a className="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                      <a className="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Mô tả sản phẩm </a>
+                      <a className="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Thông tin thêm</a>
+                      <a className="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Bình luận({product.comments.length})</a>
                   </div>
   
                   <div className='tab-content'>
@@ -205,7 +205,7 @@ console.log("datane:",dataProduct2)
                           <div className='row'>
                         
                               <div className='col-md-6'>
-                                  <h4 className="mb-4">1 review for "Colorful Organic Papaya"</h4>
+                                  <h4 className="mb-4">({product.comments.length} Bình luận cho sản phẩm) </h4>
                                   {product?.comments?.map((item,index)=>(
                                   <div className='media mb-4'>
                                   <AccountCircleIcon/> 

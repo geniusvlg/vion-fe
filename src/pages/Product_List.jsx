@@ -36,16 +36,26 @@ const Product_List = (query) => {
         {/* Shop Sidebar start */}
         <div className='col-lg-3 col-md-12'>
           {/* Filter by Catergories start */}
-          <div className='border-bottom mb-4 pb-4'>
-            <h5 className='font-weight-semi-bold mb-4'>Lọc bởi danh mục</h5>
-            <form>
-            {data?.map((item,index)=>(   
-              <div className='custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3'>
-                 <a key={index} href={`/product/${item.uid}`} >{item.cate_name}</a>
-              </div>
-                  ))}
-            </form>
-          </div>
+          <a className="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style={{height: "65px",  marginTop: "-1px", padding: "0 30px"}}>
+                    <h6 className="m-0">Danh mục sản phẩm</h6>
+                </a>
+                <nav className="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 sticky-top" id="navbar-vertical">
+                    <div className="navbar-nav w-100 overflow-hidden" style={{height: "410px"}}>
+                    {data?.map((item,index)=>(
+                        <div className="nav-item dropdown">
+                        <a  className="nav-link" data-toggle="dropdown" id={item.uid} key={index}>{item.cate_name}</a>
+                            <div className="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
+                            {item?.sub_cate.map((item1,index)=>(
+                              <>
+                                <a href={`/product/${item1.uid}`} className="dropdown-item">{item1.cate_name}</a>
+                                </>
+                            ))}
+                            </div>
+                        </div>
+                        
+))}
+                    </div>
+                </nav>
         </div>
 
         {/* Shop Product Start */}

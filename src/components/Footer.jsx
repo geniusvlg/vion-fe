@@ -120,19 +120,7 @@ const Footer = () => {
                           <a className="text-dark" href="contact.html"><i class="mr-2"><ArrowRightIcon/></i>Contact Us</a>
                       </div>
                   </div>
-
-                  <div className='col-md-4 mb-5'>
-                      <h5 className='font-weight-bold text-dark mb-4'>Quick Links</h5>
-                      <div className='d-flex flex-column justify-content-start'>
-                          <a className="text-dark mb-2" href="index.html"><i class="mr-2"><ArrowRightIcon/></i>Home</a>
-                          <a className="text-dark mb-2" href="shop.html"><i class="mr-2"><ArrowRightIcon/></i>Our Shop</a>
-                          <a className="text-dark mb-2" href="detail.html"><i class="mr-2"><ArrowRightIcon/></i>Shop Detail</a>
-                          <a className="text-dark mb-2" href="cart.html"><i class="mr-2"><ArrowRightIcon/></i>Shopping Cart</a>
-                          <a className="text-dark mb-2" href="checkout.html"><i class="mr-2"><ArrowRightIcon/></i>Checkout</a>
-                          <a className="text-dark" href="contact.html"><i class="mr-2"><ArrowRightIcon/></i>Contact Us</a>
-                      </div>
-                  </div>
-
+                  
                   <div className='col-md-4 mb-5'>
                       <h5 className='font-weight-bold text-dark mb-4'>Newsletter</h5>
                       <form action="">

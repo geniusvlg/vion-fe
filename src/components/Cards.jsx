@@ -94,11 +94,12 @@ const Cards = ({data}) => {
     customer_id,items,user_name
    },
    config)
-   console.log("data:",data1)
+   console.log("cart:",data1)
 
    if(data1.data.info.statuscode==200)
    {
     setDataProduct1(data1.data.info)
+    context.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
     toast.success(data1.data.info.message, {
       position: toast.POSITION.BOTTOM_LEFT, autoClose:3000})
    }
@@ -116,13 +117,14 @@ const Cards = ({data}) => {
           <div className='card product-item border-0 mb-4'>
             {/* Card Header */}
             <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0 text-center">
-              <img className='img-fluid w-75 w-50' src={data.image_cover ?? ''} alt="" style={styles}/>
+              <img className='img-fluid w-75 w-50'  src={data.image_cover ?? ''}  alt="" style={styles}/>
             </div>
             {/* Card Body */}
             <div className='card-body border-left border-right text-center p-0 pt-2 pb-2'>
               <h6 className='text-truncate mb-3'>{data.product_name}</h6>
               <div className='d-flex justify-content-center'>
-                <h6>{data.pricing.price_with_vat} đồng</h6><h6 className="text-muted ml-2"><del>-{data.pricing.discount}%</del></h6>
+                
+                <h6>{data.pricing.price_with_vat*data.pricing.discount/100} đồng</h6><h6 className="text-muted ml-2"><del>-{data.pricing.discount}%</del></h6>
               </div>
             </div>
             {/* Card Footer */}
