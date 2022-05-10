@@ -75,8 +75,6 @@ const Cards = ({data}) => {
   const [modalShow, setModalShow]=useState(false);
   const context=useContext(AuthContext)
   // Xử lý số lượng sản phẩm 
-  const [dataProduct1, setDataProduct1] = useState()
-
   const changeClick = async(e) =>{
     let quantity=1
     let customer_id=context.user.Infouser[0]?.uid
@@ -98,7 +96,7 @@ const Cards = ({data}) => {
 
    if(data1.data.info.statuscode==200)
    {
-    setDataProduct1(data1.data.info)
+    
     context.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
     toast.success(data1.data.info.message, {
       position: toast.POSITION.BOTTOM_LEFT, autoClose:3000})
@@ -124,7 +122,7 @@ const Cards = ({data}) => {
               <h6 className='text-truncate mb-3'>{data.product_name}</h6>
               <div className='d-flex justify-content-center'>
                 
-                <h6>{data.pricing.price_with_vat*data.pricing.discount/100} đồng</h6><h6 className="text-muted ml-2"><del>-{data.pricing.discount}%</del></h6>
+                <h6>{data.pricing.price_with_vat-data.pricing.price_with_vat*data.pricing.discount/100} đồng</h6><h6 className="text-muted ml-2"><del>-{data.pricing.discount}%</del></h6>
               </div>
             </div>
             {/* Card Footer */}
@@ -149,6 +147,3 @@ const Cards = ({data}) => {
 }
 
 export default Cards
-
-
-

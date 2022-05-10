@@ -1,9 +1,5 @@
 import React,{useState,useEffect,useContext}  from 'react'
 import { AuthContext } from '../context/AuthContext';
-import {Navigate} from 'react-router-dom';
-import styled from 'styled-components';
-import {useCart} from 'react-use-cart'
-import {Modal} from 'react-bootstrap'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -11,10 +7,10 @@ import axios from 'axios';
 
 const Show = ({data,setTam,setTotal}) => {
   const context=useContext(AuthContext)
-  const [quantity,setCount] = useState(data.quantity);
+
 
   let addClick=async(e)=>{
-      setCount(quantity+1)
+      let quantity=data.quantity+1
       let uid=e.currentTarget.id
       let user_name=context.user.Infouser[0]?.customer_name
       let customer_id=context.user.Infouser[0]?.uid
@@ -33,7 +29,7 @@ const Show = ({data,setTam,setTotal}) => {
        var x=0
        for(var i=0;i<data1.data.currentcart.Check[0]?.cart_items.length;i++)
       {
-      x=x+data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data1.data.currentcart.Check[0]?.cart_items[i].quantity
+        x=x+((data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat-data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.discount/100 )*data1.data.currentcart.Check[0]?.cart_items[i].quantity)
       }
       setTotal(x)
       setTam(data1.data.currentcart.Check[0]?.cart_items)
@@ -41,7 +37,7 @@ const Show = ({data,setTam,setTotal}) => {
   
   }
   let removeClick=async(e)=>{
-    setCount(quantity-1)
+    let quantity=data.quantity-1
     let uid=e.currentTarget.id
     let user_name=context.user.Infouser[0]?.customer_name
     let customer_id=context.user.Infouser[0]?.uid
@@ -60,7 +56,7 @@ const Show = ({data,setTam,setTotal}) => {
      var x=0
      for(var i=0;i<data1.data.currentcart.Check[0]?.cart_items.length;i++)
     {
-    x=x+data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data1.data.currentcart.Check[0]?.cart_items[i].quantity
+    x=x+((data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat-data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.discount/100 )*data1.data.currentcart.Check[0]?.cart_items[i].quantity)
     }
     setTotal(x)
     setTam(data1.data.currentcart.Check[0]?.cart_items)
@@ -87,7 +83,7 @@ const deleteClick =async(e) =>{
    var x=0
    for(var i=0;i<data1.data.currentcart.Check[0]?.cart_items.length;i++)
   {
-  x=x+data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data1.data.currentcart.Check[0]?.cart_items[i].quantity
+    x=x+((data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat-data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.price_with_vat*data1.data.currentcart.Check[0]?.cart_items[i].iproduct.pricing.discount/100 )*data1.data.currentcart.Check[0]?.cart_items[i].quantity)
   }
   setTotal(x)
   setTam(data1.data.currentcart.Check[0]?.cart_items)
@@ -121,13 +117,12 @@ const deleteClick =async(e) =>{
             </div>
         </div>
     </td>
-    <td className="align-middle">{data.iproduct.pricing.price_with_vat*data.quantity}</td>
+    <td className="align-middle">{(data.iproduct.pricing.price_with_vat-data.iproduct.pricing.price_with_vat*data.iproduct.pricing.discount/100)*data.quantity}</td>
     <td className="align-middle">
       <button className="btn btn-sm btn-primary" id={data.uid} onClick={(event)=>deleteClick(event)} >
             <ClearIcon/>
       </button></td>
-</tr>
-               
+</tr>        
   )
 };
 

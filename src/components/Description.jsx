@@ -92,7 +92,7 @@ const changeClick =async (e) =>{
   customer_id,items,user_name
  },
  config)
- console.log("data:",data1)
+ console.log("product:",data1)
 
  if(data1.data.info.statuscode==200)
  {
@@ -109,8 +109,7 @@ const changeClick =async (e) =>{
   }
 
   //submit comment
-const submitComment= async(e)=>{
-  let acsess=context.authTokens.acsessToken
+const submitComment= async()=>{
   let customerid=context.user.Infouser[0]?.uid
   let productid=product?.uid
   let comment=inputValue
@@ -135,9 +134,21 @@ const submitComment= async(e)=>{
     console.log("ok")
   }
 }
-console.log("datane:",dataProduct2)
+let checkTotalcoment = (data) =>{
+  if(data == null)
+  {
+    return "Chưa có"
+  }
+  else
+  {
+    return data.length
+  }
+}
+
     return (
-      <>
+      <> 
+      <br></br>
+      <br></br>
       <div className='container-fluid py-5'>
           <div className='row px-xl-5'>
               <div className='col-lg-5 pb-5'>
@@ -147,20 +158,20 @@ console.log("datane:",dataProduct2)
               <div className='col-lg-7 pb-5'>
                   <h3 className='font-weight-semi-bold'>{product.product_name}</h3>
                   <div className="d-flex mb-3">
-                      <small className="pt-1">({product.comments.length} Bình luận)</small>
+                      <small className="pt-1">({checkTotalcoment(product.comments)} Bình luận)</small>
                   </div>
-                  <h3 className="font-weight-semi-bold mb-4">{product.pricing.price_with_vat} VNĐ</h3>
+                  <h3 className="font-weight-semi-bold mb-4">{product.pricing.price_with_vat-product.pricing.price_with_vat*product.pricing.discount/100} VNĐ</h3>
                   <p className="mb-4">Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit clita ea. Sanc invidunt ipsum et, labore clita lorem magna lorem ut. Erat lorem duo dolor no sea nonumy. Accus labore stet, est lorem sit diam sea et justo, amet at lorem et eirmod ipsum diam et rebum kasd rebum.</p>
   
                   <div className="d-flex align-items-center mb-4 pt-2">
                   {context.user? (
                     <>
                      
-                     <button className="btn btn-primary px-3" id={product.uid} onClick={(event)=>changeClick(event)}><i className="mr-1"><ShoppingCartIcon/></i> Add To Cart</button>
+                     <button className="btn btn-primary px-3" id={product.uid} onClick={(event)=>changeClick(event)}><i className="mr-1"><ShoppingCartIcon/></i> Thêm sản phẩm vào giỏ</button>
                     </>
                     ) : ( 
                       <>
-                        <button className="btn btn-primary px-3" onClick={() => setModalShow(true)}><i className="mr-1"><ShoppingCartIcon/></i> Add To Cart</button>
+                        <button className="btn btn-primary px-3" onClick={() => setModalShow(true)}><i className="mr-1"><ShoppingCartIcon/></i>Thêm sản phẩm vào giỏ</button>
                         <MyVerticallyCenteredModal show={modalShow} onHide={()=>setModalShow(false)}/>
                       </>
                     )}
@@ -185,18 +196,18 @@ console.log("datane:",dataProduct2)
                   <div className="nav nav-tabs justify-content-center border-secondary mb-4">
                       <a className="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Mô tả sản phẩm </a>
                       <a className="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Thông tin thêm</a>
-                      <a className="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Bình luận({product.comments.length})</a>
+                      <a className="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Bình luận</a>
                   </div>
   
                   <div className='tab-content'>
                       <div className="tab-pane fade show active" id="tab-pane-1">
-                          <h4 className="mb-3">Product Description</h4>
+                          <h4 className="mb-3">Mô tả sản phẩm </h4>
                           <p>Eos no lorem eirmod diam diam, eos elitr et gubergren diam sea. Consetetur vero aliquyam invidunt duo dolores et duo sit. Vero diam ea vero et dolore rebum, dolor rebum eirmod consetetur invidunt sed sed et, lorem duo et eos elitr, sadipscing kasd ipsum rebum diam. Dolore diam stet rebum sed tempor kasd eirmod. Takimata kasd ipsum accusam sadipscing, eos dolores sit no ut diam consetetur duo justo est, sit sanctus diam tempor aliquyam eirmod nonumy rebum dolor accusam, ipsum kasd eos consetetur at sit rebum, diam kasd invidunt tempor lorem, ipsum lorem elitr sanctus eirmod takimata dolor ea invidunt.</p>
                           <p>Dolore magna est eirmod sanctus dolor, amet diam et eirmod et ipsum. Amet dolore tempor consetetur sed lorem dolor sit lorem tempor. Gubergren amet amet labore sadipscing clita clita diam clita. Sea amet et sed ipsum lorem elitr et, amet et labore voluptua sit rebum. Ea erat sed et diam takimata sed justo. Magna takimata justo et amet magna et.</p>
                       </div>
   
                       <div className="tab-pane fade" id="tab-pane-2">
-                          <h4 className="mb-3">Additional Information</h4>
+                          <h4 className="mb-3">Thông tin bổ sung</h4>
                           <p>Eos no lorem eirmod diam diam, eos elitr et gubergren diam sea. Consetetur vero aliquyam invidunt duo dolores et duo sit. Vero diam ea vero et dolore rebum, dolor rebum eirmod consetetur invidunt sed sed et, lorem duo et eos elitr, sadipscing kasd ipsum rebum diam. Dolore diam stet rebum sed tempor kasd eirmod. Takimata kasd ipsum accusam sadipscing, eos dolores sit no ut diam consetetur duo justo est, sit sanctus diam tempor aliquyam eirmod nonumy rebum dolor accusam, ipsum kasd eos consetetur at sit rebum, diam kasd invidunt tempor lorem, ipsum lorem elitr sanctus eirmod takimata dolor ea invidunt.</p>
                       </div>
                       
@@ -205,12 +216,12 @@ console.log("datane:",dataProduct2)
                           <div className='row'>
                         
                               <div className='col-md-6'>
-                                  <h4 className="mb-4">({product.comments.length} Bình luận cho sản phẩm) </h4>
+                                  <h4 className="mb-4">({checkTotalcoment(product.comments)} Bình luận cho sản phẩm) </h4>
                                   {product?.comments?.map((item,index)=>(
-                                  <div className='media mb-4'>
+                                  <div className='media mb-4' key={item.uid}>
                                   <AccountCircleIcon/> 
                                       <div className="media-body">
-                                          <h6>{item.customer_id?.customer_name}<small> - <i>{ Date(item.comment_at * 100)}</i></small></h6>
+                                          <h6>{item.customer_id?.customer_name}<small> - <i>{ new Date(item.comment_at).toLocaleDateString()}</i></small></h6>
                                           <div className="text-primary mb-2">
                                           <small><StarIcon/></small>
                                           <small><StarIcon/></small>
@@ -226,7 +237,7 @@ console.log("datane:",dataProduct2)
                             
 
                               <div className="col-md-6">
-                                  <h4 className="mb-4">Leave a review</h4>
+                                  <h4 className="mb-4">Để lại bình luận</h4>
                                  {/* <div className="d-flex my-3">
                                       <p className="mb-0 mr-2">Your Rating * :</p>
                                       <div className="text-primary">
@@ -240,7 +251,7 @@ console.log("datane:",dataProduct2)
                                    {context.user? (     
                                       <form>
                                       <div className="form-group">
-                                          <label for="message">Your Review *</label>
+                                          <label>Bình luận của bạn*</label>
                                           <textarea id="message" cols="30" rows="5" className="form-control"  value={inputValue} onChange={handleUserInput}></textarea>
                                       </div>
                                       {/*<div className="form-group">
@@ -252,7 +263,7 @@ console.log("datane:",dataProduct2)
                                           <input type="email" className="form-control" id="email"/>
                                       </div>*/}
                                       <div className="form-group mb-0">
-                                          <input type="submit" value="Leave Your Review" className="btn btn-primary px-3"  onClick={(event)=>submitComment(event)}/>
+                                          <input type="submit" value="Bình luận" className="btn btn-primary px-3"  onClick={(event)=>submitComment(event)}/>
                                       </div>
                                   </form>   ) : (    
                                           <>

@@ -4,33 +4,28 @@ import '../css/Header.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthContext } from '../context/AuthContext';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SearchIcon from '@mui/icons-material/Search';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import CookieIcon from '@mui/icons-material/Cookie';
-import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { IoLogOutOutline } from "react-icons/io5";
+import LogoutIcon from '@mui/icons-material/Logout';
 import {useNavigate} from 'react-router-dom';
-import Topbar from './topbar';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { styled } from '@mui/styles';
 import {Navbar,Nav,NavDropdown,Form,Container,FormControl,Button} from 'react-bootstrap'
 
 
 const Cart = styled(ShoppingCartIcon)({
-  color:'#ffbb33'
+  color:'#ffbb33',
+	lineHeight: "50px",
+  verticalAlign: "middle",
+  fontSize:"40px"
 });
 
-const LoveList = styled(FavoriteIcon)({
-  color:'#ffbb33'
+const LogoutIc = styled(LogoutIcon)({
+  verticalAlign:"middle",
+  color:'#ffbb33',
+	lineHeight: "50px",
+  fontSize:"40px"
 })
 
-const Accessibility= styled(AccessibilityNewIcon)({
-  color:'#ffbb33'
-});
-const AccountCircle= styled(AccountCircleIcon)({
-  color:'#ffbb33'
-});
+
 const AccountBox= styled(AccountBoxIcon)({
   color:'#ffbb33'
 });
@@ -56,38 +51,70 @@ const Header = () => {
   }, [context.user]);
   
 
-  const onFormSubmit = e => {
+  const onFormSubmit = () => {
     navigate(`/product_search/${title}`);
   }
     return (
       <>
       <Navbar collapseOnSelect expand="lg" bg="myColor" fixed='top'>
       <Container>
-      <Navbar.Brand href="/"  style={{color:"#ffbf00", fontSize:"2.5em"}}>Vion Mart</Navbar.Brand>
+      <Navbar.Brand href="/"  style={{color:"#ffbf00", fontSize:"2.5em"}}> <span style={{border: "3px solid #3f3b3b", fontSize:"1em",color:"#ffbf00"}}>Vion</span> Mart</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav" >
-        <Nav className="me-auto" >
-      
-          <NavDropdown title="Danh mục" id="collasible-nav-dropdown" bg="myDrop" style={{ fontSize:"1.5em",textAlign:"center"}}>
+    
+        {context.user? (
+          <>
+            <Nav style={{  textAlign:"right",
+                lineHeight:"50px"}}>
+              <Nav.Link href="/userprofile" ><AccountBox/> {context.user.Infouser[0]?.customer_name}</Nav.Link>
+              <Nav.Link onClick={context.logoutUser} ><LogoutIc/> Đăng xuất</Nav.Link>
+              <Nav.Link href="/cart" ><Cart/>{context.soluongSP} Giỏ hàng của bạn</Nav.Link>
+            </Nav>
+          <Nav className="me-auto" style={{  textAlign:"right"}}>
+            <NavDropdown title="Danh mục" id="collasible-nav-dropdown" bg="myDrop" >
           {data?.map((item,index)=>(
-            <NavDropdown title={item.cate_name} id="collasible-nav-dropdown">
-                 {item?.sub_cate.map((item1,index)=>(
-            <NavDropdown.Item href="#action/3.2">{item1.cate_name}</NavDropdown.Item>
+            <NavDropdown key={index} title={item.cate_name} id="collasible-nav-dropdown">
+                 {item?.sub_cate.map((item1,index1) =>(
+            <NavDropdown.Item href={`/product/${item1.uid}`} key={index1}>{item1.cate_name}</NavDropdown.Item>
+                     ))}
+            </NavDropdown>
+              ))}
+            </NavDropdown>
+          </Nav>
+          <Nav>
+        <Form className="d-flex" onSubmit={onFormSubmit}>
+          <FormControl
+            type="search"
+            placeholder="Tìm kiếm sản phẩm" 
+            className="me-2"
+            aria-label="Search"
+            onChange={event => setTitle(event.target.value)}
+          />
+             <Button variant="outline-success">Tìm kiếm</Button>
+          </Form>
+           </Nav>
+          </>
+         ) : (
+          <>
+           <Nav>
+            <Nav.Link href="/signup" style={{textAlign:"right"}}>Đăng ký</Nav.Link>
+          </Nav>
+          <Nav>
+          <Nav.Link href="/signin" style={{textAlign:"right"}}>Đăng nhập</Nav.Link>
+          </Nav>
+          <Nav className="me-auto" style={{textAlign:"right"}} >
+          <NavDropdown title="Danh mục" id="collasible-nav-dropdown" bg="myDrop" style={{textAlign:"right"}}>
+          {data?.map((item,index)=>(
+            <NavDropdown title={item.cate_name} id="collasible-nav-dropdown" key={index}>
+                 {item?.sub_cate.map((item1,index1)=>(
+            <NavDropdown.Item href={`/product/${item1.uid}`} key={index1}>{item1.cate_name}</NavDropdown.Item>
                      ))}
             </NavDropdown>
               ))}
           </NavDropdown>
-          
-        </Nav>
-        {context.user? (
-          <>
-             <Nav>
-            <Nav.Link href="/cart" ><Cart/>{context.soluongSP}</Nav.Link>
-            <Nav.Link href="/userprofile"><AccountBox/>{context.user.Infouser[0]?.customer_name}</Nav.Link>
-            <Nav.Link onClick={context.logoutUser}><IoLogOutOutline size={15}/></Nav.Link>
           </Nav>
-       
-        <Nav>
+         
+          <Nav>
         <Form className="d-flex" onSubmit={onFormSubmit}>
           <FormControl
             type="search"
@@ -99,28 +126,10 @@ const Header = () => {
              <Button variant="outline-success">Tìm kiếm</Button>
           </Form>
         </Nav>
-          </>
-         ) : (
-          <>
-        <Nav>
-        <Form className="d-flex" onSubmit={onFormSubmit}>
-          <FormControl
-            type="search"
-            placeholder="Tìm kiếm sản phẩm" 
-            className="me-2"
-            aria-label="Search"
-            onChange={event => setTitle(event.target.value)}
-          />
-             <Button variant="outline-success">Tìm kiếm</Button>
-          </Form>
-        </Nav>
-        <Nav>
-            <Nav.Link href="/signin">Đăng nhập</Nav.Link>
-            <Nav.Link href="/signup">Đăng ký</Nav.Link>
-          </Nav>
           </>
 
          )}
+        
       </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -1,6 +1,5 @@
-import React,{useState, useEffect,useContext} from 'react'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
+import React,{useState, useEffect} from 'react'
+import logo1 from '../assets/images/Logo-3_-_Copy-removebg-preview.png'
 import Sidebar from '../components/Sidebar'
 import Card from '../components/Cards'
 import LiveTvIcon from '@mui/icons-material/LiveTv';
@@ -8,7 +7,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
 import axios from 'axios'
 import {styled} from '@mui/styles'
-import { AuthContext } from '../context/AuthContext';
+
 
 const LiveTvIco = styled(LiveTvIcon)({
   color:'black',
@@ -23,7 +22,7 @@ const HistoryIco = styled(HistoryIcon)({
 const CircleRoundedIco = styled(CircleRoundedIcon)({
   color:'red',
 });
-const Home = (query) => {
+const Home = () => {
   const [dataProduct, setDataProduct] = useState([])
   const [liveStream,setLive]=useState([])
   const [sp1, setSp1] = useState(null)
@@ -90,8 +89,8 @@ const Home = (query) => {
           <>
                   <br></br>
             <div className="heading">
-             <h2 key={index1}>{item1.section_name}<span>20% off</span></h2>
-               <a href={`/layout_detail/${item1.uid}`} >view all</a>
+             <h2 key={index1}>{item1.section_name}<span>Khuyến mãi</span></h2>
+               <a href={`/layout_detail/${item1.uid}`} >Hiện thêm</a>
             </div>
             <br></br>
             <div className='row px-xl-5 pb-3'>
@@ -115,8 +114,19 @@ const Home = (query) => {
           </div>
           <form>
             {list?.map((item,index)=>(   
-              <div className='custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3'>
-                 <a id={item.uid} onClick={onClick1} >{item.title}</a>
+              <div className="card mb-3" style={{maxWidth:"540px"}} key={index}>
+              <div className="row no-gutters">
+                <div className="col-md-4">
+                  <img src={logo1} className="card-img"/>
+                </div>
+                <div className="col-md-8">
+                  <div className="card-body">
+                  <h5 className="card-title">{item.title}</h5>
+                  <p className="card-text"><small className="text-muted">AT 3/12/2020</small></p>
+                  <button id={item.uid} className="btn btn-primary" onClick={onClick1} >Xem ngay</button>
+                  </div>
+                </div>
+              </div>
               </div>
                   ))}
             </form>
@@ -128,9 +138,9 @@ const Home = (query) => {
               <h2 className='font-weight-semi-bold mb-4'><LiveTvIco/>Live stream</h2>
             </div>
             {liveStream?.map((item,index)=>(   
-            <div className='row px-xl-5 pb-3'>
+            <div className='row px-xl-5 pb-3' key={index}>
               <h2><CircleRoundedIco/>{item.title}</h2>
-              <iframe src={item.source}  width="1280" height="720" style={{border:'none',overflow:'hidden'}} scrolling="no" frameborder="0" allowfullcreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+              <iframe src={item.source}  width="1280" height="720" style={{border:'none',overflow:'hidden'}} scrolling="no" allowfullcreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
             </div>
               ))}
         </div>

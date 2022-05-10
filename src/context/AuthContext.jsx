@@ -1,9 +1,8 @@
+import React  from 'react';
 import{createContext,useState,useEffect} from 'react'
-import { decodeToken } from "react-jwt";
 import jwt_decode from "jwt-decode";
 import axios from 'axios'
-import {Navigate, useLocation} from 'react-router-dom';
-import { Nav } from 'react-bootstrap';
+
 const AuthContext = createContext()
 
 
@@ -131,7 +130,7 @@ let updateToken = async()=>{
           }
 }
 //delete all item
-const deleteAll=async(e) =>{
+const deleteAll=async() =>{
   let customer_id=user.Infouser[0]?.uid
     let config ={
       headers:{
@@ -142,6 +141,7 @@ const deleteAll=async(e) =>{
     customer_id
    },
    config)
+   setSoluong(0)
 };
 //handle checkout order
 let billAdd=()=>{
@@ -159,7 +159,7 @@ const value={
   }
 
 //hanlde refresh 
-/*useEffect(()=>{
+useEffect(()=>{
   // so sánh giờ hệ thống -- Time out 
     let fourMinutes=10000*30
     let interval= setInterval(()=>{
@@ -170,7 +170,7 @@ const value={
     },fourMinutes)
     return ()=>clearInterval(interval)
 
-},[authTokens,loading1])*/
+},[authTokens,loading1])
 
 
     return(

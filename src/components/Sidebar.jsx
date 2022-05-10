@@ -37,10 +37,10 @@ const Sidebar = () => {
                 <nav className="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 sticky-top" id="navbar-vertical">
                     <div className="navbar-nav w-100 overflow-hidden" style={{height: "410px"}}>
                     {data?.map((item,index)=>(
-                        <div className="nav-item dropdown">
+                        <div className="nav-item dropdown" key={index}>
                         <a  className="nav-link" data-toggle="dropdown" id={item.uid} key={index}>{item.cate_name}</a>
                             <div className="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                            {item?.sub_cate.map((item1,index)=>(
+                            {item?.sub_cate.map((item1,index1)=>(
                               <>
                                 <a href={`/product/${item1.uid}`} className="dropdown-item">{item1.cate_name}</a>
                                 </>

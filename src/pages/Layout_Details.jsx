@@ -1,17 +1,12 @@
-import React,{useState, useEffect,useContext, useMemo} from 'react'
+import React,{useState, useEffect, useMemo} from 'react'
 import { useParams } from 'react-router-dom';
-import styled from "styled-components";
 import Card from '../components/Cards'
 import axios from 'axios'
-const PProduct = styled.div`
-display: flex;
-max-width: inherit;
-`;
+
 
 const Layout_Details = () => {
     const params = useParams();
     const [dataProduct, setDataProduct] = useState([])
-    const [sp1, setSp1] = useState(null)
     const[data,setData]=useState([]);
     useEffect(()=>{
       fetchData()
@@ -40,6 +35,9 @@ const Layout_Details = () => {
     setDataProduct(data1.data.result)
     },[]);
       return (
+        <>
+        <br></br>
+        <br></br>
         <div className='container-fluid pt-5'>
         <div className='row px-xl-5'>
           {/* Shop Sidebar start */}
@@ -49,7 +47,7 @@ const Layout_Details = () => {
               <h5 className='font-weight-semi-bold mb-4'>Lọc bởi danh mục</h5>
               <form>
               {data?.map((item,index)=>(   
-                <div className='custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3'>
+                <div className='custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3' key={index}>
                    <a key={index} href={`/product/${item.uid}`} >{item.cate_name}</a>
                 </div>
                     ))}
@@ -88,6 +86,7 @@ const Layout_Details = () => {
           </div>
         </div>
       </div>
+      </>
       )
 }
 

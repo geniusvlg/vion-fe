@@ -1,16 +1,13 @@
-import React,{useState, useEffect,useContext, useMemo} from 'react'
+import React,{useState, useEffect, useMemo} from 'react'
 import { useParams } from 'react-router-dom';
-import styled from "styled-components";
+
 import Card from '../components/Cards'
 import axios from 'axios'
-const PProduct = styled.div`
-display: flex;
-max-width: inherit;
-`;
-const Product_List = (query) => {  
+
+const Product_List = () => {  
   const params = useParams();
   const [dataProduct, setDataProduct] = useState([])
-  const [sp1, setSp1] = useState(null)
+
   const[data,setData]=useState([]);
   useEffect(()=>{
     fetchData()
@@ -31,6 +28,9 @@ const Product_List = (query) => {
  })
  }, []);
     return (
+      <>
+      <br></br>
+      <br></br>
       <div className='container-fluid pt-5'>
       <div className='row px-xl-5'>
         {/* Shop Sidebar start */}
@@ -42,12 +42,12 @@ const Product_List = (query) => {
                 <nav className="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 sticky-top" id="navbar-vertical">
                     <div className="navbar-nav w-100 overflow-hidden" style={{height: "410px"}}>
                     {data?.map((item,index)=>(
-                        <div className="nav-item dropdown">
+                        <div className="nav-item dropdown" key={index}>
                         <a  className="nav-link" data-toggle="dropdown" id={item.uid} key={index}>{item.cate_name}</a>
                             <div className="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
                             {item?.sub_cate.map((item1,index)=>(
                               <>
-                                <a href={`/product/${item1.uid}`} className="dropdown-item">{item1.cate_name}</a>
+                                <a href={`/product/${item1.uid}`}  className="dropdown-item" key={index}>{item1.cate_name}</a>
                                 </>
                             ))}
                             </div>
@@ -84,7 +84,7 @@ const Product_List = (query) => {
           </div>
         </div>
       </div>
-    </div>
+    </div></>
     )
 }
 

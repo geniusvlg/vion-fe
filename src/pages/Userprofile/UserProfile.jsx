@@ -7,6 +7,7 @@ import Userinfo from "../../components/Userprofile/Userinfo";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { IoLogOutOutline } from "react-icons/io5";
+import Voucher from "../../components/Voucher";
 
 const CardWrapper = styled.div`
   overflow: hidden;
@@ -265,14 +266,26 @@ export default function Userprofile() {
         <CardQuit onClick={context.logoutUser}>Thoát<IoLogOutOutline size={20}/></CardQuit>
     
       </CardFieldset>
+      {context.user.Infouser[0]?.customer_name != context.user.Infouser[0]?.phone_number?(
       <CardFieldset>
         <CardH2 className={toggleState === 1 ? "active-tabs" : ""}
           onClick={() => toggleTab(1)}>Lịch sử mua hàng</CardH2>
         <CardH2 className={toggleState === 2 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}>Đơn hàng hiện tại</CardH2>
-        <CardH2 className={toggleState === 3 ? "active-tabs" : ""}
+        <CardH2 className={toggleState === 3 && context.user.Infouser[0]?.customer_name ? "active-tabs" : ""}
           onClick={() => toggleTab(3)}>Thông tin cá nhân</CardH2>
+        <CardH2 className={toggleState === 4 && context.user.Infouser[0]?.customer_name ? "active-tabs" : ""}
+          onClick={() => toggleTab(4)}>Voucher của bạn</CardH2>
       </CardFieldset>
+      ):(
+        <CardFieldset>
+        <CardH2 className={toggleState === 1 ? "active-tabs" : ""}
+          onClick={() => toggleTab(1)}>Lịch sử mua hàng</CardH2>
+        <CardH2 className={toggleState === 2 ? "active-tabs" : ""}
+          onClick={() => toggleTab(2)}>Đơn hàng hiện tại</CardH2>
+      </CardFieldset>
+      )
+        }
       <div className={toggleState === 1 ? "content  active-content" : "content"}>
         <History/>
       </div>
@@ -282,7 +295,9 @@ export default function Userprofile() {
       <div className={toggleState === 3 ? "content  active-content" : "content"}>
         <Userinfo/>
       </div>
-  
+      <div className={toggleState === 4 ? "content  active-content" : "content"}>
+        <Voucher/>
+      </div>
     </CardBody>
   </CardLoginForm> 
 </CardWrapper>

@@ -1,4 +1,4 @@
-import React,{useState, useEffect,useContext, useMemo} from 'react'
+import React,{useState, useEffect, useMemo} from 'react'
 import { useParams } from 'react-router-dom';
 
 import Card from '../components/Cards'
@@ -35,6 +35,9 @@ const Product_search = () => {
   },[]);
 
   return (
+    <>
+      <br></br>
+      <br></br>
     <div className='container-fluid pt-5'>
       <div className='row px-xl-5'>
         {/* Shop Sidebar start */}
@@ -46,7 +49,7 @@ const Product_search = () => {
             <h5 className='font-weight-semi-bold mb-4'>Lọc bởi danh mục</h5>
             <form>
             {data?.map((item,index)=>(   
-              <div className='custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3'>
+              <div className='custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3' key={index}>
                  <a key={index} href={`/product/${item.uid}`} >{item.cate_name}</a>
               </div>
                   ))}
@@ -91,6 +94,7 @@ const Product_search = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 
