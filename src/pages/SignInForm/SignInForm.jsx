@@ -159,7 +159,7 @@ export default function LoginForm() {
 
   return (
   <>
-    	{context.user? ( 
+    	{context?.user? ( 
         navigate("/")
       ):(
         <>
@@ -170,10 +170,10 @@ export default function LoginForm() {
           <CardHeading>Đăng nhập</CardHeading>
         </CardHeader>
         <div>
-          {context.error && <ErrorMessage variant='danger'>{context.error}</ErrorMessage>}
-          {context.loading && <Loading/>}
+          {context?.error && <ErrorMessage variant='danger'>{context?.error}</ErrorMessage>}
+          {context?.loading && <Loading/>}
         </div>
-        <CardLoginForm onSubmit={handleSubmit(context.submitHandler)}>
+        <CardLoginForm onSubmit={handleSubmit(context?.submitHandler)}>
           <CardBody>
             <CardFieldset>
               <CardInput id="username" placeholder="Tài khoản hoặc Số điện thoại" type="text" name="username"{...register("user_name")} required />

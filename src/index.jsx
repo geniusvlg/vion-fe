@@ -7,6 +7,8 @@ import { LayoutProvider } from "./context/LayoutContext";
 import { UserProvider } from "./context/UserContext";
 import LoginContextComponent from "./context/LoginContext";
 import LoadingContextComponent from "./context/LoadingContext";
+import { ThemeProvider } from '@material-ui/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import Layout from './components/Layout';
 ReactDOM.render(
   <ThemeProvider theme={Themes.default}>

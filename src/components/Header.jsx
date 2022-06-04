@@ -47,8 +47,8 @@ const Header = () => {
    setData(result)
  };
   useEffect(() => {
-    context.getcartlength()
-  }, [context.user]);
+    context?.getcartlength()
+  }, [context?.user]);
   
 
   const onFormSubmit = () => {
@@ -62,7 +62,7 @@ const Header = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav" >
     
-        {context.user? (
+        {context?.user? (
           <>
             <Nav style={{  textAlign:"right",
                 lineHeight:"50px"}}>
