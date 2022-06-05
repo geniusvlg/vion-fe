@@ -70,28 +70,28 @@ const Footer = () => {
                 <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
                     <div className="d-flex align-items-center border mb-4" style={{padding: '30px'}}>
                         <h1><Done/></h1>
-                        <h5 className="font-weight-semi-bold m-0">Quality Product</h5>
+                        <h5 className="font-weight-semi-bold m-0">Đảm bảo chất lượng</h5>
                     </div>
                 </div>
 
               <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
                   <div className="d-flex align-items-center border mb-4" style={{padding: '30px'}}>
                       <h1><Truck/></h1>
-                      <h5 className="font-weight-semi-bold m-0">Free Shipping</h5>
+                      <h5 className="font-weight-semi-bold m-0">Miễn phí giao hàng</h5>
                   </div>
               </div>
 
               <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
                   <div className="d-flex align-items-center border mb-4" style={{padding: '30px'}}>
                       <h1><Tag/></h1>
-                      <h5 className="font-weight-semi-bold m-0">14-Day Return</h5>
+                      <h5 className="font-weight-semi-bold m-0">Hoàn trả nhanh chóng</h5>
                   </div>
               </div>
 
               <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
                   <div className="d-flex align-items-center border mb-4" style={{padding: '30px'}}>
                       <h1><Basket/></h1>
-                      <h5 className="font-weight-semi-bold m-0">24/7 Support</h5>
+                      <h5 className="font-weight-semi-bold m-0">Hổ trợ 24/7</h5>
                   </div>
               </div>
           </div>
@@ -103,38 +103,13 @@ const Footer = () => {
                     <h1 className="mb-4 display-5 font-weight-semi-bold">Vion Mart</h1>
                 </a>
                 <p>Dolore erat dolor sit lorem vero amet. Sed sit lorem magna, ipsum no sit erat lorem et magna ipsum dolore amet erat.</p>
-                <p className="mb-2"><i class="text-primary mr-3"><RoomIcon/></i>123 Street, New York, USA</p>
-                <p className="mb-2"><i class="text-primary mr-3"><EmailIcon/></i>info@example.com</p>
-                <p className="mb-0"><i class="text-primary mr-3"><LocalPhoneIcon/></i>+012 345 67890</p>
+                <p className="mb-2"><i class="text-primary mr-3"><RoomIcon/></i>168, Ngô Quyền, phường 1, tp Cà Mau</p>
+                <p className="mb-2"><i class="text-primary mr-3"><EmailIcon/></i>vionmart2021@gmail.com</p>
             </div>
             <div className='col-lg-8 col-md-12'>
               <div className='row'>
-                  <div className='col-md-4 mb-5'>
-                      <h5 className='font-weight-bold text-dark mb-4'>Quick Links</h5>
-                      <div className='d-flex flex-column justify-content-start'>
-                          <a className="text-dark mb-2" href="index.html"><i class="mr-2"><ArrowRightIcon/></i>Home</a>
-                          <a className="text-dark mb-2" href="shop.html"><i class="mr-2"><ArrowRightIcon/></i>Our Shop</a>
-                          <a className="text-dark mb-2" href="detail.html"><i class="mr-2"><ArrowRightIcon/></i>Shop Detail</a>
-                          <a className="text-dark mb-2" href="cart.html"><i class="mr-2"><ArrowRightIcon/></i>Shopping Cart</a>
-                          <a className="text-dark mb-2" href="checkout.html"><i class="mr-2"><ArrowRightIcon/></i>Checkout</a>
-                          <a className="text-dark" href="contact.html"><i class="mr-2"><ArrowRightIcon/></i>Contact Us</a>
-                      </div>
-                  </div>
-                  
-                  <div className='col-md-4 mb-5'>
-                      <h5 className='font-weight-bold text-dark mb-4'>Newsletter</h5>
-                      <form action="">
-                          <div className='form-group'>
-                            <input type="text" className="form-control border-0 py-4" placeholder="Your Name" required="required" />
-                          </div>
-                          <div className='form-group'>
-                            <input type="email" className="form-control border-0 py-4" placeholder="Your Email" required="required" />
-                          </div>
-                          <div>
-                            <button className="btn btn-primary btn-block border-0 py-3" type="submit">Subscribe Now</button>
-                          </div>
-                      </form>
-                  </div>
+               
+               
               </div>
             </div>
         </div>

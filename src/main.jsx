@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Themes from "./themes";
 import { AuthProvider } from "./context/AuthContext";
-import Layout from './components/Layout';
+import Layout  from "./components/Layout"
 import * as serviceWorker from "./serviceWorker";
 import { LayoutProvider } from "./context/LayoutContext";
 import { UserProvider } from "./context/UserContext";

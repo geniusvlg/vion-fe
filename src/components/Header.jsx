@@ -34,14 +34,14 @@ const Header = () => {
  /* const [isOpen, setIsOpen] = useState(false);*/
   let navigate = useNavigate();
   let context=useContext(AuthContext)
-  const [title, setTitle] = useState('')
+  const [title, setTitle] = useState(null)
   const[data,setData]=useState([]);
   useEffect(()=>{
     fetchData()
   },[]);
   const fetchData= async () => {
     //Call GraphQl API
-   const response = await axios.get(`${process.env.HOST_URL}/api_public/list/categories`);
+   const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/api_public/list/categories`);
    //Update component state
    const result= response.data?.data ?? [];
    setData(result)
@@ -51,9 +51,11 @@ const Header = () => {
   }, [context?.user]);
   
 
-  const onFormSubmit = () => {
+  const onFormSubmit = (e) => {
+    e.preventDefault()
     navigate(`/product_search/${title}`);
   }
+  
     return (
       <>
       <Navbar collapseOnSelect expand="lg" bg="myColor" fixed='top'>
@@ -90,7 +92,7 @@ const Header = () => {
             aria-label="Search"
             onChange={event => setTitle(event.target.value)}
           />
-             <Button variant="outline-success">Tìm kiếm</Button>
+             <Button variant="outline-success" onClick={onFormSubmit}>Tìm kiếm</Button>
           </Form>
            </Nav>
           </>
@@ -116,14 +118,14 @@ const Header = () => {
          
           <Nav>
         <Form className="d-flex" onSubmit={onFormSubmit}>
-          <FormControl
-            type="search"
+        
+          <FormControl  type="search"
             placeholder="Tìm kiếm sản phẩm" 
             className="me-2"
             aria-label="Search"
-            onChange={event => setTitle(event.target.value)}
-          />
-             <Button variant="outline-success">Tìm kiếm</Button>
+            onChange={event => setTitle(event.target.value)}>
+          </FormControl>
+          <Button variant="outline-success" onClick={onFormSubmit}>Tìm</Button>
           </Form>
         </Nav>
           </>

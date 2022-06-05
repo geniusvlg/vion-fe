@@ -1,11 +1,12 @@
 import React, { useState,useEffect,useContext  } from 'react';
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from '../../context/AuthContext';
 import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
 import {useNavigate} from 'react-router-dom';
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
+import jwt_decode from "jwt-decode";
 import * as yup from "yup";
 import axios from 'axios';
 const schema = yup.object().shape({
@@ -153,13 +154,45 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors }
   } = useForm({ resolver: yupResolver(schema) });
-
-  const context=useContext(AuthContext)
+  let context=useContext(AuthContext)
+  let [redirect,setRedirect] = useState(false);
+  let [error,setError]=useState(false);
+  let [loading,setLoading]=useState(false)
   let navigate=useNavigate()
-
+  let loginSubmit = async(data2) => {
+      let user_name=data2.user_name.replace(/\s/g, '')
+      let password=data2.password.replace(/\s/g, '')
+      const config ={
+        headers:{
+            "Content-type":"application/json"
+        }
+      }
+      setLoading(true)
+      let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/login`,{
+        user_name,password
+      },  
+      config)
+      if(data.statuscode==200)
+      {
+        context?.setAuthTokens(data)
+        let Token = JSON.stringify(data.acsessToken)
+        context?.setUser(jwt_decode(Token))
+        console.log(data.statuscode)
+        localStorage.setItem('authTokens',JSON.stringify(data));  
+        setLoading(false)
+        setRedirect(true)
+      }
+      else
+      {
+      setError(data.message)
+      setLoading(false)
+      setRedirect(false) 
+      }
+  }
+  
   return (
   <>
-    	{context?.user? ( 
+    	{redirect? ( 
         navigate("/")
       ):(
         <>
@@ -170,10 +203,10 @@ export default function LoginForm() {
           <CardHeading>Đăng nhập</CardHeading>
         </CardHeader>
         <div>
-          {context?.error && <ErrorMessage variant='danger'>{context?.error}</ErrorMessage>}
-          {context?.loading && <Loading/>}
+          {error && <ErrorMessage variant='danger'>{error}</ErrorMessage>}
+          {loading && <Loading/>}
         </div>
-        <CardLoginForm onSubmit={handleSubmit(context?.submitHandler)}>
+        <CardLoginForm onSubmit={handleSubmit(loginSubmit)}>
           <CardBody>
             <CardFieldset>
               <CardInput id="username" placeholder="Tài khoản hoặc Số điện thoại" type="text" name="username"{...register("user_name")} required />

@@ -32,7 +32,7 @@ const [total,setTotal]=useState(0)
         }
       }
       setLoading(true)
-      let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/login`,{
+      let {data}= await axios.post('https://8112-116-110-40-244.ap.ngrok.io/api_public/list/login',{
         user_name,password,
       },  
       config)
@@ -98,7 +98,15 @@ const [total,setTotal]=useState(0)
         user_name
       },  
       config)
-    setSoluong(data.Check[0]?.cart_items.length)
+      if(data.statusCode==200)
+      {
+      console.log("getcartlength:",data)
+   setSoluong(data?.Check[0]?.cart_items.length)
+      }
+      else
+      {
+        setSoluong(0)
+      }
   }
 // logout 
   let logoutUser =()=>{
@@ -155,7 +163,7 @@ const value={
     authTokens,
     refresh,dataProduct,total,flag,soluongSP,
     submitHandler,setError,logoutUser,setRefresh,onLoginSubmit,
-   billAdd,deleteAll,setDataProduct,setSoluong,setTotal,getcartlength
+   billAdd,deleteAll,setDataProduct,setSoluong,setTotal,getcartlength,setUser,setAuthTokens
   }
 
 //hanlde refresh 
