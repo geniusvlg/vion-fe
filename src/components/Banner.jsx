@@ -8,7 +8,7 @@ const Banner = () => {
   useEffect(()=>{
     const fetchData= async () => {
        //Call GraphQl API
-      const response = await axios.get('http://localhost:60000/api_public/list/slider');
+      const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/api_public/list/slider`);
       //Update component state
       const result= response.data?.data ?? [];
       setData(result)

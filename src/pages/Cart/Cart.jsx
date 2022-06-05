@@ -23,7 +23,7 @@ const Cart = () => {
             "authorization": "Bearer "+ acsess
         }
       }
-      let {data}= await axios.post('http://localhost:60000/api_public/getCart/',{
+      let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/getCart/`,{
         user_name
       },  
       config)

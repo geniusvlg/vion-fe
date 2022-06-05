@@ -38,14 +38,14 @@ const Home = () => {
   useEffect(() => {
     if(sp1==null)
     {
-    axios.get('http://localhost:60000/api_public/live/').then(res => {
+    axios.get(`${process.env.REACT_APP_HOST_URL}/api_public/live/`).then(res => {
       setLive(res.data.result)
     })
     }
     else
     {
       let history=sp1
-      axios.post('http://localhost:60000/api_public/checkLive/', {
+      axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/checkLive/`, {
       history
     }).then(res => {
       setLive(res.data.result)
@@ -55,13 +55,13 @@ const Home = () => {
   
   
   useEffect(() => {
-    axios.get('http://localhost:60000/api_public/history/').then(res => {
+    axios.get(`${process.env.REACT_APP_HOST_URL}/api_public/history/`).then(res => {
       setLis(res.data.result)
     })
   }, []);
   
   /* useEffect(() => {
-    axios.post('http://localhost:60000/api_public/list/product', {
+    axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/product`, {
       number: query.pageSize || 9,
       page: query.page || 0,
       // ...{filter: (strFilter ? strFilter : '')}
@@ -70,7 +70,7 @@ const Home = () => {
     })
   }, []);*/
   useEffect(() => {
-    axios.post('http://localhost:60000/api_public/getlayout/', {
+    axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/getlayout/`, {
         number,offset,layout
     }).then(res => {
       setDataProduct(res.data.result)

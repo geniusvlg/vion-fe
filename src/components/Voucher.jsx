@@ -20,7 +20,7 @@ const Voucher = () => {
               "Content-type":"application/json"
           }
         }
-        let {data}= await axios.post('http://localhost:60000/api_public/listVouch',{
+        let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/listVouch`,{
             customer_id
         },
         config)

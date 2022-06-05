@@ -32,7 +32,7 @@ const [total,setTotal]=useState(0)
         }
       }
       setLoading(true)
-      let {data}= await axios.post('http://localhost:60000/api_public/list/login',{
+      let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/login`,{
         user_name,password,
       },  
       config)
@@ -63,7 +63,7 @@ const [total,setTotal]=useState(0)
         }
       }
       setloading1(true)
-      const {data}= await axios.post('http://localhost:60000/api_public/hidlogin',{
+      const {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/hidlogin`,{
        phone_number
       },
       config)
@@ -94,7 +94,7 @@ const [total,setTotal]=useState(0)
             "authorization": "Bearer "+ acsess
         }
       }
-      let {data}= await axios.post('http://localhost:60000/api_public/getCart/',{
+      let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/getCart/`,{
         user_name
       },  
       config)
@@ -115,7 +115,7 @@ let updateToken = async()=>{
                   "Content-type":"application/json"
               }
             }
-            const {data}= await axios.post('http://localhost:60000/api_public/list/refresh',{
+            const {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/refresh`,{
               token:authTokens.refreshToken
             },  
             config)
@@ -137,7 +137,7 @@ const deleteAll=async() =>{
           "Content-type":"application/json"
       }
     }
-    let {data1}=  await axios.post('http://localhost:60000/api_public/deleteallitem/',{
+    let {data1}=  await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/deleteallitem/`,{
     customer_id
    },
    config)

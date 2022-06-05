@@ -88,7 +88,7 @@ const Cards = ({data}) => {
           "authorization": "Bearer "+ acsess
       }
     }
-    let data1=  await axios.post('http://localhost:60000/api_public/addCart/',{
+    let data1=  await axios.post(`${process.env.HOST_URL}/api_public/addCart/`,{
     customer_id,items,user_name
    },
    config)

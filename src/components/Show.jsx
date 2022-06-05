@@ -22,7 +22,7 @@ const Show = ({data,setTam,setTotal}) => {
               "authorization": "Bearer "+ acsess
           }
         }
-        let data1=  await axios.post('http://localhost:60000/api_public/submitCart',{
+        let data1=  await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/submitCart`,{
         customer_id,items,user_name
        },
        config)
@@ -49,7 +49,7 @@ const Show = ({data,setTam,setTotal}) => {
             "authorization": "Bearer "+ acsess
         }
       }
-      let data1=  await axios.post('http://localhost:60000/api_public/submitCart',{
+      let data1=  await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/submitCart`,{
       customer_id,items,user_name
      },
      config)
@@ -76,7 +76,7 @@ const deleteClick =async(e) =>{
         "authorization": "Bearer "+ acsess
     }
   }
-  let data1=  await axios.post('http://localhost:60000/api_public/deleteitem/',{
+  let data1=  await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/deleteitem/`,{
     customer_id,items,user_name
    },
    config)

@@ -172,7 +172,7 @@ export default function LoginForm() {
         }
       }
       setLoading(true)
-      const data2= await axios.post('http://localhost:60000/api_public/list/forgotpassword',{
+      const data2= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/forgotpassword`,{
        phone_number,password
       },
       config)

@@ -154,7 +154,7 @@ let conver2=(data2)=>{
          "Content-type":"application/json"
      }
    }
-   let {data}= await axios.post('http://localhost:60000/api_public/getPresentOrderListByPhonenumber/',{
+   let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/getPresentOrderListByPhonenumber/`,{
      phone_number,date1,Slide
    },  
    config)

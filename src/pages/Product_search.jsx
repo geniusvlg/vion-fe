@@ -14,11 +14,12 @@ const Product_search = () => {
     },[]);
   const fetchData= async () => {
       //Call GraphQl API
-     const response = await axios.get('http://localhost:60000/api_public/list/categories');
+     const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/api_public/list/categories`);
      //Update component state
      const result= response.data?.data ?? [];
      setData(result)
    };
+
    useMemo(async () => {
     let title=params.uid
     let config ={
@@ -26,14 +27,30 @@ const Product_search = () => {
           "Content-type":"application/json"
       }
     }
-    let data1=  await axios.post('http://localhost:60000/api_public/searchproduct/',{
+    let data1=  await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/searchproduct/`,{
       title
    },
    config)
-   console.log("data1:",data1)
    setDataProduct(data1.data)
-  },[]);
-
+  },[params.uid]);
+  const handleId = (e) => {
+     if(e.target.id=="high")
+     {
+      dataProduct.result.sort((a, b) => {
+        let fa = a.pricing.price_with_vat
+        let  fb = b.pricing.price_with_vat
+      return fb - fa
+      })
+     }
+     else 
+     {
+      dataProduct.result.sort((a, b) => {
+        let fa = a.pricing.price_with_vat
+        let  fb = b.pricing.price_with_vat
+      return fa - fb
+      })
+     }
+   }
   return (
     <>
       <br></br>
@@ -69,11 +86,10 @@ const Product_search = () => {
                   </div>
                 </form>
                 <div className='dropdown ml-4'>
-                  <button className='btn border dropdown-toggle' type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tìm kiếm</button>
+                  <button className='btn border dropdown-toggle' type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lọc</button>
                   <div className='dropdown-menu dropdown-menu-right' aria-labelledby="triggerId">
-                    <a className="dropdown-item" href="#">Mới Nhất</a>
-                    <a className="dropdown-item" href="#">Phổ Biến</a>
-                    <a className="dropdown-item" href="#">Đánh Giá Cao Nhất</a>
+                    <a className="dropdown-item" id='high' onClick={(e)=>handleId(e)} href="#">Giá cao nhất </a>
+                    <a className="dropdown-item" id='low' onClick={(e)=>handleId(e)} href="#">Giá thấp nhất</a>
                   </div>
                 </div>
               </div>

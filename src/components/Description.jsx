@@ -88,7 +88,7 @@ const changeClick =async (e) =>{
         "authorization": "Bearer "+ acsess
     }
   }
-  let data1=  await axios.post('http://localhost:60000/api_public/addCart/',{
+  let data1=  await axios.post(`${process.env.HOST_URL}/api_public/addCart/`,{
   customer_id,items,user_name
  },
  config)
@@ -118,7 +118,7 @@ const submitComment= async()=>{
         "Content-type":"application/json"
     }
   }
-  let {data}= await axios.post('http://localhost:60000/api_public/pushcomment',{
+  let {data}= await axios.post(`${process.env.HOST_URL}/api_public/pushcomment`,{
     productid,
     customerid,
     comment

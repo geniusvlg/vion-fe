@@ -246,7 +246,7 @@ const registerSubmit = async(data) => {
         }
       }
       setLoading(true)
-      const data2= await axios.post('http://localhost:60000/api_public/list/register',{
+      const data2= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/register`,{
        user_name,password,phone_number,address_des,email,district,province,gender,full_name
       },
       config)
@@ -291,7 +291,7 @@ useEffect(() => {
   getcity()
 }, []);
 let getcity=async ()=>{
-  let {data}= await axios.get('http://localhost:60000/api_public/list/city')
+  let {data}= await axios.get(`${process.env.REACT_APP_HOST_URL}/api_public/list/city`)
   setData(data.data)
 }
 //chon quan huyen and show huyen quan
@@ -305,7 +305,7 @@ let getdistrict=async()=>{
         "Content-type":"application/json"
     }
   }
-  let {data}= await axios.post('http://localhost:60000/api_public/list/province',{
+  let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/province`,{
     quan
   },  
   config)
@@ -322,7 +322,7 @@ let getprovince=async()=>{
         "Content-type":"application/json"
     }
   }
-  let {data}= await axios.post('http://localhost:60000/api_public/list/province',{
+  let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/province`,{
     quan
   },  
   config)

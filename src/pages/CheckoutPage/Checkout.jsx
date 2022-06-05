@@ -49,7 +49,7 @@ const Checkout = () => {
           "Content-type":"application/json"
       }
     }
-    let {data}= await axios.post('http://localhost:60000/api_public/listVouch',{
+    let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/listVouch`,{
         customer_id
     },  
     config)
@@ -65,7 +65,7 @@ const Checkout = () => {
               "authorization": "Bearer "+ acsess
           }
         }
-        let {data}= await axios.post('http://localhost:60000/api_public/getCart/',{
+        let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/getCart/`,{
           user_name
         },  
         config)
@@ -83,7 +83,7 @@ const Checkout = () => {
     getcity()
   }, []);
     let getcity=async ()=>{
-    let {data}= await axios.get('http://localhost:60000/api_public/list/city')
+    let {data}= await axios.get(`${process.env.REACT_APP_HOST_URL}/api_public/list/city`)
     setData(data.data)
   }
   //chon quan huyen and show huyen quan
@@ -104,7 +104,7 @@ const Checkout = () => {
           "Content-type":"application/json"
       }
     }
-    let {data}= await axios.post('http://localhost:60000/api_public/list/province',{
+    let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/province`,{
       quan
     },  
     config)
@@ -128,7 +128,7 @@ const Checkout = () => {
           "Content-type":"application/json"
       }
     }
-    let {data}= await axios.post('http://localhost:60000/api_public/list/province',{
+    let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/province`,{
       quan
     },  
     config)
@@ -192,7 +192,7 @@ const Checkout = () => {
                 "Content-type":"application/json"
             }
           }
-          let {data}= await axios.post('http://localhost:60000/api_public/list/fixadd',{
+          let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/fixadd`,{
             customer_id,full_name,address_des,district,province,gender,voucher
           },  
           config)
@@ -215,7 +215,7 @@ const Checkout = () => {
                 "Content-type":"application/json"
             }
         }
-        let {data}= await axios.post('http://localhost:60000/api_public/submitOrder',{
+        let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/submitOrder`,{
             customer_id,full_name,customer_name, phone_number,address_des,address_type,district,province,items,voucherr
         },  
         config)

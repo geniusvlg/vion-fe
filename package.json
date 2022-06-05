@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "vbuild": "vite build",
-    "start": "react-scripts start",
+    "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
     "build": "cross-env NODE_ENV=production GENERATE_SOURCEMAP=false DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "build-src": "cross-env NODE_ENV=production DISABLE_ESLINT_PLUGIN=true react-scripts build"
   },  

@@ -74,7 +74,7 @@ useEffect(() => {
   getcity()
 }, []);
 let getcity=async ()=>{
-  let {data}= await axios.get('http://localhost:60000/api_public/list/city')
+  let {data}= await axios.get(`${process.env.REACT_APP_HOST_URL}/api_public/list/city`)
   setData(data.data)
 }
 
@@ -91,7 +91,7 @@ let getdistrict=async()=>{
         "Content-type":"application/json"
     }
   }
-  let {data}= await axios.post('http://localhost:60000/api_public/list/province',{
+  let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/province`,{
     quan
   },  
   config)
@@ -117,7 +117,7 @@ let getprovince=async()=>{
         "Content-type":"application/json"
     }
   }
-  let {data}= await axios.post('http://localhost:60000/api_public/list/province',{
+  let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/province`,{
     quan
   },  
   config)
@@ -152,7 +152,7 @@ let getprovince=async()=>{
               "Content-type":"application/json"
           }
         }
-        let {data}= await axios.post('http://localhost:60000/api_public/list/fixadd',{
+        let {data}= await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/list/fixadd`,{
           customer_id,full_name,address_des,district,province,gender,email
         },  
         config)

@@ -13,7 +13,7 @@ const Layout_Details = () => {
     },[]);
     const fetchData= async () => {
       //Call GraphQl API
-     const response = await axios.get('http://localhost:60000/api_public/list/categories');
+     const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/api_public/list/categories`);
      //Update component state
      const result= response.data?.data ?? [];
      setData(result)
@@ -27,7 +27,7 @@ const Layout_Details = () => {
             "Content-type":"application/json"
         }
         }
-        let data1=  await axios.post('http://localhost:60000/api_public/querylayout/',{
+        let data1=  await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/querylayout/`,{
         title
     },
     config)

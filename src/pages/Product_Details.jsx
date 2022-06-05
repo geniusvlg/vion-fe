@@ -10,7 +10,7 @@ const Product_Details = (props) => {
   const params = useParams();
   const [data2, setProduct2] = useState([])
   useMemo(async () => {
-    await axios.get('http://localhost:60000/api_public/getProductByUid/'+ params.uid).then(res => {
+    await axios.get(`${process.env.REACT_APP_HOST_URL}/api_public/getProductByUid/` + params.uid).then(res => {
        setProduct2(res.data.result)
      })
    }, []);
