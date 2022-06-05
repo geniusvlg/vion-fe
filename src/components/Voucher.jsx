@@ -13,7 +13,7 @@ const Voucher = () => {
         getVoucher()
        }, []);
     let getVoucher=async()=>{
-        let customer_id=context.user.Infouser[0].uid
+        let customer_id=context?.user.Infouser[0].uid
         console.log("cus_id:",customer_id)
         let config ={
           headers:{

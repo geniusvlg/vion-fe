@@ -158,7 +158,7 @@ export default function Numbersign() {
 
   return (
   <>
-    	{context.user? ( 
+    	{context?.user? ( 
         navigate("/")
       ):(
         <>
@@ -167,10 +167,10 @@ export default function Numbersign() {
           <CardHeading>Đăng nhập</CardHeading>
         </CardHeader>
         <div>
-          {context.error && <ErrorMessage variant='danger'>{context.error}</ErrorMessage>}
-          {context.loading && <Loading/>}
+          {context?.error && <ErrorMessage variant='danger'>{context?.error}</ErrorMessage>}
+          {context?.loading && <Loading/>}
         </div>
-        <CardLoginForm onSubmit={handleSubmit(context.onLoginSubmit)}>
+        <CardLoginForm onSubmit={handleSubmit(context?.onLoginSubmit)}>
           <CardBody>
          
           <CardFieldset>

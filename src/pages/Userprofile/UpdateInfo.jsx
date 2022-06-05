@@ -37,7 +37,7 @@ function UpdateInfo() {
     const [phone_number, setPhone] = useState();
     const [address_des, setAddress] = useState();
     const context=useContext(AuthContext)
-    const customer_id=context.user.Infouser[0]?.uid
+    const customer_id=context?.user.Infouser[0]?.uid
     const [email, setEmail] = useState();
     let full_name=firstname +" "+ lastname
 
@@ -159,7 +159,7 @@ let getprovince=async()=>{
         console.log("update:",data)
         if(data.statusCode==200)
         {
-          context.logoutUser()
+          context?.logoutUser()
         }
         else
         {

@@ -77,9 +77,9 @@ const Description = ({product}) => {
 console.log("product:",product)
 const changeClick =async (e) =>{
   let quantity=1
-  let customer_id=context.user.Infouser[0]?.uid
-  let user_name=context.user.Infouser[0]?.customer_name
-  let acsess=context.authTokens?.acsessToken
+  let customer_id=context?.user.Infouser[0]?.uid
+  let user_name=context?.user.Infouser[0]?.customer_name
+  let acsess=context?.authTokens?.acsessToken
   let uid =e.currentTarget.id;
   let items={uid,quantity}
   let config ={
@@ -110,7 +110,7 @@ const changeClick =async (e) =>{
 
   //submit comment
 const submitComment= async()=>{
-  let customerid=context.user.Infouser[0]?.uid
+  let customerid=context?.user.Infouser[0]?.uid
   let productid=product?.uid
   let comment=inputValue
   let config ={
@@ -164,7 +164,7 @@ let checkTotalcoment = (data) =>{
                   <p className="mb-4">Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit clita ea. Sanc invidunt ipsum et, labore clita lorem magna lorem ut. Erat lorem duo dolor no sea nonumy. Accus labore stet, est lorem sit diam sea et justo, amet at lorem et eirmod ipsum diam et rebum kasd rebum.</p>
   
                   <div className="d-flex align-items-center mb-4 pt-2">
-                  {context.user? (
+                  {context?.user? (
                     <>
                      
                      <button className="btn btn-primary px-3" id={product.uid} onClick={(event)=>changeClick(event)}><i className="mr-1"><ShoppingCartIcon/></i> Thêm sản phẩm vào giỏ</button>
@@ -248,7 +248,7 @@ let checkTotalcoment = (data) =>{
                                       <small><StarBorderIcon/></small>
                                       </div>
                                   </div>*/}
-                                   {context.user? (     
+                                   {context?.user? (     
                                       <form>
                                       <div className="form-group">
                                           <label>Bình luận của bạn*</label>

@@ -77,9 +77,9 @@ const Cards = ({data}) => {
   // Xử lý số lượng sản phẩm 
   const changeClick = async(e) =>{
     let quantity=1
-    let customer_id=context.user.Infouser[0]?.uid
-    let user_name=context.user.Infouser[0]?.customer_name
-    let acsess=context.authTokens?.acsessToken
+    let customer_id=context?.user.Infouser[0]?.uid
+    let user_name=context?.user.Infouser[0]?.customer_name
+    let acsess=context?.authTokens?.acsessToken
     let uid =e.currentTarget.id;
     let items={uid,quantity}
     let config ={
@@ -97,7 +97,7 @@ const Cards = ({data}) => {
    if(data1.data.info.statuscode==200)
    {
     
-    context.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
+    context?.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
     toast.success(data1.data.info.message, {
       position: toast.POSITION.BOTTOM_LEFT, autoClose:3000})
    }
@@ -128,7 +128,7 @@ const Cards = ({data}) => {
             {/* Card Footer */}
             <div className="card-footer d-flex justify-content-between bg-light border">
               <a href={`/product_details/${data.uid}`} className="btn btn-sm text-dark p-0"><i className="text-primary mr-1"><Eye/></i>Xem chi tiết</a>
-              {context.user? (
+              {context?.user? (
                 <>
                     <button id={data.uid} onClick={(event)=>changeClick(event)} className="btn btn-sm text-dark p-0"><i className="text-primary mr-1"><Cart/></i>Thêm</button>
                 </>

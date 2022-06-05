@@ -15,8 +15,8 @@ const Cart = () => {
   const [tam,setTam] = useState([]);
   const [total,setTotal]=useState(0)
   useMemo(async () => {
-      let acsess=context.authTokens.acsessToken
-      let user_name=context.user.Infouser[0]?.customer_name
+      let acsess=context?.authTokens.acsessToken
+      let user_name=context?.user.Infouser[0]?.customer_name
       let config ={
         headers:{
             "Content-type":"application/json",
@@ -27,7 +27,7 @@ const Cart = () => {
         user_name
       },  
       config)
-     context.setSoluong(data.Check[0]?.cart_items.length)
+     context?.setSoluong(data.Check[0]?.cart_items.length)
       setTam(data.Check[0]?.cart_items)
       var x=0
       for(var i=0;i<data.Check[0]?.cart_items.length;i++)
@@ -38,13 +38,13 @@ const Cart = () => {
       setTotal(x)
    }, []);
    
-  if(context.flag)
+  if(context?.flag)
   {
     return <Navigate to="/Checkout"/>
   }
     return (
       <> 
-    {context.soluongSP > 0? (
+    {context?.soluongSP > 0? (
       <>
     <section id="blog-home" className="pt-5 mt-5 container">
         <h2 className="font-weight-bold pt-5">Giỏ hàng</h2>
@@ -91,7 +91,7 @@ const Cart = () => {
                             <h5 className="font-weight-bold">Tổng cộng</h5>
                             <h5 className="font-weight-bold">{total+shipping}</h5>
                         </div>
-                        <button className="btn btn-block btn-primary my-3 py-3" onClick={context.billAdd}>Thanh toán</button>
+                        <button className="btn btn-block btn-primary my-3 py-3" onClick={context?.billAdd}>Thanh toán</button>
                     </div>
                 </div>
             </div>

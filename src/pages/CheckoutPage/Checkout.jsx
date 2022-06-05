@@ -13,30 +13,30 @@ const Checkout = () => {
     const context=useContext(AuthContext)
     let navigate=useNavigate()
     let shipping=5000
-    let fullname=context.user.Infouser[0]?.full_name
+    let fullname=context?.user.Infouser[0]?.full_name
     const [data1,setData]=useState([])
     const [data2,setData2]=useState([])
     const [data3,setData3]=useState([])
     const [data4,setData4]=useState([])
     const [data5,setData5]=useState([])
     const [data6,setData6]=useState([])
-    const [city,setCity]=useState(context.user.Infouser[0].address?.district.city[0].uid)
+    const [city,setCity]=useState(context?.user.Infouser[0].address?.district.city[0].uid)
     const [district,setDistrict]=useState()
     const [province,setProvince]=useState()
     const [voucherr,setVoucher]=useState(null)
     const [giamgia,setGiam]=useState()
     const [total,setTotal]=useState()
     const [error,setError]=useState(false);
-    const [customer_id,setcustomer_id]=useState(context.user.Infouser[0]?.uid)
-    const [customer_name,setcustomername]=useState(context.user.Infouser[0]?.customer_name)
-    const [phone_number,setphonenumber]=useState(context.user.Infouser[0]?.phone_number)
-    const [address_des,setaddressdes]=useState(context.user.Infouser[0]?.address?.address_des)
+    const [customer_id,setcustomer_id]=useState(context?.user.Infouser[0]?.uid)
+    const [customer_name,setcustomername]=useState(context?.user.Infouser[0]?.customer_name)
+    const [phone_number,setphonenumber]=useState(context?.user.Infouser[0]?.phone_number)
+    const [address_des,setaddressdes]=useState(context?.user.Infouser[0]?.address?.address_des)
     const [checked, setChecked] = useState(false);
     let [fi,setFi]=useState()
     let  [la,setLa]=useState()
     fi=fullname.split(' ').slice(0,1).join(' ')
     la=fullname.split(' ').slice(1,3).join(' ')
-    let fla =context.user.Infouser[0].address?.district.city[0].uid
+    let fla =context?.user.Infouser[0].address?.district.city[0].uid
 
   // get own voucher 
   useEffect(() => {
@@ -57,8 +57,8 @@ const Checkout = () => {
   }
   // get cart 
   useEffect(async () => {
-        let acsess=context.authTokens.acsessToken
-        let user_name=context.user.Infouser[0]?.customer_name
+        let acsess=context?.authTokens.acsessToken
+        let user_name=context?.user.Infouser[0]?.customer_name
         let config ={
           headers:{
               "Content-type":"application/json",
@@ -95,7 +95,7 @@ const Checkout = () => {
     if(quan == null)
     {
        
-        setCity(context.user.Infouser[0].address?.district.city[0].uid)
+        setCity(context?.user.Infouser[0].address?.district.city[0].uid)
         quan=city
    
     }
@@ -119,7 +119,7 @@ const Checkout = () => {
     let quan=district
     if(quan == null)
     {
-        setDistrict(context.user.Infouser[0].address?.district.uid)
+        setDistrict(context?.user.Infouser[0].address?.district.uid)
         quan=district
        
     }
@@ -142,7 +142,7 @@ const Checkout = () => {
     let quan=province
     if(quan == null)
     {
-        setProvince(context.user.Infouser[0].address?.province.uid)
+        setProvince(context?.user.Infouser[0].address?.province.uid)
         quan=province
        
     }
@@ -224,7 +224,7 @@ const Checkout = () => {
   } 
   if(data4.statusCode == 200)
   {
-      context.deleteAll()
+      context?.deleteAll()
       const customId = "custom-id-yes";
       toast.success(data4.message, {
         position: toast.POSITION.TOP_CENTER, autoClose:1000,
@@ -237,7 +237,7 @@ const Checkout = () => {
 
   return (
     <>
-    {context.flag ? ( 
+    {context?.flag ? ( 
       <>
       <br />
       <br />
@@ -261,17 +261,17 @@ const Checkout = () => {
                           </div>
                           <div className="col-md-6 form-group">
                               <label>Số điện thoại</label>
-                              <input className="form-control" type="text" placeholder={context.user.Infouser[0].phone_number} onInput={e => setphonenumber(e.target.value)}/>
+                              <input className="form-control" type="text" placeholder={context?.user.Infouser[0].phone_number} onInput={e => setphonenumber(e.target.value)}/>
                           </div>
                           <div className="col-md-6 form-group">
                               <label>Địa chỉ </label>
-                              <input className="form-control" type="text" placeholder={context.user.Infouser[0].address?.address_des} onInput={e => setaddressdes(e.target.value)}/>
+                              <input className="form-control" type="text" placeholder={context?.user.Infouser[0].address?.address_des} onInput={e => setaddressdes(e.target.value)}/>
                           </div>
                           <div className="col-md-6 form-group">
                               <label>Thành phố</label>
                               <select className="custom-select" defaultValue="Default" onChange={handleChange}>
                               <option value=" " hidden>
-                              {context.user.Infouser[0].address?.district.city[0].name}
+                              {context?.user.Infouser[0].address?.district.city[0].name}
                              </option>
                              {data1?.map((item,index)=>(
                                 <>
@@ -284,7 +284,7 @@ const Checkout = () => {
                               <label>Phường</label>
                               <select className="custom-select" defaultValue="Default" onChange={handleChange1}>
                               <option value=" " hidden>
-                              {fla==city? (context.user.Infouser[0].address?.district.name):("Vui lòng chọn quận")}
+                              {fla==city? (context?.user.Infouser[0].address?.district.name):("Vui lòng chọn quận")}
                              </option>
                              {data2?.map((item,index)=>(
                                 <>
@@ -297,7 +297,7 @@ const Checkout = () => {
                               <label>Quận</label>
                               <select className="custom-select" defaultValue="Default" onChange={handleChange2}>
                               <option value=" " hidden>
-                              {fla==city? (context.user.Infouser[0].address?.province.name):("Vui lòng chọn phường")
+                              {fla==city? (context?.user.Infouser[0].address?.province.name):("Vui lòng chọn phường")
                                }
                              </option>
                              {data3?.map((item,index)=>(    

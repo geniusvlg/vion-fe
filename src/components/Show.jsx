@@ -12,9 +12,9 @@ const Show = ({data,setTam,setTotal}) => {
   let addClick=async(e)=>{
       let quantity=data.quantity+1
       let uid=e.currentTarget.id
-      let user_name=context.user.Infouser[0]?.customer_name
-      let customer_id=context.user.Infouser[0]?.uid
-      let acsess=context.authTokens?.acsessToken
+      let user_name=context?.user.Infouser[0]?.customer_name
+      let customer_id=context?.user.Infouser[0]?.uid
+      let acsess=context?.authTokens?.acsessToken
       let items={uid,quantity}
         let config ={
           headers:{
@@ -33,15 +33,15 @@ const Show = ({data,setTam,setTotal}) => {
       }
       setTotal(x)
       setTam(data1.data.currentcart.Check[0]?.cart_items)
-      context.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
+      context?.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
   
   }
   let removeClick=async(e)=>{
     let quantity=data.quantity-1
     let uid=e.currentTarget.id
-    let user_name=context.user.Infouser[0]?.customer_name
-    let customer_id=context.user.Infouser[0]?.uid
-    let acsess=context.authTokens?.acsessToken
+    let user_name=context?.user.Infouser[0]?.customer_name
+    let customer_id=context?.user.Infouser[0]?.uid
+    let acsess=context?.authTokens?.acsessToken
     let items={uid,quantity}
       let config ={
         headers:{
@@ -61,13 +61,13 @@ const Show = ({data,setTam,setTotal}) => {
     setTotal(x)
     setTam(data1.data.currentcart.Check[0]?.cart_items)
     console.log(data1.data.currentcart.Check[0]?.cart_items.length)
-    context.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
+    context?.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
     
 }
 const deleteClick =async(e) =>{
-  let acsess=context.authTokens?.acsessToken
-  let user_name=context.user.Infouser[0]?.customer_name
-  let customer_id=context.user.Infouser[0]?.uid
+  let acsess=context?.authTokens?.acsessToken
+  let user_name=context?.user.Infouser[0]?.customer_name
+  let customer_id=context?.user.Infouser[0]?.uid
   let uid=e.currentTarget.id;
   let items={uid}
   let config ={
@@ -89,11 +89,11 @@ const deleteClick =async(e) =>{
   setTam(data1.data.currentcart.Check[0]?.cart_items)
   if(!data1.data.currentcart.Check[0]?.cart_items.length)
   {
-    context.setSoluong(0)
+    context?.setSoluong(0)
   }
   else
   {
-    context.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
+    context?.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
   }
    
 };
@@ -129,7 +129,7 @@ const deleteClick =async(e) =>{
 export default Show;
 //<td><input type="number" className="w-25 pl-1" defaultValue={1}/></td>
 /*<tr>
-<td><button id={data.iproduct.uid}  onClick={(event)=>context.deleteClick(event)}><DeleteForeverOutlinedIcon/></button></td>
+<td><button id={data.iproduct.uid}  onClick={(event)=>context?.deleteClick(event)}><DeleteForeverOutlinedIcon/></button></td>
 <td><img src={data.iproduct.image_cover} alt="" /></td>
 <td><h5>{data.iproduct.product_name}</h5></td>
 <td>{data.iproduct.pricing.price_with_vat}</td>

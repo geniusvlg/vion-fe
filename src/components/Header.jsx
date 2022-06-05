@@ -66,9 +66,9 @@ const Header = () => {
           <>
             <Nav style={{  textAlign:"right",
                 lineHeight:"50px"}}>
-              <Nav.Link href="/userprofile" ><AccountBox/> {context.user.Infouser[0]?.customer_name}</Nav.Link>
-              <Nav.Link onClick={context.logoutUser} ><LogoutIc/> Đăng xuất</Nav.Link>
-              <Nav.Link href="/cart" ><Cart/>{context.soluongSP} Giỏ hàng của bạn</Nav.Link>
+              <Nav.Link href="/userprofile" ><AccountBox/> {context?.user.Infouser[0]?.customer_name}</Nav.Link>
+              <Nav.Link onClick={context?.logoutUser} ><LogoutIc/> Đăng xuất</Nav.Link>
+              <Nav.Link href="/cart" ><Cart/>{context?.soluongSP} Giỏ hàng của bạn</Nav.Link>
             </Nav>
           <Nav className="me-auto" style={{  textAlign:"right"}}>
             <NavDropdown title="Danh mục" id="collasible-nav-dropdown" bg="myDrop" >
@@ -159,12 +159,12 @@ export default Header
         </div>
       </form>
     </div>
-    {context.user? (
+    {context?.user? (
          <>
           <div className='col-lg-3 col-6 text-right'>
-          <a href="/cart" className="btn border"><Cart/>{context.soluongSP}</a>
-          <a href="/userprofile" className="btn border"><AccountBox/>{context.user.Infouser[0]?.customer_name}</a>
-          <a onClick={context.logoutUser}
+          <a href="/cart" className="btn border"><Cart/>{context?.soluongSP}</a>
+          <a href="/userprofile" className="btn border"><AccountBox/>{context?.user.Infouser[0]?.customer_name}</a>
+          <a onClick={context?.logoutUser}
           className="btn border" ><IoLogOutOutline size={20}/></a>
                   </div>
           </>
@@ -213,18 +213,18 @@ export default Header
             </ul>
           </li>
          
-          {context.user? (
+          {context?.user? (
          <>
           <li className="nav-item">
-          <a href="/userprofile" className="nav-link"><AccountBox/>{context.user.Infouser[0]?.customer_name}</a>
+          <a href="/userprofile" className="nav-link"><AccountBox/>{context?.user.Infouser[0]?.customer_name}</a>
           </li>
 
           <li className="nav-item">
-          <a href="/cart" className="nav-link text-warning"><Cart/>{context.soluongSP}</a>
+          <a href="/cart" className="nav-link text-warning"><Cart/>{context?.soluongSP}</a>
           </li>
 
           <li className="nav-item">
-              <a onClick={context.logoutUser}
+              <a onClick={context?.logoutUser}
                   className="nav-link text-warning" ><IoLogOutOutline size={20}/>Đăng xuất</a>
           </li>
           </>

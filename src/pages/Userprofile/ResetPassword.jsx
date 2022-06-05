@@ -161,7 +161,7 @@ export default function ResetPassword() {
   const [error,setError]=useState(false);
   const onLoginSubmit = async(data) => {
     let password=data.password.replace(/\s/g, '')
-    let  phone_number=context.user.Infouser[0]?.phone_number
+    let  phone_number=context?.user.Infouser[0]?.phone_number
       const config ={
         headers:{
             "Content-type":"application/json"
@@ -177,7 +177,7 @@ export default function ResetPassword() {
       {
         setError(null)
         setMessage(data2.data.message)
-        context.logoutUser()
+        context?.logoutUser()
       }
       else
       {

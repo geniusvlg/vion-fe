@@ -261,20 +261,20 @@ export default function Userprofile() {
   <CardLoginForm>
     <CardBody>
       <CardFieldset>
-        <CardH1> Chào! {checkgender(context.user.Infouser[0]?.gender)} {context.user.Infouser[0]?.full_name}</CardH1>
+        <CardH1> Chào! {checkgender(context?.user.Infouser[0]?.gender)} {context?.user.Infouser[0]?.full_name}</CardH1>
         <CardQuit onClick={routeChange}>Đổi mật khẩu</CardQuit>
-        <CardQuit onClick={context.logoutUser}>Thoát<IoLogOutOutline size={20}/></CardQuit>
+        <CardQuit onClick={context?.logoutUser}>Thoát<IoLogOutOutline size={20}/></CardQuit>
     
       </CardFieldset>
-      {context.user.Infouser[0]?.customer_name != context.user.Infouser[0]?.phone_number?(
+      {context?.user.Infouser[0]?.customer_name != context?.user.Infouser[0]?.phone_number?(
       <CardFieldset>
         <CardH2 className={toggleState === 1 ? "active-tabs" : ""}
           onClick={() => toggleTab(1)}>Lịch sử mua hàng</CardH2>
         <CardH2 className={toggleState === 2 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}>Đơn hàng hiện tại</CardH2>
-        <CardH2 className={toggleState === 3 && context.user.Infouser[0]?.customer_name ? "active-tabs" : ""}
+        <CardH2 className={toggleState === 3 && context?.user.Infouser[0]?.customer_name ? "active-tabs" : ""}
           onClick={() => toggleTab(3)}>Thông tin cá nhân</CardH2>
-        <CardH2 className={toggleState === 4 && context.user.Infouser[0]?.customer_name ? "active-tabs" : ""}
+        <CardH2 className={toggleState === 4 && context?.user.Infouser[0]?.customer_name ? "active-tabs" : ""}
           onClick={() => toggleTab(4)}>Voucher của bạn</CardH2>
       </CardFieldset>
       ):(
