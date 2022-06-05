@@ -24,5 +24,6 @@ function src_resolver () {
 }
 
 export default defineConfig({
+  base: '/vion-fe/',
   plugins: [react(), src_resolver()]
 })
