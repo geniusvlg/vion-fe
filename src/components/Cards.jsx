@@ -16,6 +16,7 @@ toast.configure()
 const styles = {
   width: "185px",
   height: "185px",
+  objectFit:"contain"
 };
 
 const Cart = styled(ShoppingCartIcon)({
@@ -74,6 +75,7 @@ function MyVerticallyCenteredModal(props) {
 const Cards = ({data}) => {
   const [modalShow, setModalShow]=useState(false);
   const context=useContext(AuthContext)
+  var ten='đồng'
   // Xử lý số lượng sản phẩm 
   const changeClick = async(e) =>{
     let quantity=1
@@ -88,16 +90,16 @@ const Cards = ({data}) => {
           "authorization": "Bearer "+ acsess
       }
     }
-    let data1=  await axios.post(`${process.env.HOST_URL}/api_public/addCart/`,{
+    let data1=  await axios.post(`${process.env.REACT_APP_HOST_URL}/api_public/addCart/`,{
     customer_id,items,user_name
    },
    config)
    console.log("cart:",data1)
-
+   
    if(data1.data.info.statuscode==200)
    {
     
-    context?.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
+    context.setSoluong(data1.data.currentcart.Check[0]?.cart_items.length)
     toast.success(data1.data.info.message, {
       position: toast.POSITION.BOTTOM_LEFT, autoClose:3000})
    }
@@ -108,23 +110,29 @@ const Cards = ({data}) => {
       position: toast.POSITION.BOTTOM_LEFT, autoClose:3000})
    }
   }
+
+  const changePrice= (data) =>{
   
+    return data.toLocaleString();
+  }
   return (
     <> 
         <div className='col-lg-3 col-md-6 col-sm-12 pb-1'>
           <div className='card product-item border-0 mb-4'>
-            {/* Card Header */}
+            {/* Card Header */} 
             <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0 text-center">
-              <img className='img-fluid w-75 w-50'  src={data.image_cover ?? ''}  alt="" style={styles}/>
+              <img  src={data.image_cover ?? ''}  alt="" style={styles}/>
             </div>
+
             {/* Card Body */}
             <div className='card-body border-left border-right text-center p-0 pt-2 pb-2'>
-              <h6 className='text-truncate mb-3'>{data.product_name}</h6>
+              <h3 className='text-truncate mb-3'><b>{data.product_name}</b></h3>
               <div className='d-flex justify-content-center'>
-                
-                <h6>{data.pricing.price_with_vat-data.pricing.price_with_vat*data.pricing.discount/100} đồng</h6><h6 className="text-muted ml-2"><del>-{data.pricing.discount}%</del></h6>
+                <h5 style={{textTransform: 'none'}} >{changePrice(data.pricing.price_with_vat-data.pricing.price_with_vat*data.pricing.discount/100)} {ten} </h5> <h6 style={{color:'#F0FFFF',backgroundColor:'red',letterSpacing:'normal',marginLeft:'4px'}}> <del>-{data.pricing.discount}%</del></h6>
               </div>
+              <h6 className="text-muted ml-2" style={{textDecoration:"line-through"}}>{(data.pricing.price_with_vat).toLocaleString()} đồng</h6>
             </div>
+
             {/* Card Footer */}
             <div className="card-footer d-flex justify-content-between bg-light border">
               <a href={`/product_details/${data.uid}`} className="btn btn-sm text-dark p-0"><i className="text-primary mr-1"><Eye/></i>Xem chi tiết</a>
@@ -134,7 +142,7 @@ const Cards = ({data}) => {
                 </>
               ) : (
                 <>
-                <button onClick={() => setModalShow(true)} className="btn btn-sm text-dark p-0"><i className="text-primary mr-1"><Cart/></i>Thêm vào giỏ</button>
+                <button onClick={() => setModalShow(true)} className="btn btn-sm text-dark p-0"><i className="text-primary mr-1"><Cart/></i>Thêm </button>
                 <MyVerticallyCenteredModal show={modalShow} onHide={()=>setModalShow(false)}/>
                 </>
               ) }

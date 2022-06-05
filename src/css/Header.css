@@ -1,9 +1,10 @@
-.bg-myColor{
-  background-color:#ffffff;
-  border: 2px solid #f6f3f3;
-  font-size: medium;
-  margin-bottom: "100";
+.bg-myColor {
+    background-color: #ffffff;
+    border: 2px solid #f6f3f3;
+    font-size: medium;
+    margin-bottom: "100";
 }
-.bg-myDrop{
-  color:"#e45800"
+
+.bg-myDrop {
+    color: "#e45800"
 }
