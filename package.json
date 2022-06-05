@@ -1,13 +1,14 @@
 {
   "name": "vite-app",
   "version": "0.0.0",
+  "homepage": "https://geniusvlg.github.io/vion-fe",
   "license": "UNLICENSED",
   "private": "true",
   "scripts": {
     "dev": "vite",
     "vbuild": "vite build",
     "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
-    "build": "cross-env NODE_ENV=production GENERATE_SOURCEMAP=false DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "build": "cross-env NODE_ENV=production GENERATE_SOURCEMAP=false DISABLE_ESLINT_PLUGIN=true vite build",
     "build-src": "cross-env NODE_ENV=production DISABLE_ESLINT_PLUGIN=true react-scripts build"
   },  
   "dependencies": {
